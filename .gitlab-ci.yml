@@ -24,7 +24,7 @@ before_script:
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
   - export CI_REGISTRY_IMAGE=$DOCKER_REG_URL/lumi_ci/game-sedie-service
-  - export CI_REGISTRY_IMAGE_VERSION=1.0.$CI_JOB_ID
+  - export CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
   - echo $CI_REGISTRY_IMAGE
 
 build_sedie_image:
