@@ -39,13 +39,14 @@ build_sedie_image:
 deploy_sedie:
   stage: deploy
   script:
+      - echo $CONFIG_FILE ./app-configs.${CI_ENVIRONMENT_NAME}.js
       - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
-      - scp ./app-configs.${CI_ENVIRONMENT_NAME}.js $SERVER_USER@$SERVER_IP:$WORKING_PATH
+      - scp ./$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
       - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
             "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
             && (docker pull $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest)
             && (docker rm -f sedie-service || true)
-            && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/app-configs-LOCAL.js:/src/app-configs.js -d $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest"
+            && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest"
   tags:
       - docker-nodejs
   environment:
