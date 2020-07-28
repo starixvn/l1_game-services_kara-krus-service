@@ -1,0 +1,44 @@
+stages:
+  - build
+  - deploy
+
+before_script:
+  - docker info
+  - echo $CURRENT_TAG
+  # - if echo "$CI_COMMIT_TAG" | grep -q "$CURRENT_TAG";
+  #   then
+  #     echo "Continue deploying";
+  #   else
+  #     echo "This job has tag is not used for current repository";
+  #     exit 1;
+  #   fi
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | ssh-add -
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+
+build_sedie_image:
+  stage: build
+  script:
+      - cp ./src/games/sedie/app-configs.${CI_ENVIRONMENT_NAME}.js ./src/games/sedie/app-configs.js
+      - echo "$DOCKER_REG_PASSWORD" | docker login -u "$DOCKER_REG_USERNAME" "$DOCKER_REG_URL" --password-stdin
+      - docker build --tag $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest -f Dockerfile.sedie .
+      - docker push $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest
+  tags:
+      - docker-nodejs
+  environment:
+    name: LOCAL
+
+deploy_sedie:
+  stage: deploy
+  script:
+      - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin"
+      - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "docker pull $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest"
+      - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "docker rm -f sedie-service || true"
+      - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "docker run --name sedie-service -p 8082:8082 -d $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest"
+  tags:
+      - docker-nodejs
+  environment:
+    name: LOCAL
