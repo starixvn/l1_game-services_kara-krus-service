@@ -22,7 +22,7 @@ before_script:
 build_sedie_image:
   stage: build
   script:
-      - cp ./src/games/sedie/app-configs.${CI_ENVIRONMENT_NAME}.js ./src/games/sedie/app-configs.js
+      - cp ./src/app-configs.${CI_ENVIRONMENT_NAME}.js ./src/app-configs.js
       - echo "$DOCKER_REG_PASSWORD" | docker login -u "$DOCKER_REG_USERNAME" "$DOCKER_REG_URL" --password-stdin
       - docker build --tag $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest -f Dockerfile.sedie .
       - docker push $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest
