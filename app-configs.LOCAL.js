@@ -36,4 +36,5 @@ export default {
     authenticateSettings: {
         audiences: ['api', 'admin-api'],
     },
+    adminSecretKey: 'asWDEerfOIdgsdqRTFabvmgh',
 };

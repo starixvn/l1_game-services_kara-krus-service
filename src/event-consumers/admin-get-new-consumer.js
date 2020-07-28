@@ -1,4 +1,5 @@
 import sedieRounds from './../models/sedie-rounds.js';
+import appConfigs from './../app-configs.js';
 
 /**
  * @param {SocketIO.Socket} socketClient
@@ -16,6 +17,6 @@ export default async (socketClient, gameData) => {
             time_remain: gameData.remainingTime,
         };
 
-        socketClient.emit('message', { data: payload });
+        socketClient.emit('message', { [appConfigs.gameName]: payload });
     }
 };

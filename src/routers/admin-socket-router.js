@@ -1,22 +1,17 @@
 import * as consumers from './../event-consumers/index.js';
+import { BaseAdminSocketRouter } from 'sc-game-base';
 
-export default class AdminSocketRouter {
-    /**
-     * @param {SocketIO.Socket} socketClient
-     */
-    init(storage, socketClient) {
-        this.storage = storage;
-        this.socketClient = socketClient;
-        const adminData = { socketClient };
-        this.storage.loggedAdmins[socketClient.id] = { ...adminData };
-        this.socketClient.on('message', this.handleGetNew.bind(this));
-    }
-
-    async handleGetNew(payload) {
+export default class SedieAdminSocketRouter extends BaseAdminSocketRouter {
+    async handleMessage(payload) {
+        console.log(payload);
         try {
-            console.log('get_new');
-            console.log(payload);
-            consumers.adminGetNewConsumer(this.socketClient, this.storage.gameData);
+            super.handleMessage(payload);
+            const { xocxoc } = payload;
+            if (xocxoc) {
+                if (xocxoc.get_time) {
+                    consumers.adminGetNewConsumer(this.socketClient, this.storage.gameData);
+                }
+            }
         } catch (err) {
             console.log(err);
         }
