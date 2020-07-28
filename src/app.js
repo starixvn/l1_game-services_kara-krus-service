@@ -3,11 +3,11 @@ import appConfigs from './app-configs.js';
 import startCron from './cron/start.js';
 import { SedieUserDisconnectConsumer, SedieUserSignInConsumer } from './event-consumers/index.js';
 import initDatabase from './models/index.js';
+import AdminSocketRouter from './routers/admin-socket-router.js';
+import initHttpRouter from './routers/http-router.js';
 import SedieSocketRouter from './routers/socket-router.js';
 import Startup from './startup.js';
 import storage from './storage.js';
-import initHttpRouter from './routers/http-router.js';
-import AdminSocketRouter from './routers/admin-socket-router.js';
 
 export class SedieApp extends BaseGameApp {}
 
