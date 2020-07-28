@@ -22,7 +22,7 @@ before_script:
 build_sedie_image:
   stage: build
   script:
-      - cp ./src/app-configs.${CI_ENVIRONMENT_NAME}.js ./src/app-configs.js
+      #- cp ./src/app-configs.${CI_ENVIRONMENT_NAME}.js ./src/app-configs.js
       - echo "$DOCKER_REG_PASSWORD" | docker login -u "$DOCKER_REG_USERNAME" "$DOCKER_REG_URL" --password-stdin
       - docker build --tag $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest -f Dockerfile .
       - docker push $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest
@@ -35,8 +35,10 @@ deploy_sedie:
   stage: deploy
   script:
       - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin"
-      - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "docker pull $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest"
-      - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "docker rm -f sedie-service || true"
+      ->
+        ssh -o StrictHostKeyChecking=no root@10.10.50.14 
+        "docker pull $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest 
+        && (docker rm -f sedie-service || true)"
       - ssh -o StrictHostKeyChecking=no root@10.10.50.14 "docker run --name sedie-service -p 8082:8082 -d $DOCKER_REG_URL/lumi_ci/game-sedie-service:latest"
   tags:
       - docker-nodejs
