@@ -1,5 +1,5 @@
 variables:
-  WORKING_PATH: /var/www/l1/sedie-service
+  WORKING_PATH: /var/www/l1/sedie-service/
   SERVER_IP: 10.10.50.14
   SERVER_USER: root
 
@@ -39,7 +39,7 @@ build_sedie_image:
 deploy_sedie:
   stage: deploy
   script:
-      - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir $WORKING_PATH"
+      - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
       - scp ./app-configs.${CI_ENVIRONMENT_NAME}.js $SERVER_USER@$SERVER_IP:$WORKING_PATH
       - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
             "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
