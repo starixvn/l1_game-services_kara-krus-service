@@ -23,7 +23,7 @@ before_script:
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-  - export REGISTRY_IMAGE=$DOCKER_REG_URL/lumi_ci/game-sedie-service
+  - export CI_REGISTRY_IMAGE=$DOCKER_REG_URL/lumi_ci/game-sedie-service
   - echo $CI_REGISTRY_IMAGE
 
 build_sedie_image:
@@ -52,9 +52,8 @@ deploy_sedie:
       - scp ./$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
       - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
             "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
-            && (docker pull $REGISTRY_IMAGE)
             && (docker rm -f sedie-service || true)
-            && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $REGISTRY_IMAGE:latest"
+            && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:latest"
   tags:
       - docker-nodejs
   environment:
