@@ -12,9 +12,9 @@ export default async (socketClient, gameData) => {
 
     if (round != null) {
         const payload = {
-            phien: round.id + 1,
+            roundId: round.id + 1,
             dices: [round.red1, round.red2, round.red3, round.red4],
-            time_remain: gameData.remainingTime,
+            remainingTime: gameData.remainingTime,
         };
 
         socketClient.emit('message', { [appConfigs.gameName]: payload });
