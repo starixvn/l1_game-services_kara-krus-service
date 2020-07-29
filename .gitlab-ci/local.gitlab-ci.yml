@@ -17,6 +17,7 @@ deploy_local:
   variables:
     SERVER_IP: 10.10.50.14
     SERVER_USER: root
+    APP_PORT: 8082
   environment:
     name: LOCAL
   rules:
