@@ -1,3 +1,4 @@
+import { logger } from 'sc-common';
 import { BaseSocketRouter } from 'sc-game-base';
 import * as queryApi from '../query-apis/index.js';
 import appConfigs from './../app-configs.js';
@@ -8,7 +9,7 @@ export default class SocketRouter extends BaseSocketRouter {
         try {
             await consumers.placeBet(this.storage.loggedUsers[this.socketClient.id], payload, this.storage);
         } catch (err) {
-            console.log(err);
+            logger.logError(err);
         }
     }
 
@@ -17,7 +18,7 @@ export default class SocketRouter extends BaseSocketRouter {
             await consumers.inGame(this.socketClient); // push to message queue later
             //this.socketClient.emit(result.messageType, result.payload);
         } catch (err) {
-            console.log(err);
+            logger.logError(err);
         }
     }
 
@@ -26,7 +27,7 @@ export default class SocketRouter extends BaseSocketRouter {
             const history = await queryApi.getHistory(this.storage.loggedUsers[this.socketClient.id], payload.page);
             this.socketClient.emit(appConfigs.gameName, history);
         } catch (err) {
-            console.log(err);
+            logger.logError(err);
         }
     }
 }

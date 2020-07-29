@@ -1,9 +1,8 @@
-import * as consumers from './../event-consumers/index.js';
 import { BaseAdminSocketRouter } from 'sc-game-base';
+import * as consumers from './../event-consumers/index.js';
 
 export default class SedieAdminSocketRouter extends BaseAdminSocketRouter {
     async handleMessage(payload) {
-        console.log(payload);
         try {
             super.handleMessage(payload);
             const { xocxoc } = payload;

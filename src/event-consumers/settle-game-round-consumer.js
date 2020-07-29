@@ -44,7 +44,6 @@ const settleBets = async (gameData, { result, roundId, time }) => {
 
         Promise.all(
             list.map(async (bet) => {
-                console.log(bet);
                 const totalBet = bet.chan + bet.le + bet.red3 + bet.red4 + bet.white3 + bet.white4;
                 let TienThang = 0;
                 let TongThua = 0;

@@ -3,6 +3,7 @@ variables:
   KBT_PROXY_ADDRESS: l1deployment.starific.net
   KBT_PROXY_SSH_PORT: 8837
   KBT_PROXY_USER: l1uat
+  DOCKER_SERVICE_NAME: sedie-service
 
 stages:
   - build
@@ -60,8 +61,8 @@ before_script:
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
         "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
         && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-        && (docker rm -f sedie-service || true)
-        && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+        && (docker rm -f $DOCKER_SERVICE_NAME-$DEPLOY_ENV || true)
+        && docker run --name $DOCKER_SERVICE_NAME-$DEPLOY_ENV -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
         && echo y | docker image prune -a"
   tags:
       - docker-nodejs

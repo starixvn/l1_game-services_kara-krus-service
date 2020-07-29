@@ -1,11 +1,11 @@
 export default {
     gameId: 2,
     gameName: 'xocxoc',
-    hostingPort: 8082,
+    hostingPort: 6000,
     apiSettings: {
         enabledApi: true,
-        apiUrl: 'http://api.lumigame.com',
-        authUrl: 'http://auth.lumigame.com',
+        apiUrl: 'http://10.99.99.101:6300',
+        authUrl: 'http://10.99.99.101:6303',
         client: {
             id: 'game-server',
             secret: 'gameserver@20luminet&',
@@ -17,21 +17,17 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url: 'mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local',
+        url: 'mongodb://lmn_backend:LmnBackend%40517@10.99.99.187:27301/?replicaSet=SabaSIT',
         options: {
-            // user: 'lmn_backend',
-            // pass: 'LmnBackend',
             dbName: 'minigame',
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            auto_reconnect: true,
-            //'autoIndex':       false,
         },
     },
     sentry: {
-        sentryUrl: 'https://c9800a77cde44628ae983c6dfabfc7d9@sentryuat.sabagame.com/113',
+        sentryUrl: 'http://f371d3a21b2e468eaf7b4a80c45e9d11@10.99.99.187:800/114',
         logIdentifier: 'minisedie',
-        env: 'LOCAL',
+        env: 'SIT',
     },
     authenticateSettings: {
         audiences: ['api', 'admin-api'],
