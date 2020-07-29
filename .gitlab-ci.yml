@@ -60,7 +60,7 @@ build_image:
 
 deploy_local:
   extends:
-    - .base-deploy
+    - .base_deploy
   variables:
     SERVER_IP: 10.10.50.14
     SERVER_USER: root
@@ -75,7 +75,7 @@ deploy_local:
 
 deploy_sit:
   extends:
-    - .base-deploy
+    - .base_deploy
   environment:
     name: LOCAL
   rules:
