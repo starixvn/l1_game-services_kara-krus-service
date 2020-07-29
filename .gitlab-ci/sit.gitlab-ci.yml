@@ -17,6 +17,7 @@ deploy_sit:
   variables:
     SERVER_IP: 10.2.189.65
     SERVER_USER: l1uat
+    SERVER_PORT: 8837
   environment:
     name: SIT
   rules:
