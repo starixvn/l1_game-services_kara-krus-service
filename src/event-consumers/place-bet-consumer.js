@@ -62,6 +62,7 @@ export default async (user, payload, storage) => {
         userData.betTracks[betChoice] += betAmount;
     } else {
         const newUserData = {
+            name: user.profile.name,
             betTracks: { ...constants.resetTotalBets },
         };
 
