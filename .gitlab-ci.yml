@@ -41,7 +41,9 @@ before_script:
         --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION 
         --cache-from $CI_REGISTRY_IMAGE:latest .
       - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+      - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
       - docker push $CI_REGISTRY_IMAGE:latest
+      - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
       - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
   tags:
       - docker-nodejs
