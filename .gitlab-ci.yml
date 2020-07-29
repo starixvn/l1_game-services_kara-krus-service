@@ -3,12 +3,6 @@ variables:
   KBT_PROXY_ADDRESS: l1deployment.starific.net
   KBT_PROXY_SSH_PORT: 8837
   KBT_PROXY_USER: l1uat
-  DEPLOY_COMMAND: 
-    "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
-    && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    && (docker rm -f sedie-service || true)
-    && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    && echo y | docker image prune -a"
 
 stages:
   - build
@@ -63,8 +57,12 @@ before_script:
     - export CONFIG_FILE=app-configs.${DEPLOY_ENV}.js
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
     - scp ./configs/$CONFIG_FILE $SERVER_USER@$SERVER_IP
-    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP $DEPLOY_COMMAND
-          
+    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
+        "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
+        && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+        && (docker rm -f sedie-service || true)
+        && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+        && echo y | docker image prune -a"
   tags:
       - docker-nodejs
 
@@ -75,7 +73,12 @@ before_script:
     - export CONFIG_FILE=app-configs.${DEPLOY_ENV}.js
     - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP mkdir -p $WORKING_PATH
     - scp -P $KBT_PROXY_SSH_PORT -o ProxyCommand="ssh -p $KBT_PROXY_SSH_PORT -W %h:%p $KBT_PROXY_USER@$KBT_PROXY_ADDRESS" ./configs/$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
-    - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP $DEPLOY_COMMAND
+    - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
+        "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
+        && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+        && (docker rm -f sedie-service || true)
+        && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+        && echo y | docker image prune -a"
 
 include:
   - local: .gitlab-ci/local.gitlab-ci.yml
