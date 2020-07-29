@@ -29,7 +29,7 @@
         "sc-base-apis": "^1.2.0",
         "sc-base-database": "^1.0.0",
         "sc-common": "^1.0.0",
-        "sc-game-base": "^1.5.0",
+        "sc-game-base": "^1.6.0",
         "socket.io": "^2.3.0"
     }
 }
