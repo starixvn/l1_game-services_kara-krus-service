@@ -50,7 +50,7 @@ before_script:
 
 .base_deploy:
   stage: deploy
-  needs: ["build_image"]
+  needs: ["build"]
   script:
     - export CONFIG_FILE=./configs/app-configs.${DEPLOY_ENV}.js
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
