@@ -11,6 +11,4 @@ RUN npm run reg
 RUN npm install
 RUN npm rebuild
 
-# Exposing the RestAPI port
-EXPOSE 8082
 CMD [ "npm", "run", "prod" ]
