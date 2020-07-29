@@ -1,7 +1,5 @@
 variables:
   WORKING_PATH: /var/www/l1/sedie-service/
-  SERVER_IP: 10.10.50.14
-  SERVER_USER: root
 
 stages:
   - build
@@ -10,13 +8,13 @@ stages:
 before_script:
   - docker info
   - echo $CURRENT_TAG
-  # - if echo "$CI_COMMIT_TAG" | grep -q "$CURRENT_TAG";
-  #   then
-  #     echo "Continue deploying";
-  #   else
-  #     echo "This job has tag is not used for current repository";
-  #     exit 1;
-  #   fi
+  - if echo "$CI_COMMIT_TAG" | grep -q "$CURRENT_TAG";
+    then
+      echo "Continue deploying";
+    else
+      echo "This job has tag is not used for current repository";
+      exit 1;
+    fi
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | ssh-add -
   - mkdir -p ~/.ssh
@@ -27,7 +25,7 @@ before_script:
   - export CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
   - echo $CI_REGISTRY_IMAGE
 
-build_sedie_image:
+build_image:
   stage: build
   script:
       - docker pull $CI_REGISTRY_IMAGE:latest || true
@@ -40,24 +38,49 @@ build_sedie_image:
       - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
       - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
       - docker push $CI_REGISTRY_IMAGE:latest
+      - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$CI_ENVIRONMENT_NAME-latest
+      - docker push $CI_REGISTRY_IMAGE:$CI_ENVIRONMENT_NAME-latest
   tags:
       - docker-nodejs
-  environment:
-    name: LOCAL
 
-deploy_sedie:
+.base_deploy:
   stage: deploy
   script:
-      - export CONFIG_FILE=./app-configs.${CI_ENVIRONMENT_NAME}.js
-      - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
-      - scp ./$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
-      - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
-            "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
-            && docker pull $CI_REGISTRY_IMAGE:latest
-            && (docker rm -f sedie-service || true)
-            && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:latest
-            && echo y | docker image prune -a"
+    - export CONFIG_FILE=./configs/app-configs.${CI_ENVIRONMENT_NAME}.js
+    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
+    - scp ./$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
+    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
+          "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
+          && docker pull $CI_REGISTRY_IMAGE:latest
+          && (docker rm -f sedie-service || true)
+          && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:latest
+          && echo y | docker image prune -a"
   tags:
       - docker-nodejs
+
+deploy_local:
+  extends:
+    - .base-deploy
+  variables:
+    SERVER_IP: 10.10.50.14
+    SERVER_USER: root
   environment:
     name: LOCAL
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-local-\d{8}-\d+.*$/
+      when: always
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
+      when: always
+    - when: never
+
+deploy_sit:
+  extends:
+    - .base-deploy
+  environment:
+    name: LOCAL
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-sit-\d{8}-\d+.*$/
+      when: always
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
+      when: always
+    - when: never
