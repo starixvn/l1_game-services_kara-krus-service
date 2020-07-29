@@ -24,7 +24,7 @@ const inGame = async (loggedUser) => {
     const maxNumberOfRounds = 100;
     const { minbet, maxbet, choices_maxbet, odds } = storage.gameConfigs;
     const configs = { minbet, maxbet, choices_maxbet, odds };
-    await apis.getBalance(loggedUser);
+    await apis.getBalance(loggedUser, true);
     const [logs, user] = await Promise.all([getRounds(maxNumberOfRounds), getUserInfo(loggedUser.UID)]);
     const { betTracks } = storage.gameData.usersData[loggedUser.UID] || { betTracks: {} };
 
