@@ -71,9 +71,9 @@ before_script:
     - .base_deploy
   script:
     - export CONFIG_FILE=app-configs.${DEPLOY_ENV}.js
-    - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP mkdir -p $WORKING_PATH
+    - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP mkdir -p $WORKING_PATH
     - scp -P $KBT_PROXY_SSH_PORT -o ProxyCommand="ssh -p $KBT_PROXY_SSH_PORT -W %h:%p $KBT_PROXY_USER@$KBT_PROXY_ADDRESS" ./configs/$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
-    - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
+    - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
           "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
           && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
           && (docker rm -f sedie-service || true)
