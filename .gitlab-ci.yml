@@ -64,8 +64,8 @@ before_script:
   tags:
       - docker-nodejs
 
-  include:
-    - local: ./ci/local.gitlab-ci.yml
+include:
+  - local: ./.gitlab-ci/local.gitlab-ci.yml
 # deploy_sit:
 #   extends:
 #     - .base_deploy
