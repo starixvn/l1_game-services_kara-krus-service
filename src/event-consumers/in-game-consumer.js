@@ -4,6 +4,7 @@ import appConfigs from '../app-configs.js';
 import seDieRounds from '../models/sedie-rounds.js';
 import storage from '../storage.js';
 import { BaseEventPublishers } from 'sc-game-base';
+import * as apis from 'sc-base-apis';
 
 const publisher = new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
 /**
@@ -23,6 +24,7 @@ const inGame = async (loggedUser) => {
     const maxNumberOfRounds = 100;
     const { minbet, maxbet, choices_maxbet, odds } = storage.gameConfigs;
     const configs = { minbet, maxbet, choices_maxbet, odds };
+    await apis.getBalance(loggedUser);
     const [logs, user] = await Promise.all([getRounds(maxNumberOfRounds), getUserInfo(loggedUser.UID)]);
     const { betTracks } = storage.gameData.usersData[loggedUser.UID] || { betTracks: {} };
 
