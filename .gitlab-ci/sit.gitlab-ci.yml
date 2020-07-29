@@ -12,7 +12,7 @@ build_sit:
 
 deploy_sit:
   extends:
-    - .base_deploy
+    - .base_deploy_kbt
   needs: ["build_sit"]
   variables:
     SERVER_IP: 10.2.189.65
