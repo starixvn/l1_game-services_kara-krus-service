@@ -13,6 +13,7 @@ build_local:
 deploy_local:
   extends:
     - .base_deploy
+  needs: ["build_local"]
   variables:
     SERVER_IP: 10.10.50.14
     SERVER_USER: root
