@@ -30,7 +30,7 @@ before_script:
   - export CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
   - echo $CI_REGISTRY_IMAGE
 
-build_image:
+.base_build:
   stage: build
   script:
       - docker pull $CI_REGISTRY_IMAGE:latest || true
@@ -50,42 +50,33 @@ build_image:
 
 .base_deploy:
   stage: deploy
+  needs: ["build_image"]
   script:
     - export CONFIG_FILE=./configs/app-configs.${DEPLOY_ENV}.js
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "mkdir -p $WORKING_PATH"
     - scp ./$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP 
           "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
-          && docker pull $CI_REGISTRY_IMAGE:latest
+          && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
           && (docker rm -f sedie-service || true)
-          && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:latest
+          && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
           && echo y | docker image prune -a"
   tags:
       - docker-nodejs
 
-deploy_local:
-  extends:
-    - .base_deploy
-  variables:
-    SERVER_IP: 10.10.50.14
-    SERVER_USER: root
-  environment:
-    name: LOCAL
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^l1-deploy-local-\d{8}-\d+.*$/
-      when: always
-    - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
-      when: always
-    - when: never
-
-deploy_sit:
-  extends:
-    - .base_deploy
-  environment:
-    name: LOCAL
-  rules:
-    - if: $CI_COMMIT_TAG =~ /^l1-deploy-sit-\d{8}-\d+.*$/
-      when: always
-    - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
-      when: always
-    - when: never
+  include:
+    - local: ./ci/local.gitlab-ci.yml
+# deploy_sit:
+#   extends:
+#     - .base_deploy
+#   variables:
+#     SERVER_IP: 10.10.50.14
+#     SERVER_USER: l1uat
+#   environment:
+#     name: SIT
+#   rules:
+#     - if: $CI_COMMIT_TAG =~ /^l1-deploy-sit-\d{8}-\d+.*$/
+#       when: always
+#     - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
+#       when: always
+#     - when: never
