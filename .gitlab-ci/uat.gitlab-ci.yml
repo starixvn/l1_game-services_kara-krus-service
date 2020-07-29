@@ -1,0 +1,29 @@
+build_uat:
+  extends:
+      - .base_build
+  environment:
+      name: UAT
+  rules:
+      - if: '$CI_COMMIT_TAG =~ /^l1-deploy-uat-\d{8}-\d+.*$/'
+        when: always
+      - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
+        when: always
+      - when: never
+
+deploy_uat:
+  extends:
+    - .base_deploy_kbt
+  needs: ["build_uat"]
+  variables:
+    SERVER_IP: 10.2.189.65
+    SERVER_USER: l1uat
+    SERVER_PORT: 8837
+    APP_PORT: 7000
+  environment:
+    name: UAT
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^l1-deploy-uat-\d{8}-\d+.*$/'
+      when: always
+    - if: $CI_COMMIT_TAG =~ /^l1-deploy-\d{8}-\d+.*$/
+      when: always
+    - when: never

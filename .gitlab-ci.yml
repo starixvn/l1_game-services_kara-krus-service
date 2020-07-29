@@ -84,3 +84,5 @@ before_script:
 include:
   - local: .gitlab-ci/local.gitlab-ci.yml
   - local: .gitlab-ci/sit.gitlab-ci.yml
+  - local: .gitlab-ci/uat.gitlab-ci.yml
+  - local: .gitlab-ci/prod.gitlab-ci.yml
