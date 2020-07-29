@@ -74,7 +74,7 @@ before_script:
     - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP mkdir -p $WORKING_PATH
     - scp -P $KBT_PROXY_SSH_PORT -o ProxyCommand="ssh -p $KBT_PROXY_SSH_PORT -W %h:%p $KBT_PROXY_USER@$KBT_PROXY_ADDRESS" ./configs/$CONFIG_FILE $SERVER_USER@$SERVER_IP:$WORKING_PATH
     - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP
-        "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
+        "echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin
         && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
         && (docker rm -f sedie-service || true)
         && docker run --name sedie-service -p 8082:8082 -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
