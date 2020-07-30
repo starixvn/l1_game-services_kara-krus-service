@@ -187,43 +187,39 @@ const botPlaceBet = async (bot, roundId, time) => {
     const maxBet = getMaxBet(isSmallTicket, box, bot);
     const minBet = getMinBet();
 
-    let botBetTotal = maxBet > 0 ? helpers.numberHelper.getRandomNumberStep5(minBet, maxBet, true) : 0;
+    let betAmount = maxBet > 0 ? helpers.numberHelper.getRandomNumberStep5(minBet, maxBet, true) : 0;
 
-    if (botBetTotal > 0 && time > constants.settlementDuration) {
-        const betChips = helpers.chipHelper.getRandomChips(botBetTotal);
+    if (betAmount > 0 && time > constants.settlementDuration) {
+        const betChips = helpers.chipHelper.getRandomChips(betAmount);
 
         for (let index = 0; index < betChips.length; index++) {
             const chip = betChips[index];
             if (chip > 0) {
-                botBetTotal = helpers.chipHelper.chipList[index];
+                betAmount = helpers.chipHelper.chipList[index];
 
                 break;
             }
         }
 
-        const checkOne = await seDieTempBetLogs.findOne({ uid: bot.id, phien: roundId, red: true });
-        if (
-            !checkOne ||
-            checkOne['chan'] +
-                checkOne['le'] +
-                checkOne['red3'] +
-                checkOne['red4'] +
-                checkOne['white3'] +
-                checkOne['white4'] +
-                botBetTotal <=
-                maxBet
-        ) {
+        let currentTotalBet = 0;
+        const currentBet = await seDieTempBetLogs.findOne({ uid: bot.id, phien: roundId, red: true });
+        if (!!currentBet) {
+            constants.choices.forEach((choice) => {
+                currentTotalBet += currentBet[choice];
+            });
+        }
+        if (!currentBet || currentTotalBet + betAmount <= maxBet) {
             let user = await userInfos.findOne({ id: bot.id }, 'red');
-            if (botBetTotal > 0 && user && user.red > botBetTotal) {
-                user.red -= botBetTotal;
-                user.save();
+            if (betAmount > 0 && user && user.red > betAmount) {
+                user.red -= betAmount;
+                await user.save();
 
-                if (checkOne) {
-                    checkOne[box] += botBetTotal;
-                    checkOne.save();
+                if (currentBet) {
+                    currentBet[box] += betAmount;
+                    await currentBet.save();
                 } else {
                     const update = {};
-                    update[box] = botBetTotal;
+                    update[box] = betAmount;
 
                     let create = {
                         uid: bot.id,
@@ -240,15 +236,15 @@ const botPlaceBet = async (bot, roundId, time) => {
                     );
                 }
 
-                storage.gameData.totalBets[box] += botBetTotal;
-                dataBot[box] += botBetTotal;
+                storage.gameData.totalBets[box] += betAmount;
+                dataBot[box] += betAmount;
 
                 if (!!botsInRoom[bot.id]) {
-                    botsInRoom[bot.id].totalBet += botBetTotal;
+                    botsInRoom[bot.id].totalBet += betAmount;
                     botsInRoom[bot.id].choices.push(box);
                     botsInRoom[bot.id].red = user.red;
                     botsInRoom[bot.id].remainTickets--;
-                    botsInRoom[bot.id].betOnChoices[box] += botBetTotal;
+                    botsInRoom[bot.id].betOnChoices[box] += betAmount;
                 }
 
                 if (storage.gameData.usersAndBots[bot.id]) {
@@ -262,7 +258,7 @@ const botPlaceBet = async (bot, roundId, time) => {
                 totalBotTickets += 1;
 
                 const payload = {
-                    chip: { playerId: bot.id, box: box, cuoc: botBetTotal, red: user.red },
+                    chip: { playerId: bot.id, box: box, cuoc: betAmount, red: user.red },
                 };
                 publisher.publishToAllUsers(payload);
             }
