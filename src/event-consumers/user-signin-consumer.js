@@ -1,5 +1,5 @@
 import { gameConfigs } from 'sc-base-database';
-import { helpers } from 'sc-common';
+import { helpers, logger } from 'sc-common';
 import { BaseEventConsumers } from 'sc-game-base';
 import appConfigs from '../app-configs.js';
 
@@ -28,7 +28,7 @@ export default class SedieUserSignInConsumer extends BaseEventConsumers.BaseUser
                 socketClient.emit('message', { notice: notice });
             }
         } catch (err) {
-            console.log(err);
+            logger.logError(err);
         }
     }
 }

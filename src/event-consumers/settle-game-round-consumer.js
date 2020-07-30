@@ -3,9 +3,11 @@ import appConfigs from '../app-configs.js';
 import { updateBotBalance } from '../cron/bot.js';
 import { SedieRoundResultPublisher, SedieUserBetResultPublisher } from '../event-publishers/index.js';
 import seDieBetLogs from '../models/sedie-betlogs.js';
+import seDieTempBetLogs from '../models/sedie-temp-betlogs.js';
 import seDieRounds from '../models/sedie-rounds.js';
 import seDieUsers from '../models/sedie-users.js';
 import storage from '../storage.js';
+import { logger } from 'sc-common';
 
 const roundResultPublisher = new SedieRoundResultPublisher(storage, appConfigs.gameName);
 const userBetResultPublisher = new SedieUserBetResultPublisher(storage, appConfigs.gameName);
@@ -37,13 +39,15 @@ const settleBets = async (gameData, { result, roundId, time }) => {
 
     const gameChan = !(red % 2);
 
-    const list = await seDieBetLogs.find({ phien: roundId });
+    const realPlayerBets = await seDieBetLogs.find({ phien: roundId }).exec();
+    const botBets = await seDieTempBetLogs.find({ phien: roundId }).exec();
+    const allBets = realPlayerBets.concat(botBets);
 
-    if (list && list.length) {
+    if (allBets && allBets.length) {
         const odds = storage.gameConfigs.odds;
 
         Promise.all(
-            list.map(async (bet) => {
+            allBets.map(async (bet) => {
                 const totalBet = bet.chan + bet.le + bet.red3 + bet.red4 + bet.white3 + bet.white4;
                 let TienThang = 0;
                 let TongThua = 0;
@@ -119,7 +123,7 @@ const settleBets = async (gameData, { result, roundId, time }) => {
 
                 bet.thanhtoan = true;
                 bet.betwin = TongThang;
-                bet.save();
+                await bet.save();
 
                 if (TongThang > 0) {
                     update['red'] = TongThang;
@@ -178,7 +182,7 @@ const settleBets = async (gameData, { result, roundId, time }) => {
             .then(() => {
                 roundResultPublisher.publishRoundResult({ result, roundId, winClients: gameData.winClients });
             })
-            .catch(console.log);
+            .catch(logger.logError);
     } else {
         roundResultPublisher.publishRoundResult({ result, roundId, winClients: gameData.winClients });
     }

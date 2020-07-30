@@ -1,5 +1,6 @@
 import { BaseAdminSocketRouter } from 'sc-game-base';
 import * as consumers from './../event-consumers/index.js';
+import { logger } from 'sc-common';
 
 export default class SedieAdminSocketRouter extends BaseAdminSocketRouter {
     async handleMessage(payload) {
@@ -12,7 +13,7 @@ export default class SedieAdminSocketRouter extends BaseAdminSocketRouter {
                 }
             }
         } catch (err) {
-            console.log(err);
+            logger.logError(err);
         }
     }
 }

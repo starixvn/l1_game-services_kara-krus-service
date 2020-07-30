@@ -6,11 +6,13 @@ import constants from '../constants.js';
 import { settleGameRound } from '../event-consumers/index.js';
 import storage from '../storage.js';
 import { addBots, resetBots } from './bot.js';
+import { logger } from 'sc-common';
 
 const runningRoundInfoPublisher = new BaseEventPublishers.RunningRoundInfoPublisher(storage, appConfigs.gameName);
 const gameStatusPublisher = new BaseEventPublishers.GameStatusPublisher(storage, appConfigs.gameName);
 
-const runGame = (gameData) => new cron.CronJob('* * * * * *', () => proceed(gameData).catch(console.log), null, true);
+const runGame = (gameData) =>
+    new cron.CronJob('* * * * * *', () => proceed(gameData).catch(logger.logError), null, true);
 
 const proceed = async (gameData) => {
     if (gameData.remainingTime == constants.roundDuration) {
@@ -34,7 +36,6 @@ const proceed = async (gameData) => {
         } else {
             await addBots(gameData.remainingTime, gameData.roundId);
 
-            // XDBot.addBots(this.time, this.phien, this.clients, this.players, this.data);
             runningRoundInfoPublisher.publish(gameData);
         }
     }

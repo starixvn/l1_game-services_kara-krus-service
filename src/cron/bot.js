@@ -3,7 +3,7 @@ import { helpers } from 'sc-common';
 import { BaseEventPublishers } from 'sc-game-base';
 import appConfigs from '../app-configs.js';
 import constants from '../constants.js';
-import seDieBetLogs from '../models/sedie-betlogs.js';
+import seDieTempBetLogs from '../models/sedie-temp-betlogs.js';
 import storage from '../storage.js';
 
 const publisher = new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
@@ -201,7 +201,7 @@ const botPlaceBet = async (bot, roundId, time) => {
             }
         }
 
-        const checkOne = await seDieBetLogs.findOne({ uid: bot.id, phien: roundId, red: true });
+        const checkOne = await seDieTempBetLogs.findOne({ uid: bot.id, phien: roundId, red: true });
         if (
             !checkOne ||
             checkOne['chan'] +
@@ -233,7 +233,7 @@ const botPlaceBet = async (bot, roundId, time) => {
                         time: new Date(),
                     };
 
-                    await seDieBetLogs.updateOne(
+                    await seDieTempBetLogs.updateOne(
                         { uid: bot.id, phien: roundId, red: true },
                         { $inc: update, $setOnInsert: create },
                         { upsert: true, setDefaultsOnInsert: true }
