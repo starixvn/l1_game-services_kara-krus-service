@@ -7,6 +7,9 @@ variables:
   KBT_PROXY_USER: l1uat
   DOCKER_SERVICE_NAME: sedie-service
 
+services:
+  - docker:19.03.12-dind
+
 stages:
   - build
   - deploy
