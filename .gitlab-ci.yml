@@ -1,3 +1,5 @@
+image: docker:19.03.12
+
 variables:
   WORKING_PATH: /var/www/l1/sedie-service/
   KBT_PROXY_ADDRESS: l1deployment.starific.net
@@ -50,7 +52,7 @@ before_script:
       - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
       - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
   tags:
-      - docker-nodejs
+      - docker
 
 .base_deploy:
   stage: deploy
@@ -65,7 +67,7 @@ before_script:
         && docker run --restart=always --name $DOCKER_SERVICE_NAME-$DEPLOY_ENV -p $APP_PORT:$APP_PORT -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
         && echo y | docker image prune -a"
   tags:
-      - docker-nodejs
+      - docker
 
 .base_deploy_kbt:
   extends:
