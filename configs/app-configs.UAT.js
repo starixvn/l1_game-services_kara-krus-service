@@ -34,4 +34,11 @@ export default {
         audiences: ['api', 'admin-api'],
     },
     adminSecretKey: 'asWDEerfOIdgsdqRTFabvmgh',
+    enableCorsWs: true,
+    corsUrls: [
+        'http://uat.sabagame.com',
+        'https://uat.sabagame.com',
+        'http://uat-adm.sabagame.com',
+        'https://uat-adm.sabagame.com',
+    ],
 };

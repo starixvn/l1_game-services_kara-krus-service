@@ -37,4 +37,6 @@ export default {
         audiences: ['api', 'admin-api'],
     },
     adminSecretKey: 'asWDEerfOIdgsdqRTFabvmgh',
+    enableCorsWs: true,
+    corsUrls: ['http://localhost:7456', 'http://games.lumigame.com', 'http://admin.lumigame.com'],
 };

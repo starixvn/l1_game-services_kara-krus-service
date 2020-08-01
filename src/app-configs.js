@@ -18,11 +18,11 @@ export default {
     enabledLogs: true,
     database: {
         //url: 'mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local',
-        url: 'mongodb://localhost:27017',
+        url: 'mongodb://10.5.10.49:27017',
         options: {
             // user: 'lmn_backend',
             // pass: 'LmnBackend',
-            dbName: 'admin',
+            dbName: 'minigame',
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,
@@ -38,4 +38,6 @@ export default {
         audiences: ['api', 'admin-api'],
     },
     adminSecretKey: 'asWDEerfOIdgsdqRTFabvmgh',
+    enableCorsWs: false,
+    corsUrls: ['http://localhost:7456', 'http://games.lumigame.com', 'http://admin.lumigame.com'],
 };
