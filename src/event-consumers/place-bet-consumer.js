@@ -141,6 +141,8 @@ const handleFailedBet = (user, userData, betChoice, betAmount, notice) => {
 
     if (notice.apiError) {
         placeBetPublisher.publishGameFailedBet(user.UID, { endBet: -1, apiError: notice.apiError });
+    } else if (notice.kickedOut) {
+        placeBetPublisher.publishGameFailedBet(user.UID, { endBet: -1, kickedOut: notice.kickedOut });
     } else {
         placeBetPublisher.publishGameFailedBet(user.UID, { endBet: -1, notice });
     }
