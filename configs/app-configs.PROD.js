@@ -1,7 +1,7 @@
 export default {
     gameId: 2,
     gameName: 'xocxoc',
-    hostingPort: 7000,
+    hostingPort: 8000,
     apiSettings: {
         enabledApi: true,
         apiUrl: 'http://10.99.99.101:7300',
@@ -48,5 +48,9 @@ export default {
         'https://admg.sabagame.com',
         'http://adm.sabagame.com',
         'https://adm.sabagame.com',
+        'http://uat.sabagame.com',
+        'https://uat.sabagame.com',
+        'http://uat-adm.sabagame.com',
+        'https://uat-adm.sabagame.com',
     ],
 };

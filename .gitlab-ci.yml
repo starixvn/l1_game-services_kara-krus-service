@@ -5,7 +5,7 @@ variables:
   KBT_PROXY_ADDRESS: l1deployment.starific.net
   KBT_PROXY_SSH_PORT: 8837
   KBT_PROXY_USER: l1uat
-  DOCKER_SERVICE_NAME: sedie-service
+  DOCKER_SERVICE_NAME: l1-sedie-service
 
 services:
   - docker:19.03.12-dind
