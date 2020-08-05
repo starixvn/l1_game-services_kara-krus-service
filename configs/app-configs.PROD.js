@@ -26,7 +26,7 @@ export default {
         },
     },
     sentry: {
-        sentryUrl: 'http://f371d3a21b2e468eaf7b4a80c45e9d11@10.99.99.187:803/106',
+        sentryUrl: 'http://9438b42a28794aca91cfb3216466739e@10.99.99.187:803/106',
         logIdentifier: 'minisedie',
         env: 'PROD',
     },
