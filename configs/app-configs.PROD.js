@@ -34,7 +34,7 @@ export default {
     authenticateSettings: {
         audiences: ['api', 'admin-api'],
     },
-    adminSecretKey: 'asWDEerfOIdgsdqRTFabvmgh',
+    adminSecretKey: 'asWDEer4yGdgsdqR4uqmKQZgh',
     enableCorsWs: true,
     corsUrls: [
         'http://sabagame.com',
