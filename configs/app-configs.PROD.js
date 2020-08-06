@@ -16,7 +16,7 @@ export default {
         enabledApiLogs: true,
     },
     enabledLogs: true,
-    mongoDBConfig: {
+    database: {
         url:
             'mongodb://lmn_backend:M7K4ttH%2AtZ3ml%3F%29%7CA%5DjN4%3FLBhwF%266IO%3C@10.3.189.54:27101,10.3.189.53:27102,10.3.189.53:27103/?replicaSet=SabaMain',
         options: {
