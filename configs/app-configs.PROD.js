@@ -4,8 +4,8 @@ export default {
     hostingPort: 8000,
     apiSettings: {
         enabledApi: true,
-        apiUrl: 'http://10.99.99.101:7300',
-        authUrl: 'http://10.99.99.101:7303',
+        apiUrl: 'http://10.99.99.51:8300',
+        authUrl: 'http://10.99.99.51:8303',
         client: {
             id: 'game-server',
             secret: 'gameserver@20luminet&',
@@ -16,8 +16,9 @@ export default {
         enabledApiLogs: true,
     },
     enabledLogs: true,
-    database: {
-        url: 'mongodb://lmn_backend:LmnBackend%4022027@10.99.99.187:27201/?replicaSet=SabaUAT',
+    mongoDBConfig: {
+        url:
+            'mongodb://lmn_backend:M7K4ttH%2AtZ3ml%3F%29%7CA%5DjN4%3FLBhwF%266IO%3C@10.3.189.54:27101,10.3.189.53:27102,10.3.189.53:27103/?replicaSet=SabaMain',
         options: {
             dbName: 'minigame',
             useNewUrlParser: true,
@@ -48,9 +49,5 @@ export default {
         'https://admg.sabagame.com',
         'http://adm.sabagame.com',
         'https://adm.sabagame.com',
-        'http://uat.sabagame.com',
-        'https://uat.sabagame.com',
-        'http://uat-adm.sabagame.com',
-        'https://uat-adm.sabagame.com',
     ],
 };
