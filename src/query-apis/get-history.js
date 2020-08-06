@@ -3,7 +3,7 @@ import sedieRounds from '../models/sedie-rounds.js';
 
 export default async (user, page, pageSize = 8) => {
     const pageIndex = page >> 0;
-    if (pageIndex < 1) {
+    if (pageIndex < 1 && !user) {
         return;
     }
 
