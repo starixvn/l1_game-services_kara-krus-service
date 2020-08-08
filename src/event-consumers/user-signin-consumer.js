@@ -25,7 +25,7 @@ export default class SedieUserSignInConsumer extends BaseEventConsumers.BaseUser
                 }
 
                 const notice = { title: helpers.noticeHelper.noticeTitle, text: umMessage, load: false };
-                socketClient.emit('message', { notice: notice });
+                socketClient.emit('message', { notice: notice, um: true });
             }
         } catch (err) {
             logger.logError(err);
