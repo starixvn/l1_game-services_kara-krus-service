@@ -7,7 +7,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "nodemon --watch ./ ./app.js",
         "debug": "nodemon --watch ./ --inspect ./app.js",
-        "prod": "node ./app.js",
+        "prod": "node --max-old-space-size=8192 ./app.js",
         "reg": "npm set registry http://npm.lumigame.com"
     },
     "author": "",
