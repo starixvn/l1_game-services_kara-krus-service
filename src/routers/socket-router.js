@@ -5,9 +5,17 @@ import appConfigs from './../app-configs.js';
 import * as consumers from './../event-consumers/index.js';
 
 export default class SocketRouter extends BaseSocketRouter {
+    /**
+     * @param {consumers.SediePlaceBetConsumer} placeBetConsumer
+     */
+    constructor(userSignInConsumer, userDisconnectConsumer, placeBetConsumer) {
+        super(userSignInConsumer, userDisconnectConsumer);
+        this.placeBetConsumer = placeBetConsumer ?? new consumers.SediePlaceBetConsumer();
+    }
+
     async handlePlaceBet(payload) {
         try {
-            await consumers.placeBet(this.storage.loggedUsers[this.socketClient.id], payload, this.storage);
+            await this.placeBetConsumer.placeBet(this.storage.loggedUsers[this.socketClient.id], payload, this.storage);
         } catch (err) {
             logger.logError(err);
         }
@@ -16,7 +24,6 @@ export default class SocketRouter extends BaseSocketRouter {
     async handleInGame() {
         try {
             await consumers.inGame(this.socketClient); // push to message queue later
-            //this.socketClient.emit(result.messageType, result.payload);
         } catch (err) {
             logger.logError(err);
         }
