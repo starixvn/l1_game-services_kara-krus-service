@@ -13,7 +13,7 @@ export default {
         useAuthenticate: true,
         placeBetTimeout: 4500,
         requestTimeout: 10000, // 10s
-        enabledApiLogs: true,
+        enableApiLogs: true,
     },
     enabledLogs: true,
     database: {
@@ -27,7 +27,7 @@ export default {
     },
     sentry: {
         sentryUrl: 'http://558889a8129f45a6a74316e40c61f1c3@10.99.99.187:800/115',
-        logIdentifier: 'minisedie',
+        logIdentifier: 'sedie',
         env: 'UAT',
     },
     authenticateSettings: {

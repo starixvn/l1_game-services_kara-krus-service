@@ -13,7 +13,7 @@ export default {
         useAuthenticate: true,
         requestTimeout: 10000,
         placeBetTimeout: 4500,
-        enabledApiLogs: true,
+        enableApiLogs: true,
     },
     enabledLogs: true,
     database: {
@@ -30,7 +30,7 @@ export default {
     },
     sentry: {
         sentryUrl: 'https://c9800a77cde44628ae983c6dfabfc7d9@sentryuat.sabagame.com/113',
-        logIdentifier: 'minisedie',
+        logIdentifier: 'sedie',
         env: 'LOCAL',
     },
     authenticateSettings: {
