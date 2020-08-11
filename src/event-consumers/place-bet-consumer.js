@@ -1,12 +1,13 @@
 import { placeBet } from 'sc-base-apis';
 import { helpers, logger } from 'sc-common';
+import { BaseEventConsumers } from 'sc-game-base';
 import appConfigs from '../app-configs.js';
 import constants from '../constants.js';
 import { SediePlaceBetPublisher } from '../event-publishers/index.js';
 import sedieBetLogs from '../models/sedie-betlogs.js';
 import storage from '../storage.js';
 
-export default class SediePlaceBetConsumer {
+export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetConsumer {
     choiceMapper = {
         chan: 1,
         le: 2,
@@ -20,6 +21,7 @@ export default class SediePlaceBetConsumer {
      * @param {SediePlaceBetPublisher} placeBetPublisher
      */
     constructor(placeBetPublisher) {
+        super();
         this.placeBetPublisher = placeBetPublisher ?? new SediePlaceBetPublisher(storage, appConfigs.gameName);
     }
 
