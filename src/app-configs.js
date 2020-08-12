@@ -22,11 +22,11 @@ export default {
     enabledLogs: true,
     database: {
         //url: 'mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local',
-        url: "mongodb://10.5.10.49:27017",
+        url: "mongodb://localhost:27017",
         options: {
             // user: 'lmn_backend',
             // pass: 'LmnBackend',
-            dbName: "minigame",
+            dbName: "admin",
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,
