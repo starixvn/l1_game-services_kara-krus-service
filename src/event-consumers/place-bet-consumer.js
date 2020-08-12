@@ -27,9 +27,9 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
     }
 
     async placeBet(user, payload) {
-        if (!user) {
-            return;
-        }
+        // if (!user) {
+        //     return;
+        // }
 
         const userData = this.gameData.usersData[user.UID];
 
