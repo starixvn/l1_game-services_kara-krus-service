@@ -1,13 +1,10 @@
-import { BaseConstants, BaseStartup } from 'sc-game-base';
-import appConfigs from './app-configs.js';
-import {
-    SediePlaceBetConsumer,
-    SedieUserDisconnectConsumer,
-    SedieUserSignInConsumer,
-} from './event-consumers/index.js';
-import initDatabase from './models/index.js';
-import initHttpRouter from './routers/http-router.js';
-import SedieSocketRouter from './routers/socket-router.js';
+import { BaseConstants, BaseStartup } from "sc-game-base";
+import appConfigs from "./app-configs.js";
+import { SediePlaceBetConsumer, SedieUserDisconnectConsumer, SedieUserSignInConsumer } from "./event-consumers/index.js";
+import initDatabase from "./models/index.js";
+import initHttpRouter from "./routers/http-router.js";
+import SedieSocketRouter from "./routers/socket-router.js";
+import storage from "./storage.js";
 
 export default class Startup extends BaseStartup {
     /**
@@ -22,9 +19,9 @@ export default class Startup extends BaseStartup {
      */
     initSocketRouter(socketClient) {
         const router = new SedieSocketRouter(
-            new SedieUserSignInConsumer(BaseConstants.GameTypes.RoomGame, 'XocXoc'),
+            new SedieUserSignInConsumer(BaseConstants.GameTypes.RoomGame, "XocXoc"),
             new SedieUserDisconnectConsumer(),
-            new SediePlaceBetConsumer()
+            new SediePlaceBetConsumer(storage)
         );
 
         router.init(this.storage, socketClient);

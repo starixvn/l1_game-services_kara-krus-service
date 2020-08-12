@@ -1,8 +1,8 @@
-import { logger } from 'sc-common';
-import { BaseSocketRouter } from 'sc-game-base';
-import * as queryApi from '../query-apis/index.js';
-import appConfigs from './../app-configs.js';
-import * as consumers from './../event-consumers/index.js';
+import { logger } from "sc-common";
+import { BaseSocketRouter } from "sc-game-base";
+import * as queryApi from "../query-apis/index.js";
+import appConfigs from "./../app-configs.js";
+import * as consumers from "./../event-consumers/index.js";
 
 export default class SocketRouter extends BaseSocketRouter {
     /**
@@ -15,7 +15,7 @@ export default class SocketRouter extends BaseSocketRouter {
 
     async handlePlaceBet(payload) {
         try {
-            await this.placeBetConsumer.placeBet(this.storage.loggedUsers[this.socketClient.id], payload, this.storage);
+            await this.placeBetConsumer.placeBet(this.storage.loggedUsers[this.socketClient.id], payload);
         } catch (err) {
             logger.logError(err);
         }

@@ -1,11 +1,10 @@
-import { placeBet } from 'sc-base-apis';
-import { helpers, logger } from 'sc-common';
-import { BaseEventConsumers } from 'sc-game-base';
-import appConfigs from '../app-configs.js';
-import constants from '../constants.js';
-import { SediePlaceBetPublisher } from '../event-publishers/index.js';
-import sedieBetLogs from '../models/sedie-betlogs.js';
-import storage from '../storage.js';
+import { placeBet } from "sc-base-apis";
+import { helpers, logger } from "sc-common";
+import { BaseEventConsumers } from "sc-game-base";
+import appConfigs from "../app-configs.js";
+import constants from "../constants.js";
+import { SediePlaceBetPublisher } from "../event-publishers/index.js";
+import sedieBetLogs from "../models/sedie-betlogs.js";
 
 export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetConsumer {
     choiceMapper = {
@@ -20,90 +19,55 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
     /**
      * @param {SediePlaceBetPublisher} placeBetPublisher
      */
-    constructor(placeBetPublisher) {
+    constructor(storage, placeBetPublisher) {
         super();
+        this.storage = storage;
+        this.gameData = storage.gameData;
         this.placeBetPublisher = placeBetPublisher ?? new SediePlaceBetPublisher(storage, appConfigs.gameName);
     }
 
-    async placeBet(user, payload, storage) {
-        const betAmount = payload.cuoc >> 0;
-        const betChoice = payload.box;
-        const gameData = storage.gameData;
-        let userData = gameData.usersData[user.UID];
-        const maxBetPerChoice =
-            storage.gameConfigs.choices_maxbet[helpers.configHelper.convertBetChoiceName(betChoice)] || 0;
-        const { betTracks } = userData || { betTracks: {} };
-        const totalAmount =
-            constants.choices.reduce((total, choice) => total + (betTracks[choice] || 0), 0) + betAmount;
-
-        if (gameData.remainingTime >= 31 && gameData.remainingTime <= 33) {
-            this.placeBetPublisher.publishGameFailedBet(user.UID, { notice: helpers.noticeHelper.cannotPlaceBet });
+    async placeBet(user, payload) {
+        if (!user) {
             return;
         }
 
-        if (gameData.remainingTime < 6 || gameData.remainingTime > 33) {
-            this.placeBetPublisher.publishGameFailedBet(user.UID, { notice: helpers.noticeHelper.placeBetNextRound });
-            return;
-        }
-
-        if (betAmount < storage.gameConfigs.minbet) {
-            this.placeBetPublisher.publishGameFailedBet(user.UID, {
-                notice: helpers.noticeHelper.minBet(storage.gameConfigs.minbet),
-            });
-            return;
-        }
-
-        if (betAmount > maxBetPerChoice || (betTracks && betTracks[betChoice] + betAmount > maxBetPerChoice)) {
-            placeBetPublisher.publishGameFailedBet(user.UID, {
-                notice: helpers.noticeHelper.maxBetForChoice(maxBetPerChoice),
-            });
-            return;
-        }
-
-        if (totalAmount > storage.gameConfigs.maxbet) {
-            this.placeBetPublisher.publishGameFailedBet(user.UID, {
-                notice: helpers.noticeHelper.maxBet(storage.gameConfigs.maxbet),
-            });
-            return;
-        }
+        const userData = this.gameData.usersData[user.UID];
 
         if (userData && userData.betTracks) {
-            userData.betTracks[betChoice] += betAmount;
-            userData.betQueue.push({ user, payload, gameData });
+            userData.betQueue.push({ user, payload });
         } else {
             const newUserData = {
                 name: user.profile.name,
+                betQueue: [{ user, payload }],
                 betTracks: { ...constants.resetTotalBets },
-                betQueue: [{ user, payload, gameData }],
             };
 
-            newUserData.betTracks[betChoice] = betAmount;
-            gameData.usersData[user.UID] = newUserData;
-            userData = newUserData;
+            this.gameData.usersData[user.UID] = newUserData;
         }
-        // return await proceedBet(user, payload, gameData, userData);
     }
 
-    async proceedBet(user, payload, gameData, userData) {
+    async proceedBet(user, payload, userData) {
         try {
+            if (!this.validateBetRequest(user, payload)) {
+                return;
+            }
+
             const betAmount = payload.cuoc >> 0;
             const betChoice = payload.box;
 
             const betInfo = {
                 cuoc: betAmount,
                 gameId: appConfigs.gameId,
-                gameRoundId: gameData.roundId,
+                gameRoundId: this.gameData.roundId,
                 choiceId: this.choiceMapper[betChoice],
             };
 
             const apiResult = await placeBet({ id: user.UID, session: user.session }, betInfo);
 
             if (apiResult.isOk) {
-                await this.handleSuccessBet(user, userData, gameData, apiResult.response.red, betChoice, betAmount);
+                await this.handleSuccessBet(user, userData, apiResult.response.red, betChoice, betAmount);
             } else {
-                const notice = apiResult.response.inSufficientBalance
-                    ? helpers.noticeHelper.notEnoughMoney
-                    : apiResult.response;
+                const notice = apiResult.response.inSufficientBalance ? helpers.noticeHelper.notEnoughMoney : apiResult.response;
 
                 await this.handleFailedBet(user, userData, betChoice, betAmount, notice);
             }
@@ -113,8 +77,52 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
         }
     }
 
-    async handleSuccessBet(user, userData, gameData, userBalance, betChoice, betAmount) {
-        const existingBetFilter = { uid: user.UID, phien: gameData.roundId };
+    validateBetRequest(user, payload) {
+        let userData = this.gameData.usersData[user.UID];
+        const betAmount = payload.cuoc >> 0;
+        const betChoice = payload.box;
+        const maxBetPerChoice = this.storage.gameConfigs.choices_maxbet[helpers.configHelper.convertBetChoiceName(betChoice)] || 0;
+        const { betTracks } = userData || { betTracks: {} };
+        const totalAmount = constants.choices.reduce((total, choice) => total + (betTracks[choice] || 0), 0) + betAmount;
+
+        if (this.gameData.remainingTime >= 31 && this.gameData.remainingTime <= 33) {
+            this.placeBetPublisher.publishGameFailedBet(user.UID, { notice: helpers.noticeHelper.cannotPlaceBet });
+            return false;
+        }
+
+        if (this.gameData.remainingTime < 6 || this.gameData.remainingTime > 33) {
+            this.placeBetPublisher.publishGameFailedBet(user.UID, { notice: helpers.noticeHelper.placeBetNextRound });
+            return false;
+        }
+
+        if (betAmount < this.storage.gameConfigs.minbet) {
+            this.placeBetPublisher.publishGameFailedBet(user.UID, {
+                notice: helpers.noticeHelper.minBet(this.storage.gameConfigs.minbet),
+            });
+            return false;
+        }
+
+        if (betAmount > maxBetPerChoice || (betTracks && betTracks[betChoice] + betAmount > maxBetPerChoice)) {
+            this.placeBetPublisher.publishGameFailedBet(user.UID, {
+                notice: helpers.noticeHelper.maxBetForChoice(maxBetPerChoice),
+            });
+            return false;
+        }
+
+        if (totalAmount > this.storage.gameConfigs.maxbet) {
+            this.placeBetPublisher.publishGameFailedBet(user.UID, {
+                notice: helpers.noticeHelper.maxBet(this.storage.gameConfigs.maxbet),
+            });
+            return false;
+        }
+
+        this.gameData.usersData[user.UID].betTracks[betChoice] += betAmount;
+
+        return true;
+    }
+
+    async handleSuccessBet(user, userData, userBalance, betChoice, betAmount) {
+        const existingBetFilter = { uid: user.UID, phien: this.gameData.roundId };
         const existingBet = await sedieBetLogs.findOne(existingBetFilter);
 
         if (existingBet) {
@@ -124,7 +132,7 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
             let newBet = {
                 uid: user.UID,
                 name: user.profile.name,
-                phien: gameData.roundId,
+                phien: this.gameData.roundId,
                 red: userBalance,
                 time: new Date(),
             };
@@ -143,7 +151,7 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
             );
         }
 
-        const result = this.generatePlacingBetResult(gameData, user, userData, userBalance, betChoice, betAmount);
+        const result = this.generatePlacingBetResult(user, userData, userBalance, betChoice, betAmount);
         this.placeBetPublisher.publishSuccessBet(result);
     }
 
@@ -159,11 +167,11 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
         }
     }
 
-    generatePlacingBetResult(gameData, user, userData, userBalance, betChoice, betAmount) {
-        gameData.totalBets[betChoice] += betAmount;
+    generatePlacingBetResult(user, userData, userBalance, betChoice, betAmount) {
+        this.gameData.totalBets[betChoice] += betAmount;
 
-        if (gameData.usersAndBots[user.UID]) {
-            gameData.usersAndBots[user.UID].red = userBalance;
+        if (this.gameData.usersAndBots[user.UID]) {
+            this.gameData.usersAndBots[user.UID].red = userBalance;
         }
 
         return {
