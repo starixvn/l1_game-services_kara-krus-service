@@ -13,9 +13,23 @@ export default class SocketRouter extends BaseSocketRouter {
         this.placeBetConsumer = placeBetConsumer ?? new consumers.SediePlaceBetConsumer();
     }
 
+    init(storage, socketClient) {
+        super.init(storage, socketClient);
+    }
+
     async handlePlaceBet(payload) {
         try {
-            await this.placeBetConsumer.placeBet(this.storage.loggedUsers[this.socketClient.id], payload);
+            const user = this.storage.loggedUsers[this.socketClient.id];
+
+            if (user) {
+                await this.placeBetConsumer.placeBet(user, payload);
+                logger.setTag({ id: "user-id", value: user.UID });
+                logger.log(`User place bet with payload [${JSON.stringify(payload)}]`);
+            } else {
+                logger.setTag({ id: "socket-io-id", value: socketClient.id });
+                logger.logError("User not found in server storage");
+                this.socketClient.emit(appConfigs.gameName, { endBet: -1, userNotFound: true });
+            }
         } catch (err) {
             logger.logError(err);
         }

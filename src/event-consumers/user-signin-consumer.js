@@ -1,7 +1,7 @@
-import { gameConfigs } from 'sc-base-database';
-import { helpers, logger } from 'sc-common';
-import { BaseEventConsumers } from 'sc-game-base';
-import appConfigs from '../app-configs.js';
+import { gameConfigs } from "sc-base-database";
+import { helpers, logger } from "sc-common";
+import { BaseEventConsumers } from "sc-game-base";
+import appConfigs from "../app-configs.js";
 
 export default class SedieUserSignInConsumer extends BaseEventConsumers.BaseUserSignInConsumer {
     /**
@@ -13,9 +13,6 @@ export default class SedieUserSignInConsumer extends BaseEventConsumers.BaseUser
             storage.gameConfigs = configs;
 
             if (configs && configs.enabled) {
-                const userData = { socketClient };
-                storage.loggedUsers[socketClient.id] = { ...userData };
-
                 await super.consume(socketClient, storage, payload);
             } else {
                 let umMessage = helpers.noticeHelper.underMaintenance;
@@ -25,7 +22,7 @@ export default class SedieUserSignInConsumer extends BaseEventConsumers.BaseUser
                 }
 
                 const notice = { title: helpers.noticeHelper.noticeTitle, text: umMessage, load: false };
-                socketClient.emit('message', { notice: notice, um: true });
+                socketClient.emit("message", { notice: notice, um: true });
             }
         } catch (err) {
             logger.logError(err);
