@@ -1,14 +1,14 @@
 export default {
     gameId: 2,
-    gameName: 'xocxoc',
+    gameName: "xocxoc",
     hostingPort: 8082,
     apiSettings: {
         enabledApi: true,
-        apiUrl: 'http://api.lumigame.com',
-        authUrl: 'http://auth.lumigame.com',
+        apiUrl: "http://api.lumigame.com",
+        authUrl: "http://auth.lumigame.com",
         client: {
-            id: 'game-server',
-            secret: 'gameserver@20luminet&',
+            id: "game-server",
+            secret: "gameserver@20luminet&",
         },
         useAuthenticate: true,
         requestTimeout: 10000,
@@ -17,11 +17,11 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url: 'mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local',
+        url: "mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local",
         options: {
             // user: 'lmn_backend',
             // pass: 'LmnBackend',
-            dbName: 'minigame',
+            dbName: "minigame",
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,
@@ -29,14 +29,14 @@ export default {
         },
     },
     sentry: {
-        sentryUrl: 'https://c9800a77cde44628ae983c6dfabfc7d9@sentryuat.sabagame.com/113',
-        logIdentifier: 'minisedie',
-        env: 'LOCAL',
+        sentryUrl: "https://c9800a77cde44628ae983c6dfabfc7d9@sentryuat.sabagame.com/113",
+        logIdentifier: "sedie",
+        env: "LOCAL",
     },
     authenticateSettings: {
-        audiences: ['api', 'admin-api'],
+        audiences: ["api", "admin-api"],
     },
-    adminSecretKey: 'asWDEerfOIdgsdqRTFabvmgh',
+    adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     enableCorsWs: true,
-    corsUrls: ['http://localhost:7456', 'http://games.lumigame.com', 'http://admin.lumigame.com'],
+    corsUrls: ["http://localhost:7456", "http://games.lumigame.com", "http://admin.lumigame.com"],
 };
