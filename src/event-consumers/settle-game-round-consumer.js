@@ -89,7 +89,7 @@ const settleBets = async (gameData, { result, settlementResult, roundId, time })
                         gameData.winClients[bet.uid] = status;
 
                         if (gameData.usersAndBots[bet.uid]) {
-                            gameData.usersAndBots[bet.uid].red += TongThang;
+                            gameData.usersAndBots[bet.uid].red += betResult.totalWin;
 
                             updateBotBalance(bet.uid, gameData.usersAndBots[bet.uid].red);
                         }
