@@ -5,6 +5,7 @@ import seDieRounds from "../models/sedie-rounds.js";
 import storage from "../storage.js";
 import { BaseEventPublishers } from "sc-game-base";
 import * as apis from "sc-base-apis";
+import { getSettlementResult } from "./result-helper.js";
 
 const publisher = new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
 /**
@@ -67,12 +68,23 @@ const inGame = async (loggedUser) => {
 };
 
 const getRounds = async (limit) => {
-    const rounds = await seDieRounds
-        .find({}, "id red1 red2 red3 red4", { sort: { _id: -1 }, limit: limit })
-        .lean()
-        .exec();
+    try {
+        const rounds = await seDieRounds
+            .find({}, "id red1 red2 red3 red4", { sort: { _id: -1 }, limit: limit })
+            .lean()
+            .exec();
 
-    return rounds.map((round) => ({ roundId: round.id, dots: [round.red1, round.red2, round.red3, round.red4] }));
+        return rounds.map((round) => {
+            const result = { red1: round.red1, red2: round.red2, red3: round.red3, red4: round.red4 };
+            return {
+                roundId: round.id,
+                result,
+                settlementResult: getSettlementResult(result),
+            };
+        });
+    } catch (er) {
+        console.log(er);
+    }
 };
 
 const getUserInfo = async (uid) => {

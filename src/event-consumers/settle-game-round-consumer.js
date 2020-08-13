@@ -1,141 +1,72 @@
-import { endGame } from 'sc-base-apis';
-import appConfigs from '../app-configs.js';
-import { updateBotBalance } from '../cron/bot.js';
-import { SedieRoundResultPublisher, SedieUserBetResultPublisher } from '../event-publishers/index.js';
-import seDieBetLogs from '../models/sedie-betlogs.js';
-import seDieTempBetLogs from '../models/sedie-temp-betlogs.js';
-import seDieRounds from '../models/sedie-rounds.js';
-import seDieUsers from '../models/sedie-users.js';
-import storage from '../storage.js';
-import { logger } from 'sc-common';
+import { endGame } from "sc-base-apis";
+import appConfigs from "../app-configs.js";
+import { updateBotBalance } from "../cron/bot.js";
+import { SedieRoundResultPublisher, SedieUserBetResultPublisher } from "../event-publishers/index.js";
+import seDieBetLogs from "../models/sedie-betlogs.js";
+import seDieTempBetLogs from "../models/sedie-temp-betlogs.js";
+import seDieRounds from "../models/sedie-rounds.js";
+import seDieUsers from "../models/sedie-users.js";
+import storage from "../storage.js";
+import { logger } from "sc-common";
+import { generateResult, getSettlementResult } from "./result-helper.js";
 
 const roundResultPublisher = new SedieRoundResultPublisher(storage, appConfigs.gameName);
 const userBetResultPublisher = new SedieUserBetResultPublisher(storage, appConfigs.gameName);
 
 export default async (gameData) => {
-    const result = generateResult();
-    const newRound = await seDieRounds.create({ ...result, time: new Date() });
+    try {
+        const result = generateResult();
+        const settlementResult = getSettlementResult(result);
+        const newRound = await seDieRounds.create({ ...result, time: new Date() });
 
-    if (!!newRound) {
-        const roundResult = {
-            result,
-            roundId: newRound.id,
-            time: newRound.time,
-        };
-        gameData.roundId = newRound.id + 1;
+        if (!!newRound) {
+            const roundResult = {
+                result,
+                settlementResult,
+                roundId: newRound.id,
+                time: newRound.time,
+            };
+            gameData.roundId = newRound.id + 1;
 
-        await settleBets(gameData, roundResult);
+            await settleBets(gameData, roundResult);
+        }
+    } catch (ex) {
+        console.log(ex);
     }
 };
 
-const settleBets = async (gameData, { result, roundId, time }) => {
-    let red = 0;
-
-    Object.values(result).forEach((dot) => {
-        if (dot) {
-            red++;
-        }
-    });
-
-    const gameChan = !(red % 2);
-
+const settleBets = async (gameData, { result, settlementResult, roundId, time }) => {
     const realPlayerBets = await seDieBetLogs.find({ phien: roundId }).exec();
     const botBets = await seDieTempBetLogs.find({ phien: roundId }).exec();
     const allBets = realPlayerBets.concat(botBets);
 
     if (allBets && allBets.length) {
-        const odds = storage.gameConfigs.odds;
+        const { odds } = storage.gameConfigs;
 
         Promise.all(
             allBets.map(async (bet) => {
-                const totalBet = bet.chan + bet.le + bet.red3 + bet.red4 + bet.white3 + bet.white4;
-                let TienThang = 0;
-                let TongThua = 0;
-                let TongThang = 0;
-                let boxes = {};
-
-                if (bet.chan > 0) {
-                    boxes['main'] = true;
-                    if (gameChan) {
-                        const winRed = bet.chan * odds.even;
-                        TongThang += winRed;
-                        TienThang += winRed - bet.chan;
-                    } else {
-                        TongThua += bet.chan;
-                    }
-                }
-                if (bet.le > 0) {
-                    boxes['main'] = true;
-                    if (!gameChan) {
-                        const winRed = bet.le * odds.odd;
-                        TongThang += winRed;
-                        TienThang += winRed - bet.le;
-                    } else {
-                        TongThua += bet.le;
-                    }
-                }
-                if (bet.red3 > 0) {
-                    boxes['sub'] = true;
-                    if (red == 3) {
-                        const winRed = bet.red3 * odds.red3;
-                        TongThang += winRed;
-                        TienThang += winRed - bet.red3;
-                    } else {
-                        TongThua += bet.red3;
-                    }
-                }
-                if (bet.red4 > 0) {
-                    boxes['sub'] = true;
-                    if (red == 4) {
-                        const winRed = bet.red4 * odds.red4;
-                        TongThang += winRed;
-                        TienThang += winRed - bet.red4;
-                    } else {
-                        TongThua += bet.red4;
-                    }
-                }
-                if (bet.white3 > 0) {
-                    boxes['sub'] = true;
-                    if (red == 1) {
-                        const winRed = bet.white3 * odds.white3;
-                        TongThang += winRed;
-                        TienThang += winRed - bet.white3;
-                    } else {
-                        TongThua += bet.white3;
-                    }
-                }
-                if (bet.white4 > 0) {
-                    boxes['sub'] = true;
-                    if (red == 0) {
-                        const winRed = bet.white4 * odds.white4;
-                        TongThang += winRed;
-                        TienThang += winRed - bet.white4;
-                    } else {
-                        TongThua += bet.white4;
-                    }
-                }
-
-                let update = {};
-                let updateGame = {};
-
-                TongThang = parseFloat(TongThang.toFixed(2));
-                TienThang = parseFloat(TienThang.toFixed(2));
+                const betResult = calculateBetResult(settlementResult, bet, odds);
 
                 bet.thanhtoan = true;
-                bet.betwin = TongThang;
+                bet.betwin = betResult.totalWin;
                 await bet.save();
 
-                if (TongThang > 0) {
-                    update['red'] = TongThang;
-                }
-                if (TienThang > 0) {
-                    update['redWin'] = updateGame['red'] = TienThang;
-                }
-                if (TongThua > 0) {
-                    update['redLost'] = updateGame['red_lost'] = TongThua;
+                const settlementInfo = { redPlay: betResult.totalBetAmount };
+                const userUpdate = { redPlay: betResult.totalBetAmount };
+
+                if (betResult.totalWin > 0) {
+                    settlementInfo.red = betResult.totalWin;
                 }
 
-                update['redPlay'] = updateGame['redPlay'] = totalBet;
+                if (betResult.netWin > 0) {
+                    settlementInfo.redWin = betResult.netWin;
+                    userUpdate.red = betResult.netWin;
+                }
+
+                if (betResult.totalLost > 0) {
+                    settlementInfo.redLost = betResult.totalLost;
+                    userUpdate.red_Lost = betResult.totalLost;
+                }
 
                 let gameInfo = {
                     gameId: appConfigs.gameId,
@@ -145,16 +76,16 @@ const settleBets = async (gameData, { result, roundId, time }) => {
                     time,
                 };
 
-                const apiResult = await endGame(bet.uid, gameInfo, update);
+                const apiResult = await endGame(bet.uid, gameInfo, settlementInfo);
 
                 if (apiResult.isOk) {
-                    await seDieUsers.updateOne({ uid: bet.uid }, { $inc: updateGame });
+                    await seDieUsers.updateOne({ uid: bet.uid }, { $inc: userUpdate });
 
-                    let status = {};
+                    const status = { winningByChoices: betResult.winningByChoices };
 
-                    if (TongThang > 0) {
-                        status = { win: true, bet: TongThang };
-                        status.boxs = boxes;
+                    if (betResult.totalWin > 0) {
+                        status.win = true;
+                        status.bet = betResult.totalWin;
                         gameData.winClients[bet.uid] = status;
 
                         if (gameData.usersAndBots[bet.uid]) {
@@ -163,7 +94,8 @@ const settleBets = async (gameData, { result, roundId, time }) => {
                             updateBotBalance(bet.uid, gameData.usersAndBots[bet.uid].red);
                         }
                     } else {
-                        status = { win: false, bet: TongThua };
+                        status.win = false;
+                        status.bet = betResult.totalLost;
                     }
 
                     userBetResultPublisher.publish({ bet, betResult: status });
@@ -180,20 +112,54 @@ const settleBets = async (gameData, { result, roundId, time }) => {
             })
         )
             .then(() => {
-                roundResultPublisher.publishRoundResult({ result, roundId, winClients: gameData.winClients });
+                roundResultPublisher.publishRoundResult({ result, settlementResult, roundId, winClients: gameData.winClients });
             })
             .catch(logger.logError);
     } else {
-        roundResultPublisher.publishRoundResult({ result, roundId, winClients: gameData.winClients });
+        roundResultPublisher.publishRoundResult({ result, settlementResult, roundId, winClients: gameData.winClients });
     }
 };
 
-const generateResult = () => {
-    let red1 = (Math.random() * 2) >> 0;
-    let red2 = Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 3 <= 10;
-    let red3 =
-        (Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 3) % 2 == 0;
-    let red4 = (Math.floor(Math.random() * 10000) + 1) % 2 != 0;
+const calculateBetResult = (settlementResult, bet, odds) => {
+    const betResult = Object.entries(settlementResult).reduce(
+        (result, [choice, win]) => {
+            const betAmount = bet[convertBetChoiceName(choice)];
+            const winAmount = win ? betAmount * (odds[choice] || 1) : 0;
 
-    return { red1, red2, red3, red4 };
+            result.totalBetAmount += betAmount;
+            result.totalWin += winAmount;
+            result.winningByChoices[choice] = winAmount;
+
+            if (winAmount > 0) {
+                result.netWin += winAmount - betAmount;
+            } else {
+                result.totalLost += betAmount;
+            }
+
+            return result;
+        },
+        {
+            totalBetAmount: 0,
+            totalWin: 0,
+            netWin: 0,
+            totalLost: 0,
+            winningByChoices: {},
+        }
+    );
+
+    betResult.totalWin = parseFloat(betResult.totalWin.toFixed(2));
+    betResult.netWin = parseFloat(betResult.netWin.toFixed(2));
+
+    return betResult;
+};
+
+const convertBetChoiceName = (name) => {
+    switch (name) {
+        case "chan":
+            return "even";
+        case "le":
+            return "odd";
+        default:
+            return name;
+    }
 };
