@@ -15,6 +15,10 @@ export default {
         placeBetTimeout: 4500,
         enableApiLogs: true,
     },
+    socketOptions: {
+        pingInterval: 5 * 60 * 1000,
+        pingTimeout: 60 * 1000,
+    },
     enabledLogs: true,
     database: {
         //url: 'mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local',

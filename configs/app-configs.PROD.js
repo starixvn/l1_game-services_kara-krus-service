@@ -15,6 +15,10 @@ export default {
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
     },
+    socketOptions: {
+        pingInterval: 5 * 60 * 1000,
+        pingTimeout: 60 * 1000,
+    },
     enabledLogs: true,
     database: {
         url:

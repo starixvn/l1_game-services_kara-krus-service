@@ -26,7 +26,7 @@ export default class SocketRouter extends BaseSocketRouter {
                 logger.setTag({ id: "user-id", value: user.UID });
                 logger.log(`User place bet with payload [${JSON.stringify(payload)}]`);
             } else {
-                logger.setTag({ id: "socket-io-id", value: socketClient.id });
+                logger.setTag({ id: "socket-io-id", value: this.socketClient.id });
                 logger.logError("User not found in server storage");
                 this.socketClient.emit(appConfigs.gameName, { endBet: -1, userNotFound: true });
             }
