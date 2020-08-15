@@ -21,7 +21,7 @@ export default class Startup extends BaseStartup {
     initSocketRouter(socketClient) {
         const router = new SedieSocketRouter(
             new SedieUserSignInConsumer(BaseConstants.GameTypes.RoomGame, "XocXoc"),
-            new SedieUserDisconnectConsumer(),
+            new SedieUserDisconnectConsumer(storage),
             new SediePlaceBetConsumer(storage)
         );
 
