@@ -15,6 +15,10 @@ export default {
         placeBetTimeout: 4500,
         enabledApiLogs: true,
     },
+    socketOptions: {
+        pingInterval: 60 * 1000,
+        pingTimeout: 60 * 1000,
+    },
     enabledLogs: true,
     database: {
         url: "mongodb://lmn_backend:LmnBackend%40517@10.99.99.187:27301/?replicaSet=SabaSIT",
