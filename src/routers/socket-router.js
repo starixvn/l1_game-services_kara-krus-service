@@ -8,9 +8,9 @@ export default class SocketRouter extends BaseSocketRouter {
     /**
      * @param {consumers.SediePlaceBetConsumer} placeBetConsumer
      */
-    constructor(userSignInConsumer, userDisconnectConsumer, placeBetConsumer) {
-        super(userSignInConsumer, userDisconnectConsumer);
-        this.placeBetConsumer = placeBetConsumer ?? new consumers.SediePlaceBetConsumer();
+    constructor(userSignInConsumer, userDisconnectConsumer, placeBetConsumer, userRecheckinConsumer = null) {
+        super(userSignInConsumer, userDisconnectConsumer, userRecheckinConsumer);
+        this.placeBetConsumer = placeBetConsumer;
     }
 
     init(storage, socketClient) {
