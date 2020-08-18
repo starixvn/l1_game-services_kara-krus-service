@@ -1,10 +1,10 @@
-import sedieRounds from '../models/sedie-rounds.js';
-import storage from '../storage.js';
-import runGame from './run-game.js';
+import sedieRounds from "../models/sedie-rounds.js";
+import storage from "../game-data.js";
+import runGame from "./run-game.js";
 
 const start = async () => {
     const lastRound = await sedieRounds
-        .findOne({}, 'id', { sort: { _id: -1 } })
+        .findOne({}, "id", { sort: { _id: -1 } })
         .lean()
         .exec();
 

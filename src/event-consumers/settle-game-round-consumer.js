@@ -6,7 +6,7 @@ import seDieBetLogs from "../models/sedie-betlogs.js";
 import seDieTempBetLogs from "../models/sedie-temp-betlogs.js";
 import seDieRounds from "../models/sedie-rounds.js";
 import seDieUsers from "../models/sedie-users.js";
-import storage from "../storage.js";
+import storage from "../game-data.js";
 import { logger } from "sc-common";
 import { generateResult, getSettlementResult } from "./result-helper.js";
 

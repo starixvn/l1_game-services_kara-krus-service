@@ -1,18 +1,17 @@
-import cron from 'cron';
-import { gameConfigs } from 'sc-base-database';
-import { BaseEventPublishers } from 'sc-game-base';
-import appConfigs from '../app-configs.js';
-import constants from '../constants.js';
-import { settleGameRound } from '../event-consumers/index.js';
-import storage from '../storage.js';
-import { addBots, resetBots } from './bot.js';
-import { logger } from 'sc-common';
+import cron from "cron";
+import { gameConfigs } from "sc-base-database";
+import { BaseEventPublishers } from "sc-game-base";
+import appConfigs from "../app-configs.js";
+import constants from "../constants.js";
+import { settleGameRound } from "../event-consumers/index.js";
+import storage from "../game-data.js";
+import { addBots, resetBots } from "./bot.js";
+import { logger } from "sc-common";
 
 const runningRoundInfoPublisher = new BaseEventPublishers.RunningRoundInfoPublisher(storage, appConfigs.gameName);
 const gameStatusPublisher = new BaseEventPublishers.GameStatusPublisher(storage, appConfigs.gameName);
 
-const runGame = (gameData) =>
-    new cron.CronJob('* * * * * *', () => proceed(gameData).catch(logger.logError), null, true);
+const runGame = (gameData) => new cron.CronJob("* * * * * *", () => proceed(gameData).catch(logger.logError), null, true);
 
 const proceed = async (gameData) => {
     if (gameData.remainingTime == constants.roundDuration) {

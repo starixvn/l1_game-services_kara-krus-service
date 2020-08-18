@@ -1,6 +1,6 @@
-import storage from './../storage.js';
-import { logger, utils } from 'sc-common';
-import appConfigs from './../app-configs.js';
+import storage from "../game-data.js";
+import { logger, utils } from "sc-common";
+import appConfigs from "./../app-configs.js";
 
 const mapRealUsers = (clients) => {
     let uusUsers = [];
@@ -14,7 +14,7 @@ const mapRealUsers = (clients) => {
                 currency: cacheClient.session.currency,
                 character: cacheClient.session.characterName,
             };
-            if (cacheClient.session.currency && cacheClient.session.currency.toUpperCase() === 'UUS') {
+            if (cacheClient.session.currency && cacheClient.session.currency.toUpperCase() === "UUS") {
                 uusUsers.push(user);
             } else {
                 realUsers.push(user);
@@ -51,7 +51,7 @@ const onlineUsers = (res) => {
 
 export default (app) => {
     app.get(
-        '/api/onlineusers',
+        "/api/onlineusers",
         utils.authentication.useAuthenticate({
             authUrl: appConfigs.apiSettings.authUrl,
             audiences: appConfigs.authenticateSettings.audiences,

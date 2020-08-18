@@ -1,21 +1,27 @@
-import { BaseGameApp, ProcessBetQueue } from "sc-game-base";
+import { Table } from "sc-game-base";
 import appConfigs from "./app-configs.js";
-import startCron from "./cron/start.js";
-import { SediePlaceBetConsumer } from "./event-consumers/index.js";
 import Startup from "./startup.js";
-import storage from "./storage.js";
+import gameData from "./game-data.js";
+import gameSettings from "./game-settings.js";
+import { generateResult, getSettlementResult } from "./event-consumers/result-helper.js";
+import SedieRounds from "./models/sedie-rounds.js";
+import SedieBetLogs from "./models/sedie-betlogs.js";
+import SedieTmpBetLogs from "./models/sedie-temp-betlogs.js";
 
-export class SedieApp extends BaseGameApp {}
+export class SedieApp extends Table.TableGameApp {}
 
 const run = async () => {
-    const startup = new Startup(
-        appConfigs.gameName,
-        appConfigs,
-        storage,
-        () => startCron(),
-        new ProcessBetQueue(new SediePlaceBetConsumer(storage))
+    const definition = new Table.TableGameDefinition(
+        gameSettings,
+        generateResult,
+        getSettlementResult,
+        SedieRounds,
+        SedieBetLogs,
+        SedieTmpBetLogs
     );
-    const app = new SedieApp(appConfigs.gameName, storage, appConfigs, startup);
+    const gameCron = new Table.TableGameCron(definition, gameData);
+    const startup = new Startup(appConfigs, definition, gameData, gameCron);
+    const app = new SedieApp(appConfigs, definition, gameData, startup);
     await app.run();
 };
 

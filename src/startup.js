@@ -1,13 +1,8 @@
-import { BaseConstants, BaseStartup } from "sc-game-base";
-import appConfigs from "./app-configs.js";
-import { SediePlaceBetConsumer, SedieUserDisconnectConsumer, SedieUserSignInConsumer } from "./event-consumers/index.js";
 import initDatabase from "./models/index.js";
-import SedieAdminSocketRouter from "./routers/admin-socket-router.js";
 import initHttpRouter from "./routers/http-router.js";
-import SedieSocketRouter from "./routers/socket-router.js";
-import storage from "./storage.js";
+import { Table } from "sc-game-base";
 
-export default class Startup extends BaseStartup {
+export default class Startup extends Table.TableGameStartup {
     /**
      * @param {express.Express} app
      */
@@ -19,26 +14,22 @@ export default class Startup extends BaseStartup {
      * @param {socketIo.Socket} socketClient
      */
     initSocketRouter(socketClient) {
-        const router = new SedieSocketRouter(
-            new SedieUserSignInConsumer(BaseConstants.GameTypes.RoomGame, "XocXoc"),
-            new SedieUserDisconnectConsumer(storage),
-            new SediePlaceBetConsumer(storage)
-        );
+        const router = new Table.Routers.SocketRouter(this.definition, this.gameData);
 
-        router.init(this.storage, socketClient);
+        router.init(socketClient);
     }
 
     /**
      * @param {socketIo.Socket} socketClient
      */
     initAdminSocketRouter(socketClient) {
-        const router = new SedieAdminSocketRouter();
-        router.init(this.storage, socketClient, this.appConfigs.adminSecretKey);
+        // const router = new SedieAdminSocketRouter();
+        // router.init(this.storage, socketClient, this.appConfigs.adminSecretKey);
     }
 
-    async start() {
-        await super.start();
+    async configureServices(app) {
+        super.configureServices(app);
 
-        await initDatabase(appConfigs.database);
+        await initDatabase(this.appConfigs.database);
     }
 }

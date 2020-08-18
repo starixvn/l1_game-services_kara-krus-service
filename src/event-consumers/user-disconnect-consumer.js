@@ -1,5 +1,6 @@
 import { BaseEventConsumers, BaseEventPublishers } from "sc-game-base";
 import appConfigs from "../app-configs.js";
+import storage from "../game-data.js";
 
 export default class SedieUserDisconnectConsumer extends BaseEventConsumers.BaseUserDisconnectConsumer {
     constructor(storage, basePublisher = null) {

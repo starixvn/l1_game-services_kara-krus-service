@@ -2,7 +2,7 @@ import sortBy from "lodash.sortby";
 import { userInfos } from "sc-base-database";
 import appConfigs from "../app-configs.js";
 import seDieRounds from "../models/sedie-rounds.js";
-import storage from "../storage.js";
+import storage from "../game-data.js";
 import { BaseEventPublishers } from "sc-game-base";
 import * as apis from "sc-base-apis";
 import { getSettlementResult } from "./result-helper.js";

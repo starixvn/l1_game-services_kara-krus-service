@@ -1,10 +1,10 @@
-import { userInfos } from 'sc-base-database';
-import { helpers } from 'sc-common';
-import { BaseEventPublishers } from 'sc-game-base';
-import appConfigs from '../app-configs.js';
-import constants from '../constants.js';
-import seDieTempBetLogs from '../models/sedie-temp-betlogs.js';
-import storage from '../storage.js';
+import { userInfos } from "sc-base-database";
+import { helpers } from "sc-common";
+import { BaseEventPublishers } from "sc-game-base";
+import appConfigs from "../app-configs.js";
+import constants from "../constants.js";
+import seDieTempBetLogs from "../models/sedie-temp-betlogs.js";
+import storage from "../game-data.js";
 
 const publisher = new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
 
@@ -15,7 +15,7 @@ let maxNumberOfBots = 0;
 let currentBotRatio = 0;
 let changedTopBots = false;
 
-let betChoices = { 0: 'chan', 1: 'le', 2: 'red3', 3: 'white3', 4: 'red4', 5: 'white4' };
+let betChoices = { 0: "chan", 1: "le", 2: "red3", 3: "white3", 4: "red4", 5: "white4" };
 
 let dataBot = {
     chan: 0,
@@ -104,10 +104,7 @@ const botIn = async (time) => {
     const maxBotRandom = maxNumberOfBots / time;
     const length = Math.floor(Math.random() * maxBotRandom + 1);
 
-    const botUsers = await userInfos.find(
-        { type: true, inRoom: false, disabled: false },
-        '-_id id name red avatarId type'
-    );
+    const botUsers = await userInfos.find({ type: true, inRoom: false, disabled: false }, "-_id id name red avatarId type");
     let botList = helpers.arrayHelper.shuffle(botUsers);
     botList = botList.slice(0, length);
 
@@ -173,7 +170,7 @@ const botOut = async (activeBots, time, roundId) => {
 };
 
 const removeBot = async (botId) => {
-    await userInfos.updateOne({ id: botId }, { inRoom: false, inGameRoom: '' });
+    await userInfos.updateOne({ id: botId }, { inRoom: false, inGameRoom: "" });
 
     publisher.publishToAllUsers({ outgame: { playerId: botId } });
 
@@ -182,8 +179,7 @@ const removeBot = async (botId) => {
 
 const botPlaceBet = async (bot, roundId, time) => {
     const box = getBetChoice(bot);
-    const isSmallTicket =
-        totalBotTickets == 0 ? Math.floor(Math.random() * 2) : (totalSmallBotTickets * 100) / totalBotTickets < 70;
+    const isSmallTicket = totalBotTickets == 0 ? Math.floor(Math.random() * 2) : (totalSmallBotTickets * 100) / totalBotTickets < 70;
     const maxBet = getMaxBet(isSmallTicket, box, bot);
     const minBet = getMinBet();
 
@@ -209,7 +205,7 @@ const botPlaceBet = async (bot, roundId, time) => {
             });
         }
         if (!currentBet || currentTotalBet + betAmount <= maxBet) {
-            let user = await userInfos.findOne({ id: bot.id }, 'red');
+            let user = await userInfos.findOne({ id: bot.id }, "red");
             if (betAmount > 0 && user && user.red > betAmount) {
                 user.red -= betAmount;
                 await user.save();
@@ -286,10 +282,10 @@ const getBetChoice = (bot) => {
     box = betChoices[betChoice];
 
     if (!!bot) {
-        if (box == 'chan' && bot.choices.indexOf('le') != -1) {
-            box = 'le';
-        } else if (box == 'le' && bot.choices.indexOf('chan') != -1) {
-            box = 'chan';
+        if (box == "chan" && bot.choices.indexOf("le") != -1) {
+            box = "le";
+        } else if (box == "le" && bot.choices.indexOf("chan") != -1) {
+            box = "chan";
         }
     }
 
@@ -312,8 +308,8 @@ const getMaxBet = (isSmallTicket, box, bot) => {
     if (isRareOpt(box)) {
         maxBet = Math.min(minBet * 10, configs.bot_maxbet * 0.2, configMaxPerChoice);
 
-        if (!!bot && bot.betOnChoices['red4'] + bot.betOnChoices['white4'] > 0) {
-            maxBet = maxBet - bot.betOnChoices['red4'] - bot.betOnChoices['white4'];
+        if (!!bot && bot.betOnChoices["red4"] + bot.betOnChoices["white4"] > 0) {
+            maxBet = maxBet - bot.betOnChoices["red4"] - bot.betOnChoices["white4"];
         }
     }
 
@@ -322,11 +318,7 @@ const getMaxBet = (isSmallTicket, box, bot) => {
 
         maxBet = isSmallTicket
             ? Math.min(minBet * 50, configs.bot_maxbet * 0.2, configMaxPerChoice)
-            : Math.min(
-                  configs.bot_maxbet * 0.5,
-                  (totalBotBet * betChoiceRatio.SubOpts) / 100 - totalBetOnSubOpt,
-                  configMaxPerChoice
-              );
+            : Math.min(configs.bot_maxbet * 0.5, (totalBotBet * betChoiceRatio.SubOpts) / 100 - totalBetOnSubOpt, configMaxPerChoice);
     }
 
     return Math.max(maxBet, minBet);
@@ -339,11 +331,11 @@ const getMinBet = () => {
 };
 
 const isSubOpt = (box) => {
-    return box == 'white3' || box == 'red3';
+    return box == "white3" || box == "red3";
 };
 
 const isRareOpt = (box) => {
-    return box == 'white4' || box == 'red4';
+    return box == "white4" || box == "red4";
 };
 
 const resetBotData = () => {
