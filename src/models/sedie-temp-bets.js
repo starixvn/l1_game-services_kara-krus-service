@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 let Schema = new mongoose.Schema({
     uid: { type: String, required: true },
@@ -6,8 +6,8 @@ let Schema = new mongoose.Schema({
     phien: { type: Number, required: true, index: true },
     red: { type: Number, required: true },
 
-    chan: { type: Number, default: 0 },
-    le: { type: Number, default: 0 },
+    odd: { type: Number, default: 0 },
+    even: { type: Number, default: 0 },
     red3: { type: Number, default: 0 },
     red4: { type: Number, default: 0 },
     white3: { type: Number, default: 0 },
@@ -20,4 +20,4 @@ let Schema = new mongoose.Schema({
     siteId: { type: String },
 });
 
-export default mongoose.model('XocXoc_cuoc', Schema);
+export default mongoose.model("XocXoc_tmpcuoc", Schema);
