@@ -7,5 +7,6 @@ export default {
         lockingBet: 5,
     },
     choices: [],
+    choicesMapper: { even: 1, odd: 2, red3: 3, red4: 4, white3: 5, white4: 6 },
     defaultBetTracks: {},
 };
