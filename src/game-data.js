@@ -6,10 +6,14 @@ export default {
     disabled: false,
     usersAndBots: {},
     winClients: {},
-    usersData: {},
+    ingame: {},
     totalBets: { ...constants.resetTotalBets },
     realPlayers: {},
     players: {},
     admins: {},
+    settlementResultFromAdmin: {
+        roundId: 0,
+        result: {},
+    },
     gameConfigs: null,
 };

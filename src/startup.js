@@ -1,6 +1,8 @@
+import { Table } from "sc-game-base";
+
+import SeideInGameConsumer from "./event-consumers/in-game-consumer.js";
 import initDatabase from "./models/index.js";
 import initHttpRouter from "./routers/http-router.js";
-import { Table } from "sc-game-base";
 
 export default class Startup extends Table.TableGameStartup {
     /**
@@ -14,7 +16,13 @@ export default class Startup extends Table.TableGameStartup {
      * @param {socketIo.Socket} socketClient
      */
     initSocketRouter(socketClient) {
-        const router = new Table.Routers.SocketRouter(this.definition, this.gameData);
+        const router = new Table.Routers.SocketRouter(
+            this.definition,
+            this.gameData,
+            null,
+            null,
+            new SeideInGameConsumer(this.definition, this.gameData)
+        );
 
         router.init(socketClient);
     }
