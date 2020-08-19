@@ -1,10 +1,13 @@
 import { userInfos } from "sc-base-database";
+
 import { helpers } from "sc-common";
+
 import { BaseEventPublishers } from "sc-game-base";
+
 import appConfigs from "../app-configs.js";
 import constants from "../constants.js";
-import seDieTempBetLogs from "../models/sedie-temp-betlogs.js";
 import storage from "../game-data.js";
+import seDieTempBetLogs from "../models/sedie-temp-betlogs.js";
 
 const publisher = new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
 
@@ -58,7 +61,7 @@ const resetBots = async () => {
 };
 
 const removeAllBots = () => {
-    const bots = Object.values(storage.gameData.usersAndBots).filter((player) => player.type);
+    const bots = Object.values(storage.gameData.players).filter((player) => player.type);
 
     bots.forEach(async (bot) => await removeBot(bot.id));
 
@@ -100,7 +103,6 @@ const addBots = async (time, roundId) => {
 };
 
 const botIn = async (time) => {
-    const botsIn = [];
     const maxBotRandom = maxNumberOfBots / time;
     const length = Math.floor(Math.random() * maxBotRandom + 1);
 
@@ -118,10 +120,9 @@ const botIn = async (time) => {
             resetBot(botsInRoom[bot.id]);
 
             botList.splice(i, 1);
-            botsIn.push(bot);
         }
 
-        if (!storage.gameData.usersAndBots[bot.id]) {
+        if (!storage.gameData.players[bot.id]) {
             const payload = {
                 ingame: {
                     player: {
@@ -136,7 +137,7 @@ const botIn = async (time) => {
             publisher.publishToAllUsers(payload);
         }
 
-        storage.gameData.usersAndBots[bot.id] = bot;
+        storage.gameData.players[bot.id] = bot;
     }
 };
 
@@ -163,7 +164,7 @@ const botOut = async (activeBots, time, roundId) => {
         botsOut.push(botsInRoom[playerId]);
 
         await removeBot(playerId);
-        delete botsInRoom[playerId];
+        botsInRoom.slice(playerId, 1);
     }
 
     return botsOut;
@@ -174,7 +175,7 @@ const removeBot = async (botId) => {
 
     publisher.publishToAllUsers({ outgame: { playerId: botId } });
 
-    delete storage.gameData.usersAndBots[botId];
+    delete storage.gameData.players[botId];
 };
 
 const botPlaceBet = async (bot, roundId, time) => {
@@ -243,8 +244,8 @@ const botPlaceBet = async (bot, roundId, time) => {
                     botsInRoom[bot.id].betOnChoices[box] += betAmount;
                 }
 
-                if (storage.gameData.usersAndBots[bot.id]) {
-                    storage.gameData.usersAndBots[bot.id].red = user.red;
+                if (storage.gameData.players[bot.id]) {
+                    storage.gameData.players[bot.id].red = user.red;
                 }
 
                 if (isSmallTicket) {
