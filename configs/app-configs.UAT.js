@@ -15,6 +15,10 @@ export default {
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
     },
+    socketOptions: {
+        pingInterval: 60 * 1000,
+        pingTimeout: 60 * 1000,
+    },
     enabledLogs: true,
     database: {
         url: "mongodb://lmn_backend:LmnBackend%4022027@10.99.99.187:27201/?replicaSet=SabaUAT",

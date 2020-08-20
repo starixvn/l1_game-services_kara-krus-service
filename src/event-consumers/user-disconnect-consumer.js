@@ -1,10 +1,12 @@
 import { BaseEventConsumers, BaseEventPublishers } from "sc-game-base";
 import appConfigs from "../app-configs.js";
-import storage from "../storage.js";
-
-const publisher = new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
 
 export default class SedieUserDisconnectConsumer extends BaseEventConsumers.BaseUserDisconnectConsumer {
+    constructor(storage, basePublisher = null) {
+        super();
+        this.basePublisher = basePublisher ?? new BaseEventPublishers.BasePublisher(storage, appConfigs.gameName);
+    }
+
     /**
      * @param {SocketIO.Socket} socketClient
      */
@@ -13,7 +15,7 @@ export default class SedieUserDisconnectConsumer extends BaseEventConsumers.Base
 
         if (loggedUser) {
             delete storage.gameData.usersAndBots[loggedUser.UID];
-            publisher.publishToAllUsers({ outgame: { playerId: loggedUser.UID } });
+            this.basePublisher.publishToAllUsers({ outgame: { playerId: loggedUser.UID } });
         }
 
         super.consume(socketClient, storage);

@@ -16,7 +16,7 @@ export default {
         enabledApiLogs: true,
     },
     socketOptions: {
-        pingInterval: 5 * 60 * 1000,
+        pingInterval: 60 * 1000,
         pingTimeout: 60 * 1000,
     },
     enabledLogs: true,

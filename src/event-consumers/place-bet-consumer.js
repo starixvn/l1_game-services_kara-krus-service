@@ -19,7 +19,7 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
     /**
      * @param {SediePlaceBetPublisher} placeBetPublisher
      */
-    constructor(storage, placeBetPublisher) {
+    constructor(storage, placeBetPublisher = null) {
         super();
         this.storage = storage;
         this.gameData = storage.gameData;
