@@ -4,7 +4,6 @@ let Schema = new mongoose.Schema({
     uid: { type: String, required: true },
     name: { type: String, required: true },
     phien: { type: Number, required: true, index: true },
-    red: { type: Number, required: true },
 
     odd: { type: Number, default: 0 },
     even: { type: Number, default: 0 },
@@ -18,6 +17,8 @@ let Schema = new mongoose.Schema({
     time: { type: Date },
     memberId: { type: Number },
     siteId: { type: String },
+
+    freeBet: { type: Boolean, default: false },
 });
 
 export default mongoose.model("XocXoc_cuoc", Schema);
