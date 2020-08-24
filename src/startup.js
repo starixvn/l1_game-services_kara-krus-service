@@ -1,7 +1,7 @@
 import { Table } from "sc-game-base";
 
-import SeideInGameConsumer from "./event-consumers/in-game-consumer.js";
 import initDatabase from "./models/index.js";
+import SedieRoundQuery from "./query-apis/sedie-round-query.js";
 import initHttpRouter from "./routers/http-router.js";
 
 export default class Startup extends Table.TableGameStartup {
@@ -21,7 +21,10 @@ export default class Startup extends Table.TableGameStartup {
             this.gameData,
             null,
             null,
-            new SeideInGameConsumer(this.definition, this.gameData)
+            null,
+            null,
+            null,
+            new SedieRoundQuery(this.definition)
         );
 
         router.init(socketClient);
