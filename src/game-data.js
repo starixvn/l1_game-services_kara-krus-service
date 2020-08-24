@@ -5,7 +5,7 @@ export default {
     remainingTime: constants.roundDuration,
     disabled: false,
     usersAndBots: {},
-    winClients: {},
+    winningPlayers: {},
     ingame: {},
     totalBets: { ...constants.resetTotalBets },
     realPlayers: {},
