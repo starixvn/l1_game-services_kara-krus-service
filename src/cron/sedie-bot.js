@@ -2,8 +2,8 @@ import { Table } from "sc-game-base";
 import { helpers } from "sc-common";
 
 export default class SedieBot extends Table.TableGameBot {
-    constructor(definition, gameData, publisher = null) {
-        super(definition, gameData, publisher);
+    constructor(gameName, choices, durations, configName, tempBetRepository, gameData, publisher = null) {
+        super(gameName, choices, durations, configName, tempBetRepository, gameData, publisher);
 
         this.betChoiceRatio = {
             MainOpts: 94, //odd | even
@@ -18,7 +18,7 @@ export default class SedieBot extends Table.TableGameBot {
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
 
-        resetAllBets();
+        this.resetAllBets();
     }
 
     async resetBots() {
