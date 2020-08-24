@@ -8,8 +8,8 @@ export default class SocketRouter extends BaseSocketRouter {
     /**
      * @param {consumers.SediePlaceBetConsumer} placeBetConsumer
      */
-    constructor(userSignInConsumer, userDisconnectConsumer, placeBetConsumer, userRecheckinConsumer = null) {
-        super(userSignInConsumer, userDisconnectConsumer, userRecheckinConsumer);
+    constructor(userSignInConsumer, userDisconnectConsumer, placeBetConsumer) {
+        super(userSignInConsumer, userDisconnectConsumer);
         this.placeBetConsumer = placeBetConsumer;
     }
 
@@ -19,21 +19,26 @@ export default class SocketRouter extends BaseSocketRouter {
 
     async handlePlaceBet(payload) {
         try {
+            logger.setTag({ id: "socket-io-id", value: this.socketClient.id });
+            logger.setTag({ id: "ip-address", value: this.socketClient.handshake.address });
+
             const user = this.storage.loggedUsers[this.socketClient.id];
-            console.log("user place bet");
+
             if (user) {
                 await this.placeBetConsumer.placeBet(user, payload);
-                logger.setTag({ id: "user-id", value: user.UID });
-                logger.log(`User place bet with payload [${JSON.stringify(payload)}]`);
             } else {
-                console.log("user not found");
-                logger.setTag({ id: "socket-io-id", value: this.socketClient.id });
-                logger.logError("User not found in server storage");
+                logger.logError(`User not found in server storage, payload [${payload}]`);
+
+                this.socketClient.emit("message", { unauthorized: true });
                 this.socketClient.emit(appConfigs.gameName, { endBet: -1, userNotFound: true });
+                this.socketClient.disconnect(true);
             }
         } catch (err) {
             logger.logError(err);
         }
+
+        logger.setTag({ id: "socket-io-id", value: "" });
+        logger.setTag({ id: "ip-address", value: "" });
     }
 
     async handleInGame() {

@@ -10,7 +10,7 @@ export default class SedieUserDisconnectConsumer extends BaseEventConsumers.Base
     /**
      * @param {SocketIO.Socket} socketClient
      */
-    consume(socketClient, storage) {
+    consume(socketClient, storage, disconnectReason) {
         const loggedUser = storage.loggedUsers[socketClient.id];
 
         if (loggedUser) {
@@ -18,6 +18,6 @@ export default class SedieUserDisconnectConsumer extends BaseEventConsumers.Base
             this.basePublisher.publishToAllUsers({ outgame: { playerId: loggedUser.UID } });
         }
 
-        super.consume(socketClient, storage);
+        super.consume(socketClient, storage, disconnectReason);
     }
 }
