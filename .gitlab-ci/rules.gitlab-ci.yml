@@ -26,6 +26,19 @@
         - <<: *if-deploy-prod
           when: manual
 
+.post-deploy:generate-changelog:rules:
+  rules:
+      - <<: *if-deploy-local
+        when: always
+      - <<: *if-deploy-all
+        when: always
+      - <<: *if-deploy-sit
+        when: always
+      - <<: *if-deploy-uat
+        when: always
+      - <<: *if-deploy-prod
+        when: always
+
 .deploy:local:rules:
     rules:
         - <<: *if-deploy-local
