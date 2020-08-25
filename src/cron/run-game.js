@@ -5,7 +5,6 @@ import appConfigs from "../app-configs.js";
 import constants from "../constants.js";
 import { settleGameRound } from "../event-consumers/index.js";
 import storage from "../game-data.js";
-import { addBots, resetBots } from "./bot.js";
 import { logger } from "sc-common";
 
 const runningRoundInfoPublisher = new BaseEventPublishers.RunningRoundInfoPublisher(storage, appConfigs.gameName);
@@ -31,10 +30,7 @@ const proceed = async (gameData) => {
             gameData.remainingTime = constants.roundDuration;
 
             await settleGameRound(gameData);
-            await resetBots();
         } else {
-            await addBots(gameData.remainingTime, gameData.roundId);
-
             runningRoundInfoPublisher.publish(gameData);
         }
     }

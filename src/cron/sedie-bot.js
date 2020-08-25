@@ -1,6 +1,8 @@
 import { Table } from "sc-game-base";
 import { helpers } from "sc-common";
 
+import constants from "./../constants";
+
 export default class SedieBot extends Table.TableGameBot {
     constructor(gameName, choices, durations, configName, tempBetRepository, gameData, publisher = null) {
         super(gameName, choices, durations, configName, tempBetRepository, gameData, publisher);
@@ -17,7 +19,6 @@ export default class SedieBot extends Table.TableGameBot {
 
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
-
         this.resetAllBets();
     }
 
@@ -60,7 +61,9 @@ export default class SedieBot extends Table.TableGameBot {
         const underRatioGroups = helpers.arrayHelper.shuffle(betChoiceRatios.filter((data) => data.underBetRatio));
 
         const choice =
-            underRatioGroups.length > 0 ? this.getRandomChoiceFromGroup(underRatioGroups[0]) : this.getRandomChoiceFromGroup(this.mainOpts);
+            underRatioGroups.length > 0
+                ? this.getRandomChoiceFromGroup(underRatioGroups[0].group)
+                : this.getRandomChoiceFromGroup(this.mainOpts);
 
         const previousUniqueChoices = bot.choices.filter((betChoice) => this.mainOpts.includes(betChoice));
 
@@ -68,11 +71,12 @@ export default class SedieBot extends Table.TableGameBot {
     }
 
     getMaxBet(bot, choice) {
-        const gameConfigs = super.gameData.gameConfigs;
-        const isSmallTicket = super.totalTickets == 0 ? true : (this.smallTickets * 100) / super.totalTickets < this.smallTicketRatio;
+        const gameConfigs = this.gameData.gameConfigs;
+        const minBet = this.getMinBet();
+        const isSmallTicket = this.totalTickets == 0 ? true : (this.smallTickets * 100) / this.totalTickets < this.smallTicketRatio;
         let maxBet = Math.min(gameConfigs.choices_maxbet[choice], gameConfigs.bot_maxbet);
 
-        const maxBetOfSmallTicket = Math.min(super.getMinBet() * 50, maxBet);
+        const maxBetOfSmallTicket = Math.min(minBet * 50, maxBet);
 
         if (this.rareOpts.includes(choice)) {
             maxBet = Math.min(minBet * 10, gameConfigs.bot_maxbet * 0.2, gameConfigs.choices_maxbet[choice]);
@@ -99,7 +103,8 @@ export default class SedieBot extends Table.TableGameBot {
     }
 
     getRandomChoiceFromGroup(group) {
-        return group[(Math.random() * group.length) >> 0];
+        const randomIndex = (Math.random() * group.length) >> 0;
+        return group[randomIndex];
     }
 
     getTotalAmountOnChoiceGroup(choices) {
@@ -118,8 +123,25 @@ export default class SedieBot extends Table.TableGameBot {
 
     getAllBetAmount() {
         let total = 0;
-        super.definition.choices.forEach((choice) => (total += this.allBets[choice]));
+        this.choices.forEach((choice) => (total += this.allBets[choice]));
 
         return total;
+    }
+
+    isSmallTicket(amount) {
+        return amount < this.getMinBet() * 50;
+    }
+
+    updateBotInRoomData(bot, choice, amount, balance) {
+        super.updateBotInRoomData(bot, choice, amount, balance);
+
+        this.allBets[choice] = this.allBets[choice] ? (this.allBets[choice] += amount) : amount;
+        this.smallTickets += this.isSmallTicket(amount) ? 1 : 0;
+    }
+
+    convertAmountToChip(amount) {
+        const chipList = constants.chips.filter((chip) => amount % chip == 0);
+
+        return chipList.length > 0 ? chipList[0] : this.getMinBet();
     }
 }
