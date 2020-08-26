@@ -2,7 +2,7 @@ import { Core } from "sc-game-base";
 
 import { ResultHelper } from "../helpers";
 
-export default class SedieRoundQuery extends Core.RoundQuery {
+export default class SedieRoundQuery extends Core.QueryApis.RoundQuery {
     convertSettlementResult(roundResult) {
         return ResultHelper.getSettlementResult(roundResult);
     }

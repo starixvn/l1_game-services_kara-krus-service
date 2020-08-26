@@ -26,7 +26,7 @@ export default {
         options: {
             // user: 'lmn_backend',
             // pass: 'LmnBackend',
-            dbName: "admin",
+            dbName: "minigame",
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,
