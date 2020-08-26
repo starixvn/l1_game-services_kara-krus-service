@@ -1,7 +1,7 @@
 import { Table } from "sc-game-base";
 
 import appConfigs from "./app-configs";
-import { generateResult, getSettlementResult } from "./event-consumers/result-helper";
+import { generateResult, getSettlementResult } from "./helpers/result-helper";
 import gameData from "./game-data";
 import gameSettings from "./game-settings";
 import SedieBets from "./models/sedie-bets";

@@ -1,6 +1,6 @@
 import { Core } from "sc-game-base";
 
-import { ResultHelper } from "../event-consumers";
+import { ResultHelper } from "../helpers";
 
 export default class SedieRoundQuery extends Core.RoundQuery {
     convertSettlementResult(roundResult) {
