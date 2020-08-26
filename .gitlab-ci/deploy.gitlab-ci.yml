@@ -8,7 +8,7 @@
           "(echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin)
           && docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
           && (docker rm -f $DOCKER_SERVICE_NAME-$DEPLOY_ENV || true)
-          && docker run --restart=always --name $DOCKER_SERVICE_NAME-$DEPLOY_ENV -p $APP_PORT:$APP_PORT -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest"
+          && docker run --restart=always --name $DOCKER_SERVICE_NAME-$DEPLOY_ENV -p $APP_PORT:$APP_PORT -v $WORKING_PATH/$CONFIG_FILE:/app/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest"
     tags:
         - docker
   
@@ -22,5 +22,5 @@
         - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP echo $DOCKER_REG_PASSWORD | docker login -u $DOCKER_REG_USERNAME $DOCKER_REG_URL --password-stdin
         - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
         - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP docker rm -f $DOCKER_SERVICE_NAME-$DEPLOY_ENV || true
-        - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP docker run --restart=always --name $DOCKER_SERVICE_NAME-$DEPLOY_ENV -p $APP_PORT:$APP_PORT -v $WORKING_PATH/$CONFIG_FILE:/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+        - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP docker run --restart=always --name $DOCKER_SERVICE_NAME-$DEPLOY_ENV -p $APP_PORT:$APP_PORT -v $WORKING_PATH/$CONFIG_FILE:/app/src/app-configs.js -d $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
 #        - ssh -p $KBT_PROXY_SSH_PORT -t $KBT_PROXY_USER@$KBT_PROXY_ADDRESS ssh -p $SERVER_PORT $SERVER_USER@$SERVER_IP echo y | docker image prune -a
