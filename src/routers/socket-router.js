@@ -27,7 +27,7 @@ export default class SocketRouter extends BaseSocketRouter {
             if (user) {
                 await this.placeBetConsumer.placeBet(user, payload);
             } else {
-                logger.logError(`User not found in server storage, payload [${payload}]`);
+                logger.logError(`User not found in server storage, payload [${JSON.stringify(payload)}]`);
 
                 this.socketClient.emit("message", { unauthorized: true });
                 this.socketClient.emit(appConfigs.gameName, { endBet: -1, userNotFound: true });
