@@ -1,8 +1,8 @@
 import { Table } from "sc-game-base";
 
-import initDatabase from "./models/index.js";
-import SedieRoundQuery from "./query-apis/sedie-round-query.js";
-import initHttpRouter from "./routers/http-router.js";
+import initDatabase from "./models";
+import SedieRoundQuery from "./query-apis/sedie-round-query";
+import initHttpRouter from "./routers/http-router";
 
 export default class Startup extends Table.TableGameStartup {
     /**

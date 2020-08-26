@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import autoIncrement from "mongoose-auto-increment-reworked";
 
-let resultSchema = new mongoose.Schema(
+const modelName = "XocXoc_phien";
+
+const resultSchema = new mongoose.Schema(
     {
         red1: { type: Boolean, required: true },
         red2: { type: Boolean, required: true },
@@ -11,7 +13,7 @@ let resultSchema = new mongoose.Schema(
     { _id: false }
 );
 
-let settlementResultSchema = new mongoose.Schema(
+const settlementResultSchema = new mongoose.Schema(
     {
         odd: { type: Boolean, default: false },
         even: { type: Boolean, default: false },
@@ -23,12 +25,12 @@ let settlementResultSchema = new mongoose.Schema(
     { _id: false }
 );
 
-let Schema = new mongoose.Schema({
+const Schema = new mongoose.Schema({
     result: resultSchema,
     settlementResult: settlementResultSchema,
     time: { type: Date, default: new Date() },
 });
 
-Schema.plugin(autoIncrement.MongooseAutoIncrementID.plugin, { modelName: "XocXoc_phien", field: "id" });
+Schema.plugin(autoIncrement.MongooseAutoIncrementID.plugin, { modelName, field: "id" });
 
-export default mongoose.model("XocXoc_phien", Schema);
+export default mongoose.model(modelName, Schema);

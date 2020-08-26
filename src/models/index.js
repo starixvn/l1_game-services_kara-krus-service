@@ -1,6 +1,4 @@
-import { middlewares } from 'sc-common';
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import { middlewares } from "sc-common";
 
-export default async (config) => {
-    await middlewares.database.configureDatabase(mongoose, config);
-};
+export default (config) => middlewares.database.configureDatabase(mongoose, config);

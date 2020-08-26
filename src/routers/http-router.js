@@ -1,10 +1,11 @@
-import storage from "../game-data.js";
 import { logger, utils } from "sc-common";
-import appConfigs from "./../app-configs.js";
+
+import appConfigs from "./../app-configs";
+import storage from "./../game-data";
 
 const mapRealUsers = (clients) => {
-    let uusUsers = [];
-    let realUsers = [];
+    const uusUsers = [];
+    const realUsers = [];
 
     clients.forEach(function (cacheClient) {
         if (cacheClient && cacheClient.session && cacheClient.socketClient && cacheClient.socketClient.connected) {
@@ -14,7 +15,8 @@ const mapRealUsers = (clients) => {
                 currency: cacheClient.session.currency,
                 character: cacheClient.session.characterName,
             };
-            if (cacheClient.session.currency && cacheClient.session.currency.toUpperCase() === "UUS") {
+
+            if (cacheClient.session.currency?.toUpperCase() === "UUS") {
                 uusUsers.push(user);
             } else {
                 realUsers.push(user);
@@ -22,13 +24,16 @@ const mapRealUsers = (clients) => {
         }
     });
 
-    return { uusUsers: uusUsers, realUsers: realUsers };
+    return {
+        uusUsers,
+        realUsers,
+    };
 };
+
 const onlineUsers = (res) => {
     try {
         const users = mapRealUsers(Object.values(storage.loggedUsers));
-
-        let bots = Object.values(storage.gameData.usersAndBots)
+        const bots = Object.values(storage.gameData.usersAndBots)
             .filter((player) => player.type)
             .map((bot) => ({ name: bot.name, red: bot.red }));
 

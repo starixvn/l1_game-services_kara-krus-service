@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let Schema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     uid: { type: String, required: true },
     name: { type: String, required: true },
     phien: { type: Number, required: true, index: true },
@@ -21,4 +21,7 @@ let Schema = new mongoose.Schema({
     freeBet: { type: Boolean, default: false },
 });
 
-export default mongoose.model("XocXoc_cuoc", Schema);
+const bets = mongoose.model("XocXoc_cuoc", schema);
+const tmpBets = mongoose.model("XocXoc_tmpcuoc", schema);
+
+export { bets as SedieBets, tmpBets as SedieTmpBets };
