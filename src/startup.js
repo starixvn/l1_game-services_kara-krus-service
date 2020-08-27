@@ -35,7 +35,7 @@ export default class Startup extends Table.TableGameStartup {
      */
     initAdminSocketRouter(socketClient) {
         // const router = new SedieAdminSocketRouter();
-        // router.init(this.storage, socketClient, this.appConfigs.adminSecretKey);
+        // router.init(this.gameData, socketClient, this.appConfigs.adminSecretKey);
     }
 
     async configureServices(app) {

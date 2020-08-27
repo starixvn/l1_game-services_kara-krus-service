@@ -10,7 +10,7 @@ export default class SedieAdminSocketRouter extends BaseAdminSocketRouter {
             const { xocxoc } = payload;
 
             if (xocxoc && xocxoc.get_time) {
-                consumers.adminGetNewConsumer(this.socketClient, this.storage.gameData);
+                consumers.adminGetNewConsumer(this.socketClient, this.gameData);
             }
         } catch (err) {
             logger.logError(err);
