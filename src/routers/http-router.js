@@ -1,7 +1,7 @@
 import { logger, utils } from "sc-common";
 
 import appConfigs from "./../app-configs";
-import storage from "./../game-data";
+import gameData from "./../game-data";
 
 const mapRealUsers = (clients) => {
     const uusUsers = [];
@@ -32,8 +32,8 @@ const mapRealUsers = (clients) => {
 
 const onlineUsers = (res) => {
     try {
-        const users = mapRealUsers(Object.values(storage.loggedUsers));
-        const bots = Object.values(storage.gameData.usersAndBots)
+        const users = mapRealUsers(Object.values(gameData.loggedUsers));
+        const bots = Object.values(gameData.gameData.usersAndBots)
             .filter((player) => player.type)
             .map((bot) => ({ name: bot.name, red: bot.red }));
 
