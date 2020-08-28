@@ -1,8 +1,8 @@
 import { Table } from "sc-game-base";
 
 import appConfigs from "./app-configs";
+import constants from "./constants";
 import SedieBot from "./cron/sedie-bot";
-import gameData from "./game-data";
 import gameSettings from "./game-settings";
 import { generateResult, getSettlementResult } from "./helpers/result-helper";
 import { SedieBets, SedieTmpBets } from "./models/sedie-bets";
@@ -12,6 +12,8 @@ import Startup from "./startup";
 export class SedieApp extends Table.TableGameApp {}
 
 const run = async () => {
+    const gameData = new Table.TableGameData(constants.roundDuration, constants.resetTotalBets);
+
     const definition = new Table.TableGameDefinition(
         gameSettings,
         generateResult,
@@ -29,6 +31,7 @@ const run = async () => {
             gameData
         )
     );
+
     const gameCron = new Table.TableGameCron(definition, gameData);
     const startup = new Startup(appConfigs, definition, gameData, gameCron);
     const app = new SedieApp(appConfigs, definition, gameData, startup);
