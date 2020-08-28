@@ -1,5 +1,6 @@
 import { Table } from "sc-game-base";
 
+import PlaceBetConsumer from "./consumers/place-bet-consumer";
 import initDatabase from "./models";
 import SedieRoundQuery from "./query-apis/sedie-round-query";
 import initHttpRouter from "./routers/http-router";
@@ -22,7 +23,7 @@ export default class Startup extends Table.TableGameStartup {
             null,
             null,
             null,
-            null,
+            new PlaceBetConsumer(this.definition, this.gameData),
             null,
             new SedieRoundQuery(this.definition)
         );
