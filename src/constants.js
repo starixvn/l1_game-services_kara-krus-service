@@ -1,5 +1,5 @@
 export default {
-    roundDuration: 39,
+    roundDuration: 38,
     placingBetDuration: 30,
     settlementDuration: 5,
     resetTotalBets: { chan: 0, le: 0, red3: 0, red4: 0, white3: 0, white4: 0 },
