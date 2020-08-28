@@ -16,8 +16,10 @@ export default {
         enabledApiLogs: true,
     },
     socketOptions: {
-        pingInterval: 60 * 1000,
+        pingInterval: 25 * 1000,
         pingTimeout: 60 * 1000,
+        transports: ["websocket"],
+        allowUpgrades: false,
     },
     enabledLogs: true,
     database: {
