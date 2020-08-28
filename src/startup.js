@@ -3,14 +3,13 @@ import { Table } from "sc-game-base";
 import PlaceBetConsumer from "./consumers/place-bet-consumer";
 import initDatabase from "./models";
 import SedieRoundQuery from "./query-apis/sedie-round-query";
-import initHttpRouter from "./routers/http-router";
 
 export default class Startup extends Table.TableGameStartup {
     /**
      * @param {express.Express} app
      */
     initHttpRouter(app) {
-        initHttpRouter(app);
+        new Table.Routers.HttpRouter(this.gameData).init(app, this.appConfigs);
     }
 
     /**
