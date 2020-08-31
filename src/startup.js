@@ -24,6 +24,7 @@ export default class Startup extends Table.TableGameStartup {
             null,
             new PlaceBetConsumer(this.definition, this.gameData),
             null,
+            null,
             new SedieRoundQuery(this.definition)
         );
 
