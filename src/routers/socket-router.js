@@ -1,5 +1,6 @@
 import { logger } from "sc-common";
 import { BaseSocketRouter } from "sc-game-base";
+
 import * as queryApi from "../query-apis/index.js";
 import appConfigs from "./../app-configs.js";
 import * as consumers from "./../event-consumers/index.js";
@@ -17,17 +18,16 @@ export default class SocketRouter extends BaseSocketRouter {
         super.init(storage, socketClient);
     }
 
-    async handlePlaceBet(payload) {
+    handlePlaceBet(payload) {
         try {
-            logger.setTag({ id: "socket-io-id", value: this.socketClient.id });
-            logger.setTag({ id: "ip-address", value: this.socketClient.handshake.address });
-
             const user = this.storage.loggedUsers[this.socketClient.id];
 
             if (user) {
-                await this.placeBetConsumer.placeBet(user, payload);
+                this.placeBetConsumer.placeBet(user, payload);
             } else {
-                logger.logError(`User not found in server storage, payload [${JSON.stringify(payload)}]`);
+                logger.setTag({ id: "socket-io-id", value: this.socketClient.id });
+                logger.logError(`User not found in server storage, username: [${payload?.username}]`);
+                logger.setTag({ id: "socket-io-id", value: "" });
 
                 this.socketClient.emit("message", { unauthorized: true });
                 this.socketClient.emit(appConfigs.gameName, { endBet: -1, userNotFound: true });
@@ -36,9 +36,6 @@ export default class SocketRouter extends BaseSocketRouter {
         } catch (err) {
             logger.logError(err);
         }
-
-        logger.setTag({ id: "socket-io-id", value: "" });
-        logger.setTag({ id: "ip-address", value: "" });
     }
 
     async handleInGame() {

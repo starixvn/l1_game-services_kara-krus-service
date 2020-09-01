@@ -1,6 +1,7 @@
 import { placeBet } from "sc-base-apis";
 import { helpers, logger } from "sc-common";
 import { BaseEventConsumers } from "sc-game-base";
+
 import appConfigs from "../app-configs.js";
 import constants from "../constants.js";
 import { SediePlaceBetPublisher } from "../event-publishers/index.js";
@@ -26,11 +27,7 @@ export default class SediePlaceBetConsumer extends BaseEventConsumers.PlaceBetCo
         this.placeBetPublisher = placeBetPublisher ?? new SediePlaceBetPublisher(storage, appConfigs.gameName);
     }
 
-    async placeBet(user, payload) {
-        // if (!user) {
-        //     return;
-        // }
-
+    placeBet(user, payload) {
         const userData = this.gameData.usersData[user.UID];
 
         if (userData && userData.betTracks) {
