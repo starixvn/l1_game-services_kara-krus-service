@@ -1,6 +1,4 @@
 export default {
-    gameId: 2,
-    gameName: "xocxoc",
     hostingPort: 8000,
     apiSettings: {
         enabledApi: true,

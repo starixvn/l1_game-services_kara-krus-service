@@ -1,6 +1,4 @@
 export default {
-    gameId: 2,
-    gameName: "xocxoc",
     hostingPort: 8082,
     apiSettings: {
         enabledApi: true,
@@ -25,13 +23,10 @@ export default {
     database: {
         url: "mongodb://lmn_backend:LmnBackend@10.10.50.13:27101/?replicaSet=L1Local",
         options: {
-            // user: 'lmn_backend',
-            // pass: 'LmnBackend',
             dbName: "minigame",
             useNewUrlParser: true,
             useUnifiedTopology: true,
             auto_reconnect: true,
-            //'autoIndex':       false,
         },
     },
     sentry: {
