@@ -1,4 +1,4 @@
-import { Table } from "sc-game-base";
+import { Core, Table } from "sc-game-base";
 
 import PlaceBetConsumer from "./consumers/place-bet-consumer";
 import initDatabase from "./models";
@@ -35,8 +35,8 @@ export default class Startup extends Table.TableGameStartup {
      * @param {socketIo.Socket} socketClient
      */
     initAdminSocketRouter(socketClient) {
-        // const router = new SedieAdminSocketRouter();
-        // router.init(this.gameData, socketClient, this.appConfigs.adminSecretKey);
+        const router = new Core.Routers.BaseAdminSocketRouter();
+        router.init(this.definition, this.gameData, socketClient, this.appConfigs.adminSecretKey);
     }
 
     async configureServices(app) {
