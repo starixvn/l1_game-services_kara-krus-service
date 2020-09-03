@@ -99,6 +99,10 @@ export default class SedieBot extends Table.TableGameBot {
                   );
         }
 
+        if (this.mainOpts.includes(choice)) {
+            maxBet = isSmallTicket ? maxBetOfSmallTicket : maxBet;
+        }
+
         return Math.max(maxBet, minBet);
     }
 
