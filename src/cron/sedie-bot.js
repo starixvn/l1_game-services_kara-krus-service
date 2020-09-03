@@ -94,7 +94,7 @@ export default class SedieBot extends Table.TableGameBot {
                 ? Math.min(maxBetOfSmallTicket, gameConfigs.bot_maxbet * 0.2, gameConfigs.choices_maxbet[choice])
                 : Math.min(
                       gameConfigs.bot_maxbet * 0.5,
-                      this.getAllBetAmount() / 100 - totalBetOnSubOpt,
+                      (this.getAllBetAmount() * this.betChoiceRatio.SubOpts) / 100 - totalBetOnSubOpt,
                       gameConfigs.choices_maxbet[choice]
                   );
         }
@@ -135,7 +135,7 @@ export default class SedieBot extends Table.TableGameBot {
     updateBotInRoomData(bot, choice, amount, balance) {
         super.updateBotInRoomData(bot, choice, amount, balance);
 
-        this.allBets[choice] = this.allBets[choice] ? (this.allBets[choice] += amount) : amount;
+        this.allBets[choice] = this.allBets[choice] ? this.allBets[choice] + amount : amount;
         this.smallTickets += this.isSmallTicket(amount) ? 1 : 0;
     }
 
