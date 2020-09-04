@@ -3,6 +3,7 @@ image: docker:19.03.12
 variables:
   WORKING_PATH: /var/www/l1/sedie-service/
   DOCKER_SERVICE_NAME: l1-sedie-service
+  DOCKER_IMAGE_PATH: l1/game-services/sedie-service
 
 services:
   - docker:19.03.12-dind
