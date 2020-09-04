@@ -29,38 +29,38 @@
 .post-deploy:generate-changelog:rules:
   rules:
       - <<: *if-deploy-local
-        when: always
+        when: on_success
       - <<: *if-deploy-all
-        when: always
+        when: on_success
       - <<: *if-deploy-sit
-        when: always
+        when: on_success
       - <<: *if-deploy-uat
-        when: always
+        when: on_success
       - <<: *if-deploy-prod
-        when: always
+        when: on_success
 
 .deploy:local:rules:
     rules:
         - <<: *if-deploy-local
-          when: always
+          when: on_success
         - <<: *if-deploy-all
-          when: always
+          when: on_success
         - when: never
   
 .deploy:sit:rules:
     rules:
         - <<: *if-deploy-sit
-          when: always
+          when: on_success
         - <<: *if-deploy-all
-          when: always
+          when: on_success
         - when: never
 
 .deploy:uat:rules:
     rules:
         - <<: *if-deploy-uat
-          when: always
+          when: on_success
         - <<: *if-deploy-all
-          when: always
+          when: on_success
         - when: never
 
 .deploy:prod:rules:

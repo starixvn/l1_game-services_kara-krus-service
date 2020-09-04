@@ -3,7 +3,7 @@ build_image:
         - .build:image:rules
     stage: build
     script:
-        - echo "$DOCKER_REG_PASSWORD" | docker login -u "$DOCKER_REG_USERNAME" "$DOCKER_REG_URL" --password-stdin
+        - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
         - docker pull $CI_REGISTRY_IMAGE:latest || true
         - docker build 
           --pull

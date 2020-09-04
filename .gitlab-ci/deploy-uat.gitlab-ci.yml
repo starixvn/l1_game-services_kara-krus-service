@@ -3,8 +3,6 @@ post_build_uat:
       - .post_build
       - .deploy:uat:rules
   needs: ["build_image"]
-  dependencies:
-    - build_image
   environment:
       name: UAT
 
@@ -13,8 +11,6 @@ deploy_uat:
     - .base_deploy_kbt
     - .deploy:uat:rules
   needs: ["post_build_uat"]
-  dependencies:
-    - post_build_uat
   variables:
     SERVER_IP: $SIT_IP
     SERVER_USER: $SIT_USER
