@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema({
     uid: { type: String, required: true },
     name: { type: String, required: true },
-    phien: { type: Number, required: true, index: true },
+    phien: { type: Number, required: true },
 
     odd: { type: Number, default: 0 },
     even: { type: Number, default: 0 },

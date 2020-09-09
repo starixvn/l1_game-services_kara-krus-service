@@ -1,5 +1,5 @@
-import { Table } from "sc-game-base";
 import { helpers } from "sc-common";
+import { Table } from "sc-game-base";
 
 import constants from "./../constants";
 
@@ -73,7 +73,7 @@ export default class SedieBot extends Table.TableGameBot {
     getMaxBet(bot, choice) {
         const gameConfigs = this.gameData.gameConfigs;
         const minBet = this.getMinBet();
-        const isSmallTicket = this.totalTickets == 0 ? true : (this.smallTickets * 100) / this.totalTickets < this.smallTicketRatio;
+        const isSmallTicket = this.totalTickets === 0 ? true : (this.smallTickets * 100) / this.totalTickets < this.smallTicketRatio;
         let maxBet = Math.min(gameConfigs.choices_maxbet[choice], gameConfigs.bot_maxbet);
 
         const maxBetOfSmallTicket = Math.min(minBet * 50, maxBet);
@@ -144,7 +144,7 @@ export default class SedieBot extends Table.TableGameBot {
     }
 
     convertAmountToChip(amount) {
-        const chipList = constants.chips.filter((chip) => amount % chip == 0);
+        const chipList = constants.chips.filter((chip) => amount % chip === 0);
 
         return chipList.length > 0 ? chipList[0] : this.getMinBet();
     }
