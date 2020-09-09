@@ -4,7 +4,10 @@ variables:
   WORKING_PATH: /var/www/l1/sedie-service/
   DOCKER_SERVICE_NAME: l1-sedie-service
   DOCKER_IMAGE_PATH: l1/game-services/sedie-service
-
+  CONFIG_FILE_NAME: app-configs
+  CONFIG_FILE_EXTENSION: js
+  CONFIGS_SRC_DIR_PATH: ./configs
+  CONFIG_CONTAINER_PATH: /app/src/app-configs.js
 services:
   - docker:19.03.12-dind
 
@@ -14,16 +17,26 @@ stages:
   - post-build
   - deploy
 
-include:
-  - project: 'lumi-ops/ci-scripts'
-    ref: master
-    file: 'sonarqube.gitlab-ci.yml'
-  - local: .gitlab-ci/before.gitlab-ci.yml
-  - local: .gitlab-ci/rules.gitlab-ci.yml
-  - local: .gitlab-ci/build-image.gitlab-ci.yml
-  - local: .gitlab-ci/post-build.gitlab-ci.yml
-  - local: .gitlab-ci/deploy.gitlab-ci.yml
-  - local: .gitlab-ci/deploy-local.gitlab-ci.yml
-  - local: .gitlab-ci/deploy-sit.gitlab-ci.yml
-  - local: .gitlab-ci/deploy-uat.gitlab-ci.yml
-  - local: .gitlab-ci/deploy-prod.gitlab-ci.yml
+  include:
+    - project: 'lumi-ops/ci-scripts'
+      ref: master
+      file: 'sonarqube.gitlab-ci.yml'
+    - project: 'lumi-ops/ci-scripts'
+      ref: master
+      file: 'before-script-docker.gitlab-ci.yml'
+    - project: 'lumi-ops/ci-scripts'
+      ref: master
+      file: 'l1-rules.gitlab-ci.yml'
+    - project: 'lumi-ops/ci-scripts'
+      ref: master
+      file: 'build-docker-image.gitlab-ci.yml'
+    - project: 'lumi-ops/ci-scripts'
+      ref: master
+      file: 'post-build-docker-image.gitlab-ci.yml'
+    - project: 'lumi-ops/ci-scripts'
+      ref: master
+      file: 'deploy-docker.gitlab-ci.yml'
+    - local: .gitlab-ci/deploy-local.gitlab-ci.yml
+    - local: .gitlab-ci/deploy-sit.gitlab-ci.yml
+    - local: .gitlab-ci/deploy-uat.gitlab-ci.yml
+    - local: .gitlab-ci/deploy-prod.gitlab-ci.yml
