@@ -17,6 +17,6 @@ ENV PATH /opt/node_app/node_modules/.bin:$PATH
 WORKDIR /opt/node_app/app
 COPY ./src .
 
-HEALTHCHECK --interval=30s CMD node healthcheck.js
+HEALTHCHECK --interval=30s CMD node --es-module-specifier-resolution=node healthcheck.js
 
 CMD [ "node", "--max-old-space-size=8192", "--es-module-specifier-resolution=node", "./app.js" ]
