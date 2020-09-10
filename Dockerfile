@@ -3,14 +3,20 @@ FROM node:14-alpine3.10
 
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
+RUN mkdir /opt/node_app && chown node:node /opt/node_app
+WORKDIR /opt/node_app
 
-WORKDIR /app
+USER node
 
-COPY ./src ./src
 COPY package.json package-lock.json* ./
 
 RUN npm run reg
 RUN npm install && npm cache clean --force
-RUN npm rebuild
+ENV PATH /opt/node_app/node_modules/.bin:$PATH
 
-CMD [ "npm", "run", "prod" ]
+WORKDIR /opt/node_app/app
+COPY ./src .
+
+HEALTHCHECK --interval=30s CMD node healthcheck.js
+
+CMD [ "node", "--max-old-space-size=8192", "--es-module-specifier-resolution=node", "./app.js" ]

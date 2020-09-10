@@ -7,7 +7,7 @@ variables:
   CONFIG_FILE_NAME: app-configs
   CONFIG_FILE_EXTENSION: js
   CONFIGS_SRC_DIR_PATH: ./configs
-  CONFIG_CONTAINER_PATH: /app/src/app-configs.js
+  CONFIG_CONTAINER_PATH: /opt/node_app/app/app-configs.js
 services:
   - docker:19.03.12-dind
 
