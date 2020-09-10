@@ -2,7 +2,7 @@ export default {
     id: 2,
     name: "XocXoc",
     durations: {
-        wholeRound: 38,
+        wholeRound: 39,
         placingBets: 30,
         lockingBet: 5,
         shakeThePlateDuration: 2,
