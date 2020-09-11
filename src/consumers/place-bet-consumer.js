@@ -13,12 +13,13 @@ export default class PlaceBetConsumer extends Core.BaseEventConsumers.PlaceBetCo
             },
             {
                 failure:
-                    this.gameData.remainingTime > this.definition.durations.placingBets && this.gameData.remainingTime <= shakeThePlateTime,
+                    this.gameData.remainingTime >= this.definition.durations.placingBets &&
+                    this.gameData.remainingTime <= shakeThePlateTime,
                 notice: helpers.noticeHelper.cannotPlaceBet,
             },
             {
                 failure:
-                    this.gameData.remainingTime <= this.definition.durations.lockingBet || this.gameData.remainingTime > shakeThePlateTime,
+                    this.gameData.remainingTime < this.definition.durations.lockingBet || this.gameData.remainingTime > shakeThePlateTime,
                 notice: helpers.noticeHelper.placeBetNextRound,
             },
         ];
