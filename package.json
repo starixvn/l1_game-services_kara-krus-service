@@ -27,7 +27,7 @@
         "nodemon": "^2.0.4",
         "sc-base-apis": "^1.6.0-dev-TableGameBase.8",
         "sc-common": "^1.4.6-dev-FreeBet.1",
-        "sc-game-base": "^1.13.0-dev-TableGameBase.66",
+        "sc-game-base": "^1.13.0-dev-TableGameBase.67",
         "socket.io": "^2.3.0"
     },
     "devDependencies": {
