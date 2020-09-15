@@ -1,3 +1,4 @@
-import SedieRoundHistory from "./sedie-round-query";
+import SedieRoundQuery from "./sedie-round-query";
+import SedieHistoryQuery from "./sedie-history-query";
 
-export { SedieRoundHistory };
+export { SedieRoundQuery, SedieHistoryQuery };

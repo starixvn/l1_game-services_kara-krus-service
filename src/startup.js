@@ -2,7 +2,7 @@ import { Core, Table } from "sc-game-base";
 
 import PlaceBetConsumer from "./consumers/place-bet-consumer";
 import initDatabase from "./models";
-import SedieRoundQuery from "./query-apis/sedie-round-query";
+import { SedieRoundQuery, SedieHistoryQuery } from "./query-apis";
 
 export default class Startup extends Table.TableGameStartup {
     /**
@@ -16,6 +16,7 @@ export default class Startup extends Table.TableGameStartup {
      * @param {socketIo.Socket} socketClient
      */
     initSocketRouter(socketClient) {
+        const roundQuery = new SedieRoundQuery(this.definition);
         const router = new Table.Routers.SocketRouter(
             this.definition,
             this.gameData,
@@ -24,8 +25,8 @@ export default class Startup extends Table.TableGameStartup {
             null,
             new PlaceBetConsumer(this.definition, this.gameData),
             null,
-            null,
-            new SedieRoundQuery(this.definition)
+            new SedieHistoryQuery(this.definition, roundQuery),
+            roundQuery
         );
 
         router.init(socketClient);
