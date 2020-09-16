@@ -25,9 +25,9 @@
         "mongoose-auto-increment-reworked": "^1.2.1",
         "morgan": "^1.10.0",
         "nodemon": "^2.0.4",
-        "sc-base-apis": "^1.6.0-dev-TableGameBase.8",
-        "sc-common": "^1.4.6-dev-FreeBet.1",
-        "sc-game-base": "^1.13.0-dev-TableGameBase.69",
+        "sc-base-apis": "^1.6.0",
+        "sc-common": "^1.5.0",
+        "sc-game-base": "^1.13.0",
         "socket.io": "^2.3.0"
     },
     "devDependencies": {
