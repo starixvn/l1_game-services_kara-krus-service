@@ -14,7 +14,7 @@ export default {
         enabledApiLogs: true,
     },
     mainServerApiSettings: {
-        url: "http://uatproxy.sabagame.com/sit/main",
+        url: "http://uatproxy.sabagame.com/sit/main/api",
         auth: {
             url: "http://10.2.189.51:6303",
             id: "game-services",
