@@ -21,18 +21,10 @@ const run = async () => {
         SedieRounds,
         SedieBets,
         SedieTmpBets,
-        null,
-        new SedieBot(
-            gameSettings.name,
-            gameSettings.choices,
-            gameSettings.durations,
-            gameSettings.name.toLowerCase(),
-            SedieTmpBets,
-            gameData
-        )
+        null
     );
 
-    const gameCron = new Table.TableGameCron(definition, gameData);
+    const gameCron = new Table.TableGameCron(definition, gameData, new SedieBot(definition, gameData));
     const startup = new Startup(appConfigs, definition, gameData, gameCron);
     const app = new SedieApp(appConfigs, definition, gameData, startup);
     await app.run();

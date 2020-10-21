@@ -13,6 +13,17 @@ export default {
         placeBetTimeout: 4500,
         enabledApiLogs: true,
     },
+    mainServerApiSettings: {
+        url: "http://10.2.189.65:7777/sit/main/api",
+        auth: {
+            url: "http://10.2.189.51:6303",
+            id: "game-services",
+            secret: "gameservices@20luminet&",
+        },
+        requestTimeout: 10000,
+        placeBetTimeout: 4500,
+        useAuthenticate: true,
+    },
     socketOptions: {
         pingInterval: 60 * 1000,
         pingTimeout: 60 * 1000,
