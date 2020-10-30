@@ -22,8 +22,8 @@ export default class SedieBot extends Table.TableGameBot {
         this.resetAllBets();
     }
 
-    async resetAllBotData() {
-        await super.resetAllBotData();
+    resetAllBotData() {
+        super.resetAllBotData();
         this.resetAllBets();
     }
 
@@ -147,5 +147,9 @@ export default class SedieBot extends Table.TableGameBot {
         const chipList = constants.chips.filter((chip) => amount % chip === 0);
 
         return chipList.length > 0 ? chipList[0] : this.getMinBet();
+    }
+
+    getTotalBetAmount(currentBet) {
+        return currentBet ? this.definition.choices.reduce((total, choice) => total + currentBet[choice], 0) : 0;
     }
 }
