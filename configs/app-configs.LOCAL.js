@@ -1,5 +1,5 @@
 export default {
-    hostingPort: 8082,
+    hostingPort: 8002,
     apiSettings: {
         enabledApi: true,
         apiUrl: "http://api.lumigame.com",
@@ -12,6 +12,17 @@ export default {
         requestTimeout: 10000,
         placeBetTimeout: 4500,
         enabledApiLogs: true,
+    },
+    mainServerApiSettings: {
+        url: "http://haproxy.lumigame.com:7000/main/api",
+        auth: {
+            url: "http://auth.lumigame.com",
+            id: "game-services",
+            secret: "gameservices@20luminet&",
+        },
+        requestTimeout: 10000,
+        placeBetTimeout: 4500,
+        useAuthenticate: true,
     },
     socketOptions: {
         pingInterval: 60 * 1000,

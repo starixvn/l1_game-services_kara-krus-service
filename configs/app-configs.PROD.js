@@ -2,8 +2,8 @@ export default {
     hostingPort: 8000,
     apiSettings: {
         enabledApi: true,
-        apiUrl: "http://10.99.99.51:8300",
-        authUrl: "http://10.99.99.51:8303",
+        apiUrl: "http://10.2.189.50:8300",
+        authUrl: "http://10.2.189.50:8303",
         client: {
             id: "game-server",
             secret: "gameserver@20luminet&",
@@ -12,6 +12,17 @@ export default {
         placeBetTimeout: 4500,
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
+    },
+    mainServerApiSettings: {
+        url: "http://10.2.189.50:8888/main/api",
+        auth: {
+            url: "http://10.2.189.50:8303",
+            id: "game-services",
+            secret: "gameservices@20luminet&",
+        },
+        requestTimeout: 10000,
+        placeBetTimeout: 4500,
+        useAuthenticate: true,
     },
     socketOptions: {
         pingInterval: 60 * 1000,
