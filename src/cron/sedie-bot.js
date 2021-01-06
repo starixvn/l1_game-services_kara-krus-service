@@ -8,14 +8,16 @@ export default class SedieBot extends Table.TableGameBot {
         super(definition, gameData, null);
 
         this.betChoiceRatio = {
-            MainOpts: 94, //odd | even
+            MainOpts: 90, //odd | even
             SubOpts: 5, //white3 | red3
             RareOpts: 1, //red4 | white4
+            EqualOpts: 4, //red2
         };
 
         this.mainOpts = ["even", "odd"];
-        this.subOpts = ["white3", "red3"];
+        this.subOpts = ["white3", "red3", "red2"];
         this.rareOpts = ["red4", "white4"];
+        this.equalOpts = ["red2"];
 
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
@@ -32,6 +34,7 @@ export default class SedieBot extends Table.TableGameBot {
             odd: 0,
             even: 0,
             white3: 0,
+            red2: 0,
             red3: 0,
             red4: 0,
             white4: 0,
@@ -55,6 +58,10 @@ export default class SedieBot extends Table.TableGameBot {
             {
                 group: this.rareOpts,
                 underBetRatio: (this.getTotalAmountOnChoiceGroup(this.rareOpts) * 100) / totalBotBet < this.betChoiceRatio.RareOpts,
+            },
+            {
+                group: this.equalOpts,
+                underBetRatio: (this.getTotalAmountOnChoiceGroup(this.equalOpts) * 100) / totalBotBet < this.betChoiceRatio.EqualOpts,
             },
         ];
 
@@ -95,6 +102,18 @@ export default class SedieBot extends Table.TableGameBot {
                 : Math.min(
                       gameConfigs.bot_maxbet * 0.5,
                       (this.getAllBetAmount() * this.betChoiceRatio.SubOpts) / 100 - totalBetOnSubOpt,
+                      gameConfigs.choices_maxbet[choice]
+                  );
+        }
+
+        if (this.equalOpts.includes(choice)) {
+            const totalBet = this.getTotalAmountOnChoiceGroup(this.equalOpts);
+
+            maxBet = isSmallTicket
+                ? Math.min(maxBetOfSmallTicket, gameConfigs.bot_maxbet * 0.2, gameConfigs.choices_maxbet[choice])
+                : Math.min(
+                      gameConfigs.bot_maxbet * 0.5,
+                      (this.getAllBetAmount() * this.betChoiceRatio.EqualOpts) / 100 - totalBet,
                       gameConfigs.choices_maxbet[choice]
                   );
         }

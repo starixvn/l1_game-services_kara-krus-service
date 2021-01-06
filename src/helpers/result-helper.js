@@ -1,6 +1,7 @@
 const settlementRuleEntries = Object.entries({
     odd: (totalReds) => totalReds % 2 === 1,
     even: (totalReds) => totalReds % 2 === 0,
+    red2: (totalReds) => totalReds === 2,
     red3: (totalReds) => totalReds === 3,
     red4: (totalReds) => totalReds === 4,
     white3: (totalReds) => totalReds === 1,

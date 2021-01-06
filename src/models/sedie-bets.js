@@ -7,6 +7,7 @@ const schema = new mongoose.Schema({
 
     odd: { type: Number, default: 0 },
     even: { type: Number, default: 0 },
+    red2: { type: Number, default: 0 },
     red3: { type: Number, default: 0 },
     red4: { type: Number, default: 0 },
     white3: { type: Number, default: 0 },

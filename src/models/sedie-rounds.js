@@ -17,6 +17,7 @@ const settlementResultSchema = new mongoose.Schema(
     {
         odd: { type: Boolean, default: false },
         even: { type: Boolean, default: false },
+        red2: { type: Boolean, default: false },
         red3: { type: Boolean, default: false },
         red4: { type: Boolean, default: false },
         white3: { type: Boolean, default: false },
