@@ -1,15 +1,17 @@
 import http from "http";
+
 import appConfigs from "./app-configs";
 
-var options = {
+const options = {
     timeout: 2000,
     host: "localhost",
     port: process.env.PORT || appConfigs.hostingPort,
     path: "/", // must be the same as HEALTHCHECK in Dockerfile
 };
 
-var request = http.request(options, (res) => {
-    console.info("STATUS: " + res.statusCode);
+const request = http.request(options, (res) => {
+    console.info(`STATUS: ${res.statusCode}`);
+
     process.exitCode = res.statusCode === 200 ? 0 : 1;
     process.exit();
 });

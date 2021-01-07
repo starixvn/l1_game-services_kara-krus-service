@@ -14,21 +14,8 @@
     "license": "ISC",
     "type": "module",
     "dependencies": {
-        "amqplib": "^0.6.0",
-        "body-parser": "^1.19.0",
-        "cron": "^1.8.2",
-        "express": "^4.17.1",
-        "helmet": "^3.23.3",
-        "lodash": "^4.17.19",
-        "lodash.sortby": "^4.7.0",
-        "mongoose": "^5.9.25",
-        "mongoose-auto-increment-reworked": "^1.2.1",
-        "morgan": "^1.10.0",
         "nodemon": "^2.0.4",
-        "sc-base-apis": "^1.7.0",
-        "sc-common": "^1.5.0",
         "sc-game-base": "^1.17.5",
-        "socket.io": "^2.3.0"
     },
     "devDependencies": {
         "@commitlint/cli": "^9.1.2",

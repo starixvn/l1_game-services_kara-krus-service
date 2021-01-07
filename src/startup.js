@@ -1,7 +1,6 @@
 import { Table } from "sc-game-base";
 
 import PlaceBetConsumer from "./consumers/place-bet-consumer";
-import initDatabase from "./models";
 import { SedieHistoryQuery, SedieRoundQuery } from "./query-apis";
 
 export default class Startup extends Table.TableGameStartup {
@@ -20,9 +19,5 @@ export default class Startup extends Table.TableGameStartup {
         });
 
         router.init(socketClient);
-    }
-
-    async configureServices(app) {
-        super.configureServices(app);
     }
 }
