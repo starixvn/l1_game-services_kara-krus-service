@@ -20,6 +20,7 @@ export default {
             id: "game-services",
             secret: "gameservices@20luminet&",
         },
+        requestTimeout: 10000,
         useAuthenticate: true,
     },
     socketOptions: {
