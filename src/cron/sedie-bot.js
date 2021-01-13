@@ -15,7 +15,7 @@ export default class SedieBot extends Table.TableGameBot {
         };
 
         this.mainOpts = ["even", "odd"];
-        this.subOpts = ["white3", "red3", "red2"];
+        this.subOpts = ["white3", "red3"];
         this.rareOpts = ["red4", "white4"];
         this.equalOpts = ["red2"];
 
