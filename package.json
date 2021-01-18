@@ -27,7 +27,7 @@
         "nodemon": "^2.0.4",
         "sc-base-apis": "^1.7.0",
         "sc-common": "^1.5.0",
-        "sc-game-base": "^1.17.5-beta.2",
+        "sc-game-base": "^1.17.5",
         "socket.io": "^2.3.0"
     },
     "devDependencies": {
