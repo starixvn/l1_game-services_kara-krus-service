@@ -1,3 +1,5 @@
+import appConfigs from "./app-configs";
+
 export default {
     id: 2,
     name: "XocXoc",
@@ -10,5 +12,5 @@ export default {
     choices: ["even", "odd", "red3", "red4", "white3", "white4", "red2"],
     choicesMapper: { even: 1, odd: 2, red3: 3, red4: 4, white3: 5, white4: 6, red2: 7 },
     defaultBetTracks: {},
-    botPatternExpiredInHours: 24,
+    botPatternExpiredInHours: appConfigs.botPatternExpiredInHours,
 };
