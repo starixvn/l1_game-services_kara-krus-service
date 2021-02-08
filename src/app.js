@@ -8,6 +8,7 @@ import gameSettings from "./game-settings";
 import { generateResult, getSettlementResult } from "./helpers/result-helper";
 import { SedieBets, SedieTmpBets } from "./models/sedie-bets";
 import SedieRounds from "./models/sedie-rounds";
+import SedieSmartBotBetLogs from "./models/sedie-smartbot-bet-logs";
 import SedieSmartBotBets from "./models/sedie-smartbot-bets";
 import SedieSmartBotPatterns from "./models/sedie-smartbot-patterns";
 import Startup from "./startup";
@@ -25,7 +26,11 @@ const run = async () => {
         SedieBets,
         SedieTmpBets,
         null,
-        { smartPatternRepository: SedieSmartBotPatterns, betPatternRepository: SedieSmartBotBets, smartBotBetLogRepository: null }
+        {
+            smartPatternRepository: SedieSmartBotPatterns,
+            betPatternRepository: SedieSmartBotBets,
+            smartBotBetLogRepository: SedieSmartBotBetLogs,
+        }
     );
 
     const gameCron = new SedieGameCron(
