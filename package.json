@@ -15,7 +15,7 @@
     "type": "module",
     "dependencies": {
         "nodemon": "^2.0.4",
-        "sc-game-base": "^1.17.6-beta.10"
+        "sc-game-base": "^1.17.6-beta.14"
     },
     "devDependencies": {
         "@commitlint/cli": "^9.1.2",
