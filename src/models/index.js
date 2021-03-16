@@ -1,4 +1,7 @@
-import mongoose from "mongoose";
-import { middlewares } from "sc-common";
+import { SedieBets, SedieTmpBets } from "./sedie-bets";
+import SeDieRounds from "./sedie-rounds";
+import SeDieSmartBotBetActions from "./sedie-smartbot-bet-actions";
+import SeDieSmartBotBetLogs from "./sedie-smartbot-bet-logs";
+import SeDieSmartBotPatterns from "./sedie-smartbot-patterns";
 
-export default (config) => middlewares.database.configureDatabase(mongoose, config);
+export { SedieBets, SedieTmpBets, SeDieRounds, SeDieSmartBotBetActions, SeDieSmartBotBetLogs, SeDieSmartBotPatterns };

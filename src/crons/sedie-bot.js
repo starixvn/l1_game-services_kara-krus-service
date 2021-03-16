@@ -1,11 +1,21 @@
 import { helpers } from "sc-common";
 import { Table } from "sc-game-base";
 
-import constants from "./../constants";
+import constants from "../constants";
 
-export default class SedieBot extends Table.TableGameBot {
-    constructor(definition, gameData) {
-        super(definition, gameData, null);
+export default class SedieBot extends Table.Crons.TableGameBot {
+    /**
+     * @param {Table.TableGameDefinition} definition
+     * @param {Table.TableGameData} gameData
+     * @param {Core.BaseEventPublishers.BaseEventPublisher} publisher
+     * @param {mongoose.Model} userInfosRepository
+     * @param {mongoose.Model} tempBetsRepository
+     * @param {BetPatternConsumer} betPatternConsumer
+     * @param {mongoose.Model} smartBotBetLogsRepository
+     */
+
+    constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository, betPatternConsumer, smartBotBetLogsRepository) {
+        super(definition, gameData, publisher, userInfosRepository, tempBetsRepository, betPatternConsumer, smartBotBetLogsRepository);
 
         this.betChoiceRatio = {
             MainOpts: 90, //odd | even

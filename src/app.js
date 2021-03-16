@@ -1,32 +1,16 @@
-import { Table } from "sc-game-base";
+import { Core, Table } from "sc-game-base";
 
 import appConfigs from "./app-configs";
 import constants from "./constants";
-import { SedieBot, SedieGameCron } from "./cron";
 import gameSettings from "./game-settings";
 import { generateResult, getSettlementResult } from "./helpers/result-helper";
-import { SedieBets, SedieTmpBets } from "./models/sedie-bets";
-import SedieRounds from "./models/sedie-rounds";
-import Startup from "./startup";
-
-export class SedieApp extends Table.TableGameApp {}
+import SeDieContainerRegistry from "./sedie-container-registry";
 
 const run = async () => {
-    const gameData = new Table.TableGameData(constants.roundDuration, constants.resetTotalBets);
-
-    const definition = new Table.TableGameDefinition(
-        gameSettings,
-        generateResult,
-        getSettlementResult,
-        SedieRounds,
-        SedieBets,
-        SedieTmpBets,
-        null
-    );
-
-    const gameCron = new SedieGameCron(definition, gameData, new SedieBot(definition, gameData));
-    const startup = new Startup(appConfigs, definition, gameData, gameCron);
-    const app = new SedieApp(appConfigs, definition, gameData, startup);
+    const definition = new Table.TableGameDefinition(gameSettings, generateResult, getSettlementResult);
+    const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
+    const container = new SeDieContainerRegistry().register(appConfigs, definition, gameData);
+    const app = new Core.BaseGameApp(container);
 
     await app.run();
 };
