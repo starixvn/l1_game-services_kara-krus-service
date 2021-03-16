@@ -7,4 +7,4 @@ const schema = new mongoose.Schema({
     group: { type: String, required: true },
 });
 
-export default mongoose.model("smartbot_sedie_patterns", schema);
+export default mongoose.model("smartbot_xocxoc_patterns", schema);
