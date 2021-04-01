@@ -1,5 +1,6 @@
 import { helpers } from "sc-common";
 import { Table } from "sc-game-base";
+import { Bots } from "sc-smart-bot";
 
 import constants from "../constants";
 
@@ -10,12 +11,12 @@ export default class SedieBot extends Table.Crons.TableGameBot {
      * @param {Core.BaseEventPublishers.BaseEventPublisher} publisher
      * @param {mongoose.Model} userInfosRepository
      * @param {mongoose.Model} tempBetsRepository
-     * @param {BetPatternConsumer} betPatternConsumer
-     * @param {mongoose.Model} smartBotBetLogsRepository
+     * @param {Bots.TableGameSmartBot} tableGameSmartBot
      */
 
-    constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository, betPatternConsumer, smartBotBetLogsRepository) {
-        super(definition, gameData, publisher, userInfosRepository, tempBetsRepository, betPatternConsumer, smartBotBetLogsRepository);
+    constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableGameSmartBot) {
+        super(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+        this.tableGameSmartBot = tableGameSmartBot;
 
         this.betChoiceRatio = {
             MainOpts: 90, //odd | even
@@ -32,6 +33,41 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
         this.resetAllBets();
+    }
+
+    async reset() {
+        await super.reset();
+        await this.resetSmartBots();
+    }
+
+    async resetSmartBots() {
+        const { smartBotEnabled, choices_maxbet: maxBetOfChoices, name, smartBotGroupRatio } = this.gameData.gameConfigs;
+        if (smartBotEnabled) {
+            this.tableGameSmartBot.setAfterPlacingBet(this.updateBalanceAndPublishBetPayload);
+            this.tableGameSmartBot.setBeforeRemovingAll(this.removeAllSmartBots);
+
+            const smartBots = await this.smartBot.reset(
+                { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
+                {
+                    userResetFilters: { inRoom: true, inGameRoom: name },
+                    userUpdateFilters: { inRoom: false, inGameRoom: "", disabled: false },
+                    userUpdates: { inGameRoom: name, inRoom: true },
+                    userProjections: { id: true, name: true, red: true, avatarId: true },
+                }
+            );
+
+            if (smartBots?.length > 0) {
+                smartBots.forEach((smartBot) => {
+                    this.addToPlayersAndPublish(smartBot);
+                });
+
+                this.maxNumberOfBots -= smartBots.length;
+            }
+        }
+    }
+
+    async removeAllSmartBots(smartBots) {
+        await Promise.all(smartBots.map((bot) => this.removeBot(bot.id)));
     }
 
     resetAllBotData() {
@@ -51,6 +87,14 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         };
 
         this.smallTickets = 0;
+    }
+
+    async run() {
+        await super.run();
+
+        if (this.gameData.gameConfigs?.smartBotEnabled && this.gameData.remainingTime > this.definition.durations.lockingBet) {
+            await this.tableGameSmartBot.run(this.gameData.roundId, this.gameData.remainingTime);
+        }
     }
 
     getBetChoice(bot) {

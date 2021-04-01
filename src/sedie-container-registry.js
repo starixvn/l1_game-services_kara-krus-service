@@ -1,5 +1,6 @@
 import awilix from "awilix";
 import { Table } from "sc-game-base";
+import { SmartBotContainerRegistry } from "sc-smart-bot";
 
 import PlaceBetConsumer from "./consumers/sedie-place-bet-consumer";
 import { SedieBot, SedieGameCron } from "./crons";
@@ -26,6 +27,8 @@ export default class SeDieContainerRegistry extends Table.TableContainerRegistry
             betActionRepository: asValue(SeDieSmartBotBetActions),
             smartBotBetLogsRepository: asValue(SeDieSmartBotBetLogs),
         });
+
+        this.container.register(new SmartBotContainerRegistry().register());
     }
 
     registerConsumers() {
