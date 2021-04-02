@@ -234,13 +234,13 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         return currentBet ? this.definition.choices.reduce((total, choice) => total + currentBet[choice], 0) : 0;
     }
 
-    smartBotAfterPlacingBet(botId, choice, amount, balance) {
-        if (this.gameData.players[botId]) {
-            this.gameData.players[botId].red = balance;
+    smartBotAfterPlacingBet(bot, choice, amount, balance) {
+        if (this.gameData.players[bot.id]) {
+            this.gameData.players[bot.id].red = balance;
         }
 
         const payload = {
-            playerChip: { botId, betChoice: choice, amount, red: balance },
+            playerChip: { playerId: bot.id, betChoice: choice, amount, red: balance },
         };
 
         this.publisher.publishToAllUsers(payload);
