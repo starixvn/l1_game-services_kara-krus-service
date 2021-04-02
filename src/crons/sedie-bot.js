@@ -46,7 +46,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             this.tableGameSmartBot.setAfterPlacingBet(this.updateBalanceAndPublishBetPayload);
             this.tableGameSmartBot.setBeforeRemovingAll(this.removeAllSmartBots);
 
-            const smartBots = await this.smartBot.reset(
+            const smartBots = await this.tableGameSmartBot.reset(
                 { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
                 {
                     userResetFilters: { inRoom: true, inGameRoom: name },
