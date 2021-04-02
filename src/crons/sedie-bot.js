@@ -46,7 +46,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             this.tableGameSmartBot.setAfterPlacingBet(this.smartBotAfterPlacingBet);
             this.tableGameSmartBot.setBeforeRemovingAll(this.removeAllSmartBots);
 
-            const smartBots = await this.tableGameSmartBot.reset(
+            const { isExpired, smartBots } = await this.tableGameSmartBot.reset(
                 { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
                 {
                     userResetFilters: { inRoom: true, inGameRoom: name },
@@ -56,7 +56,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
                 }
             );
 
-            if (smartBots?.length > 0) {
+            if (isExpired && smartBots?.length > 0) {
                 smartBots.forEach((smartBot) => {
                     this.addToPlayersAndPublish(smartBot);
                 });
@@ -64,6 +64,28 @@ export default class SedieBot extends Table.Crons.TableGameBot {
                 this.maxNumberOfBots -= smartBots.length;
             }
         }
+    }
+
+    addToPlayersAndPublish(bot) {
+        this.gameData.players[bot.id] = bot;
+        const payload = {
+            player: {
+                id: bot.id,
+                name: bot.name,
+                red: bot.red,
+                avatarId: bot.avatarId,
+                type: bot.patternId > 0 ? false : true,
+            },
+        };
+
+        this.publisher.publishToAllUsers(payload);
+    }
+
+    async resetInRoomTrackings() {
+        await this.userInfosRepository.updateMany(
+            { type: true, inGameRoom: this.definition.configName, patternId: 0 },
+            { inRoom: false, inGameRoom: "" }
+        );
     }
 
     async removeAllSmartBots(smartBots) {
