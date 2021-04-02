@@ -43,7 +43,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     async resetSmartBots() {
         const { smartBotEnabled, choices_maxbet: maxBetOfChoices, name, smartBotGroupRatio } = this.gameData.gameConfigs;
         if (smartBotEnabled) {
-            this.tableGameSmartBot.setAfterPlacingBet(this.updateBalanceAndPublishBetPayload);
+            this.tableGameSmartBot.setAfterPlacingBet(this.smartBotAfterPlacingBet);
             this.tableGameSmartBot.setBeforeRemovingAll(this.removeAllSmartBots);
 
             const smartBots = await this.tableGameSmartBot.reset(
@@ -67,7 +67,15 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     }
 
     async removeAllSmartBots(smartBots) {
-        await Promise.all(smartBots.map((bot) => this.removeBot(bot.id)));
+        await Promise.all(
+            smartBots.map(async (bot) => {
+                await this.userInfosRepository.updateOne({ id: bot.id }, { inRoom: false, inGameRoom: "", patternId: 0 });
+
+                this.publisher.publishToAllUsers({ outgame: { playerId: bot.id } });
+
+                delete this.gameData.players[bot.id];
+            })
+        );
     }
 
     resetAllBotData() {
@@ -224,5 +232,17 @@ export default class SedieBot extends Table.Crons.TableGameBot {
 
     getTotalBetAmount(currentBet) {
         return currentBet ? this.definition.choices.reduce((total, choice) => total + currentBet[choice], 0) : 0;
+    }
+
+    smartBotAfterPlacingBet(botId, choice, amount, balance) {
+        if (this.gameData.players[botId]) {
+            this.gameData.players[botId].red = balance;
+        }
+
+        const payload = {
+            playerChip: { botId, betChoice: choice, amount, red: balance },
+        };
+
+        this.publisher.publishToAllUsers(payload);
     }
 }
