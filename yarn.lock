@@ -5891,22 +5891,14 @@
     "axios" "^0.19.2"
     "openid-client" "^3.15.9"
 
-"sc-base-apis@^1.10.1-beta.0":
-  "integrity" "sha512-aE4TaLYPrHR4y+gTxA+9WoTAPzzaezgQfwS6Ca4BPTOufgflEptBWNFU9d9VRISFnqCnBtLxOUYNR2XBAVjC0A=="
-  "resolved" "http://npm.lumigame.com/sc-base-apis/-/sc-base-apis-1.10.1-beta.0.tgz"
-  "version" "1.10.1-beta.0"
+"sc-base-apis@^1.10.2-beta.0":
+  "integrity" "sha512-1c6QxLDAPmiZTybInGprqzOWe07f+7gEdN+8YGqWynRw4kR7ZfyqgV7xSQdbAaV8lXNQqTvSI4Zug9HJ1jaFiw=="
+  "resolved" "http://npm.lumigame.com/sc-base-apis/-/sc-base-apis-1.10.2-beta.0.tgz"
+  "version" "1.10.2-beta.0"
   dependencies:
     "moment" "^2.27.0"
     "sc-api-client" "^1.2.1-beta.1"
-    "sc-base-database" "^1.7.1-beta.1"
-    "sc-common" "^1.5.1-beta.0"
-
-"sc-base-database@^1.7.1-beta.1":
-  "integrity" "sha512-UU1VUgcLx7k7ubOCipM4qk8m4cyXsc5pbQJ5+tYZnIAGQhisGvX3RD1LODfWnIZSUYSeHVdDysKcn81t6VTyhw=="
-  "resolved" "http://npm.lumigame.com/sc-base-database/-/sc-base-database-1.7.1-beta.1.tgz"
-  "version" "1.7.1-beta.1"
-  dependencies:
-    "mongoose" "^5.9.25"
+    "sc-base-database" "^1.7.2-beta.0"
     "sc-common" "^1.5.1-beta.0"
 
 "sc-base-database@^1.7.2-beta.0":
@@ -5928,10 +5920,10 @@
     "mongoose-long" "^0.3.0"
     "numeral" "^2.0.6"
 
-"sc-game-base@1.19.2-beta.10":
-  "integrity" "sha512-LLJ1PI2YroWHvK1j4Dkq9VJqk1ykVR7MAPIHVOQbjWCJ2icbJC972XSIe5LZLL3TU6yuJ/4DMRW+gZYQNyIVzg=="
-  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.19.2-beta.10.tgz"
-  "version" "1.19.2-beta.10"
+"sc-game-base@1.19.2-beta.11":
+  "integrity" "sha512-NKLYiFNzklyS1enH17b+ZbB9DU8owFUG+vKlLy8hD82urNjiy2Q2a2Iz4/+vG2L5n7YvWw4iw/R7QJNZkGV8Lw=="
+  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.19.2-beta.11.tgz"
+  "version" "1.19.2-beta.11"
   dependencies:
     "awilix" "^4.3.1"
     "axios" "^0.20.0"
@@ -5944,7 +5936,7 @@
     "mongoose" "^5.9.25"
     "morgan" "^1.10.0"
     "openid-client" "^4.2.0"
-    "sc-base-apis" "^1.10.1-beta.0"
+    "sc-base-apis" "^1.10.2-beta.0"
     "sc-base-database" "^1.7.2-beta.0"
     "sc-common" "^1.5.1-beta.0"
     "socket.io" "^2.3.0"
