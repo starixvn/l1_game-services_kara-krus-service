@@ -5946,10 +5946,10 @@
   "resolved" "http://npm.lumigame.com/sc-semantic-release/-/sc-semantic-release-1.2.0.tgz"
   "version" "1.2.0"
 
-"sc-smart-bot@1.0.1-beta.6":
-  "integrity" "sha512-39XrqdvBYO97jHS0AyLLq6y7gSx+4sL1U5gYojQZVwPX+di74WgU6BOLmdAtAi6qFh4MhRfXM1ixWZovsfin4A=="
-  "resolved" "http://npm.lumigame.com/sc-smart-bot/-/sc-smart-bot-1.0.1-beta.6.tgz"
-  "version" "1.0.1-beta.6"
+"sc-smart-bot@1.0.1-beta.7":
+  "integrity" "sha512-ahrf5iEVhkStogX+rzumAnFos94MPwQgBOyBgau+hmSOb+cKwjBbju8uKaTVND8RkNG9Dm420EsFogSaHjdP/w=="
+  "resolved" "http://npm.lumigame.com/sc-smart-bot/-/sc-smart-bot-1.0.1-beta.7.tgz"
+  "version" "1.0.1-beta.7"
   dependencies:
     "awilix" "^4.3.1"
     "chance" "^1.1.7"
