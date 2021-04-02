@@ -5920,10 +5920,10 @@
     "mongoose-long" "^0.3.0"
     "numeral" "^2.0.6"
 
-"sc-game-base@1.19.2-beta.12":
-  "integrity" "sha512-8LUsZMRKrR7mej7TnVWx+a4ORA8oisRB26oqvxMRKQj5xQI9lPSgobRFIeoD4UkELTpp5+g7K0xmss6ffbZAwQ=="
-  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.19.2-beta.12.tgz"
-  "version" "1.19.2-beta.12"
+"sc-game-base@1.19.2-beta.13":
+  "integrity" "sha512-YtwYAP8OC6rdsHFBc2VR0JxqVCjxeGUk4L8OohT9TstxzSw2ZlP2VK/q7SdOE1iLE2T++9G29ICm2EW5nu1qNQ=="
+  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.19.2-beta.13.tgz"
+  "version" "1.19.2-beta.13"
   dependencies:
     "awilix" "^4.3.1"
     "axios" "^0.20.0"
@@ -5946,10 +5946,10 @@
   "resolved" "http://npm.lumigame.com/sc-semantic-release/-/sc-semantic-release-1.2.0.tgz"
   "version" "1.2.0"
 
-"sc-smart-bot@1.0.1-beta.5":
-  "integrity" "sha512-/F8Z4f12M8PEARMX4uLwBvFEDIWU/0uk3Epk5F/PVFORMYU5TV+qprc0YBb2CBGy1gfAt7QYeSxqWkOBZiv8eQ=="
-  "resolved" "http://npm.lumigame.com/sc-smart-bot/-/sc-smart-bot-1.0.1-beta.5.tgz"
-  "version" "1.0.1-beta.5"
+"sc-smart-bot@1.0.1-beta.6":
+  "integrity" "sha512-39XrqdvBYO97jHS0AyLLq6y7gSx+4sL1U5gYojQZVwPX+di74WgU6BOLmdAtAi6qFh4MhRfXM1ixWZovsfin4A=="
+  "resolved" "http://npm.lumigame.com/sc-smart-bot/-/sc-smart-bot-1.0.1-beta.6.tgz"
+  "version" "1.0.1-beta.6"
   dependencies:
     "awilix" "^4.3.1"
     "chance" "^1.1.7"
