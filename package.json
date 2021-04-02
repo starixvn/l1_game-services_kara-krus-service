@@ -16,7 +16,7 @@
     "dependencies": {
         "mongoose-auto-increment-reworked": "^1.2.1",
         "nodemon": "^2.0.4",
-        "sc-game-base": "1.19.2-beta.14",
+        "sc-game-base": "1.19.2-beta.15",
         "sc-smart-bot": "1.0.1-beta.7"
     },
     "devDependencies": {
