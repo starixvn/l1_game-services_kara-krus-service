@@ -14,7 +14,6 @@
     "license": "ISC",
     "type": "module",
     "dependencies": {
-        "mongoose-auto-increment-reworked": "^1.2.1",
         "nodemon": "^2.0.4",
         "sc-game-base": "1.20.3-beta.3",
         "sc-smart-bot": "1.0.1-beta.10"

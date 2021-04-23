@@ -639,20 +639,12 @@
   "resolved" "http://npm.lumigame.com/@types%2fminimist/-/minimist-1.2.0.tgz"
   "version" "1.2.0"
 
-"@types/mongodb@*", "@types/mongodb@^3.5.27":
+"@types/mongodb@^3.5.27":
   "integrity" "sha512-j0WPV+MQArOYULfCcBALomTXsDMt3iQl8dHa99jrf4U9ENgTQC3LKJbeXYL7TiClofzFOwwICkxEdlB5XhihGw=="
   "resolved" "http://npm.lumigame.com/@types%2fmongodb/-/mongodb-3.6.11.tgz"
   "version" "3.6.11"
   dependencies:
     "@types/bson" "*"
-    "@types/node" "*"
-
-"@types/mongoose@^4.0.0 || ^5.0.0":
-  "integrity" "sha512-U7fNDcTcdaSGzQ3+mlSBeebiYr6eaacJi330LTLOEh8Sm6mXfuec70ag/UXkL+alFm7pfAjFqfc7jEaJEJvAHQ=="
-  "resolved" "http://npm.lumigame.com/@types%2fmongoose/-/mongoose-5.10.4.tgz"
-  "version" "5.10.4"
-  dependencies:
-    "@types/mongodb" "*"
     "@types/node" "*"
 
 "@types/node@*", "@types/node@>= 8":
@@ -1823,13 +1815,6 @@
   "version" "2.6.9"
   dependencies:
     "ms" "2.0.0"
-
-"debug@^3.0.0":
-  "integrity" "sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ=="
-  "resolved" "http://npm.lumigame.com/debug/-/debug-3.2.7.tgz"
-  "version" "3.2.7"
-  dependencies:
-    "ms" "^2.1.1"
 
 "debug@^3.1.0", "debug@3.1.0":
   "integrity" "sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g=="
@@ -3835,6 +3820,8 @@
     "signal-exit" "^3.0.2"
 
 "lodash._baseindexof@*":
+  "integrity" "sha1-/lK1OhxnYeQmGNZU5KJXie1hgiw="
+  "resolved" "http://npm.lumigame.com/lodash._baseindexof/-/lodash._baseindexof-3.1.0.tgz"
   "version" "3.1.0"
 
 "lodash._baseuniq@~4.6.0":
@@ -3846,12 +3833,18 @@
     "lodash._root" "~3.0.0"
 
 "lodash._bindcallback@*":
+  "integrity" "sha1-5THCdkTPi1epnhftlbNcdIeJOS4="
+  "resolved" "http://npm.lumigame.com/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz"
   "version" "3.0.1"
 
 "lodash._cacheindexof@*":
+  "integrity" "sha1-PcaayCSY0u5ePOVgkbr9Ktx73pI="
+  "resolved" "http://npm.lumigame.com/lodash._cacheindexof/-/lodash._cacheindexof-3.0.2.tgz"
   "version" "3.0.2"
 
 "lodash._createcache@*":
+  "integrity" "sha1-VtagZAF2JeeevKa4AY4XRAvc8JM="
+  "resolved" "http://npm.lumigame.com/lodash._createcache/-/lodash._createcache-3.1.2.tgz"
   "version" "3.1.2"
   dependencies:
     "lodash._getnative" "^3.0.0"
@@ -3862,6 +3855,8 @@
   "version" "4.0.3"
 
 "lodash._getnative@*", "lodash._getnative@^3.0.0":
+  "integrity" "sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U="
+  "resolved" "http://npm.lumigame.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz"
   "version" "3.9.1"
 
 "lodash._reinterpolate@^3.0.0":
@@ -3930,6 +3925,8 @@
   "version" "4.1.1"
 
 "lodash.restparam@*":
+  "integrity" "sha1-k2pOMJ7zMKdkXtQUWYbIWuWyCAU="
+  "resolved" "http://npm.lumigame.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz"
   "version" "3.6.1"
 
 "lodash.template@^4.0.2":
@@ -4321,16 +4318,6 @@
   optionalDependencies:
     "saslprep" "^1.0.0"
 
-"mongoose-auto-increment-reworked@^1.2.1":
-  "integrity" "sha512-5ID9oUFsBc5dh+Lv0GSHtcHik9rM0Jw+kl9l0r1WqgFodaii90O9e89YfViwK8aAIZjF2mFQ5CxRshsijvdQYQ=="
-  "resolved" "http://npm.lumigame.com/mongoose-auto-increment-reworked/-/mongoose-auto-increment-reworked-1.2.1.tgz"
-  "version" "1.2.1"
-  dependencies:
-    "@types/mongoose" "^4.0.0 || ^5.0.0"
-    "debug" "^3.0.0"
-    "tslib" "^1.0.0"
-    "typescript-lazy-get-decorator" "^1.0.0"
-
 "mongoose-legacy-pluralize@1.0.2":
   "integrity" "sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ=="
   "resolved" "http://npm.lumigame.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz"
@@ -4341,7 +4328,7 @@
   "resolved" "http://npm.lumigame.com/mongoose-long/-/mongoose-long-0.3.2.tgz"
   "version" "0.3.2"
 
-"mongoose@*", "mongoose@^4.0.0 || ^5.0.0", "mongoose@^5.9.25", "mongoose@4.x || 5.x":
+"mongoose@*", "mongoose@^5.9.25", "mongoose@4.x || 5.x":
   "integrity" "sha512-frsSR9yeldaRpSUeTegXCSB0Tu5UGq8sHuHBuEV31Jk3COyxlKFQPL7UsdMhxPUCmk74FpOYSmNwxhWBEqgzQg=="
   "resolved" "http://npm.lumigame.com/mongoose/-/mongoose-5.12.3.tgz"
   "version" "5.12.3"
@@ -6669,11 +6656,6 @@
   "resolved" "http://npm.lumigame.com/trim-off-newlines/-/trim-off-newlines-1.0.1.tgz"
   "version" "1.0.1"
 
-"tslib@^1.0.0":
-  "integrity" "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
-  "resolved" "http://npm.lumigame.com/tslib/-/tslib-1.14.1.tgz"
-  "version" "1.14.1"
-
 "tslib@^1.9.3":
   "integrity" "sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg=="
   "resolved" "http://npm.lumigame.com/tslib/-/tslib-1.14.1.tgz"
@@ -6745,11 +6727,6 @@
   "integrity" "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
   "resolved" "http://npm.lumigame.com/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
-
-"typescript-lazy-get-decorator@^1.0.0":
-  "integrity" "sha512-XNqWMl2qI2AgQqVoUa7+TJa3J6XUKYOS9kK6HvptL6+uY3r2wjnpFjykA2Y7h5w9TkTV5DY4v5leTOavBEbKcQ=="
-  "resolved" "http://npm.lumigame.com/typescript-lazy-get-decorator/-/typescript-lazy-get-decorator-1.2.2.tgz"
-  "version" "1.2.2"
 
 "uglify-js@^3.1.4":
   "integrity" "sha512-wDRziHG94mNj2n3R864CvYw/+pc9y/RNImiTyrrf8BzgWn75JgFSwYvXrtZQMnMnOp/4UTrf3iCSQxSStPiByA=="
