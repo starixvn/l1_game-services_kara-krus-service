@@ -5891,20 +5891,20 @@
     "axios" "^0.19.2"
     "openid-client" "^3.15.9"
 
-"sc-base-apis@^1.11.1":
-  "integrity" "sha512-34ZE9OaE79Pk6ltwKFG7bewUmLZ5L/8OuxrFb7/Bdq83X+mv2PMRuvfogP51zgyO29nztx/DPD6KA+SDfDaFqg=="
-  "resolved" "http://npm.lumigame.com/sc-base-apis/-/sc-base-apis-1.11.1.tgz"
-  "version" "1.11.1"
+"sc-base-apis@^1.11.2-beta.0":
+  "integrity" "sha512-FmdTDGCfE7C/L3+Kwef6ia5dTdF67SzxQXMPHgG4ePenNUqsodJ17ghZAkKvCbeGksA3M4udZg0ur1z1BWe9KA=="
+  "resolved" "http://npm.lumigame.com/sc-base-apis/-/sc-base-apis-1.11.2-beta.0.tgz"
+  "version" "1.11.2-beta.0"
   dependencies:
     "moment" "^2.27.0"
     "sc-api-client" "^1.3.0"
-    "sc-base-database" "^1.8.1"
+    "sc-base-database" "^1.8.2-beta.0"
     "sc-common" "^1.6.0"
 
-"sc-base-database@^1.8.1":
-  "integrity" "sha512-WBK/i9XauyFeLhOpJFUrJkbr9QrC3mTEEjtWyxEmcvtRZmv4OhmzZ0qugWC7CZDd8HYLL2z2dGFxxkEibaha2Q=="
-  "resolved" "http://npm.lumigame.com/sc-base-database/-/sc-base-database-1.8.1.tgz"
-  "version" "1.8.1"
+"sc-base-database@^1.8.2-beta.0":
+  "integrity" "sha512-R16dbYSX9Hf5FK22HyvKsPQ+Fum2jCaFKY5rFMTXYt+I6s0753jAwG7TU0l8eQBaA0785SnBQZD1zLJrQPRb0Q=="
+  "resolved" "http://npm.lumigame.com/sc-base-database/-/sc-base-database-1.8.2-beta.0.tgz"
+  "version" "1.8.2-beta.0"
   dependencies:
     "mongoose" "^5.9.25"
     "sc-common" "^1.6.0"
@@ -5920,10 +5920,10 @@
     "mongoose-long" "^0.3.0"
     "numeral" "^2.0.6"
 
-"sc-game-base@1.20.3-beta.0":
-  "integrity" "sha512-Ftc5L9Tq6Y7kd8jCrtVvonRBAjoBE2mB6JD/V0SNFDTgTnPSMnEnVG+LI6lz0GSCXoQ1d2Lvg8EqRb2u4xlxTg=="
-  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.20.3-beta.0.tgz"
-  "version" "1.20.3-beta.0"
+"sc-game-base@1.20.3-beta.3":
+  "integrity" "sha512-uqHryi3w4YzGyg6VkWsSjBrEgJA8UPxG2tJw5NOunxr64TDpp+ldxIHuZg7lJmAEpq6eoQN9ursY6SSGpgLx8Q=="
+  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.20.3-beta.3.tgz"
+  "version" "1.20.3-beta.3"
   dependencies:
     "awilix" "^4.3.1"
     "axios" "^0.20.0"
@@ -5936,8 +5936,8 @@
     "mongoose" "^5.9.25"
     "morgan" "^1.10.0"
     "openid-client" "^4.2.0"
-    "sc-base-apis" "^1.11.1"
-    "sc-base-database" "^1.8.1"
+    "sc-base-apis" "^1.11.2-beta.0"
+    "sc-base-database" "^1.8.2-beta.0"
     "sc-common" "^1.6.0"
     "socket.io" "^2.3.0"
 
