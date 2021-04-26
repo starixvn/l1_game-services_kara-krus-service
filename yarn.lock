@@ -2242,6 +2242,11 @@
   "resolved" "http://npm.lumigame.com/etag/-/etag-1.8.1.tgz"
   "version" "1.8.1"
 
+"eventemitter3@^4.0.7":
+  "integrity" "sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw=="
+  "resolved" "http://npm.lumigame.com/eventemitter3/-/eventemitter3-4.0.7.tgz"
+  "version" "4.0.7"
+
 "execa@^0.7.0":
   "integrity" "sha1-lEvs00zEHuMqY6n68nrVpl/Fl3c="
   "resolved" "http://npm.lumigame.com/execa/-/execa-0.7.0.tgz"
@@ -5933,13 +5938,14 @@
   "resolved" "http://npm.lumigame.com/sc-semantic-release/-/sc-semantic-release-1.2.0.tgz"
   "version" "1.2.0"
 
-"sc-smart-bot@1.0.1-beta.10":
-  "integrity" "sha512-4SB0BEBMV10qXSP76voPGOD7zN806Ro+Ury33tesi4SdrcjycRVFU4fjb41jg8FCADaQBUZ8eykeAe3XsIIOQw=="
-  "resolved" "http://npm.lumigame.com/sc-smart-bot/-/sc-smart-bot-1.0.1-beta.10.tgz"
-  "version" "1.0.1-beta.10"
+"sc-smart-bot@1.0.1-beta.13":
+  "integrity" "sha512-0ZWf9xtLXLL3oweBeg0Wqb/gEdSqG+IdXmPNbzI3zaCqWlIXfOr/D8WitTp5PDeWdxrF9RRB8QLoGOivE2om7g=="
+  "resolved" "http://npm.lumigame.com/sc-smart-bot/-/sc-smart-bot-1.0.1-beta.13.tgz"
+  "version" "1.0.1-beta.13"
   dependencies:
     "awilix" "^4.3.1"
     "chance" "^1.1.7"
+    "eventemitter3" "^4.0.7"
     "mongoose" "^5.9.25"
 
 "semantic-release@^17.1.1":
