@@ -14,9 +14,10 @@ export default class SedieBot extends Table.Crons.TableGameBot {
      * @param {Bots.TableGameSmartBot} tableGameSmartBot
      */
 
-    constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableGameSmartBot) {
+    constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableGameSmartBot, logService) {
         super(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
         this.tableGameSmartBot = tableGameSmartBot;
+        this.logService = logService;
 
         this.betChoiceRatio = {
             MainOpts: 90, //odd | even
@@ -46,6 +47,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots);
             this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
             this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
+            this.tableGameSmartBot.onError(this.logService.logError);
 
             const { isExpired, smartBots } = await this.tableGameSmartBot.reset(
                 { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
