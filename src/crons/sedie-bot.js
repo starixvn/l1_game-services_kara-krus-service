@@ -43,9 +43,9 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     async resetSmartBots() {
         const { smartBotEnabled, choices_maxbet: maxBetOfChoices, name, smartBotGroupRatio } = this.gameData.gameConfigs;
         if (smartBotEnabled) {
-            this.tableGameSmartBot.setAfterPlacingBet(this.smartBotAfterPlacingBet);
-            this.tableGameSmartBot.setBeforeRemovingAll(this.removeAllSmartBots);
-            this.tableGameSmartBot.setInsertUpdateBet(this.insertOrUpdateBetForSmartBot);
+            this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots);
+            this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
+            this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
 
             const { isExpired, smartBots } = await this.tableGameSmartBot.reset(
                 { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
@@ -257,40 +257,18 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         return currentBet ? this.definition.choices.reduce((total, choice) => total + currentBet[choice], 0) : 0;
     }
 
-    smartBotAfterPlacingBet(bot, balance, choice, amount) {
+    smartBotAfterPlacingBet(bot, choice, amount, balance) {
         if (this.gameData.players[bot.id]) {
             this.gameData.players[bot.id].red = balance;
         }
 
-        this.gameData.totalBets[choice] = this.gameData.totalBets[choice] ? this.gameData.totalBets[choice] + amount : amount;
-
-        if (this.gameData.chips) {
-            this.gameData.chips[choice] = this.gameData.chips[choice] ?? {};
-            this.gameData.chips[choice][amount] = (this.gameData.chips[choice][amount] ?? 0) + 1;
-        }
-
-        const payload = {
-            playerChip: { playerId: bot.id, betChoice: choice, amount, red: balance },
-        };
-
-        this.publisher.publishToAllUsers(payload);
+        this.updateTotalBetsAndChips(choice, amount);
+        this.updateBalanceAndPublishBetPayload(bot.id, choice, amount, balance);
     }
 
     async insertOrUpdateBetForSmartBot(bot, choice, amount) {
         const currentBet = await this.tempBetsRepository.findOne({ uid: bot.id, phien: this.gameData.roundId }).lean().exec();
-        const currentAmount = currentBet ? currentBet[choice] : 0;
-        const update = { [choice]: amount + currentAmount };
-        const create = {
-            uid: bot.id,
-            name: bot.name,
-            phien: this.gameData.roundId,
-            time: new Date(),
-        };
 
-        await this.tempBetsRepository.updateOne(
-            { uid: bot.id, phien: this.gameData.roundId },
-            { $set: update, $setOnInsert: create },
-            { upsert: true, setDefaultsOnInsert: true }
-        );
+        await this.insertOrUpdateBet(bot, choice, amount, currentBet);
     }
 }
