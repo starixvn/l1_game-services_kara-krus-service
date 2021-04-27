@@ -34,6 +34,11 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
         this.resetAllBets();
+
+        this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots);
+        this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
+        this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
+        this.tableGameSmartBot.onError(this.logService.logError);
     }
 
     async reset() {
@@ -44,11 +49,6 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     async resetSmartBots() {
         const { smartBotEnabled, choices_maxbet: maxBetOfChoices, name, smartBotGroupRatio } = this.gameData.gameConfigs;
         if (smartBotEnabled) {
-            this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots);
-            this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
-            this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
-            this.tableGameSmartBot.onError(this.logService.logError);
-
             const { isExpired, smartBots } = await this.tableGameSmartBot.reset(
                 { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
                 {
