@@ -66,6 +66,8 @@ export default class SedieBot extends Table.Crons.TableGameBot {
 
                 this.maxNumberOfBots -= smartBots.length;
             }
+        } else {
+            await this.tableGameSmartBot.removeAll();
         }
     }
 
