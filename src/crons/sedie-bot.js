@@ -35,7 +35,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         this.smallTickets = 0;
         this.resetAllBets();
 
-        this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots);
+        this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots, this);
         this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
         this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
         this.tableGameSmartBot.onError(this.logService.logError);
