@@ -1,11 +1,23 @@
 import { helpers } from "sc-common";
 import { Table } from "sc-game-base";
+import { Bots } from "sc-smart-bot";
 
-import constants from "./../constants";
+import constants from "../constants";
 
-export default class SedieBot extends Table.TableGameBot {
-    constructor(definition, gameData) {
-        super(definition, gameData, null);
+export default class SedieBot extends Table.Crons.TableGameBot {
+    /**
+     * @param {Table.TableGameDefinition} definition
+     * @param {Table.TableGameData} gameData
+     * @param {Core.BaseEventPublishers.BaseEventPublisher} publisher
+     * @param {mongoose.Model} userInfosRepository
+     * @param {mongoose.Model} tempBetsRepository
+     * @param {Bots.TableGameSmartBot} tableGameSmartBot
+     */
+
+    constructor(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableGameSmartBot, logService) {
+        super(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+        this.tableGameSmartBot = tableGameSmartBot;
+        this.logService = logService;
 
         this.betChoiceRatio = {
             MainOpts: 90, //odd | even
@@ -22,6 +34,75 @@ export default class SedieBot extends Table.TableGameBot {
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
         this.resetAllBets();
+
+        this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots, this);
+        this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
+        this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
+        this.tableGameSmartBot.onError(this.logService.logError);
+    }
+
+    async reset() {
+        await super.reset();
+        await this.resetSmartBots();
+    }
+
+    async resetSmartBots() {
+        const { smartBotEnabled, choices_maxbet: maxBetOfChoices, name, smartBotGroupRatio } = this.gameData.gameConfigs;
+        if (smartBotEnabled) {
+            const { isExpired, smartBots } = await this.tableGameSmartBot.reset(
+                { smartBotEnabled, maxBetOfChoices, smartBotGroupRatio, wholeRound: this.definition.durations.wholeRound },
+                {
+                    userResetFilters: { inRoom: true, inGameRoom: name },
+                    userUpdateFilters: { inRoom: false, inGameRoom: "", disabled: false },
+                    userUpdates: { inGameRoom: name, inRoom: true },
+                    userProjections: { id: true, name: true, red: true, avatarId: true },
+                }
+            );
+
+            if (isExpired && smartBots?.length > 0) {
+                smartBots.forEach((smartBot) => {
+                    this.addToPlayersAndPublish(smartBot);
+                });
+
+                this.maxNumberOfBots -= smartBots.length;
+            }
+        } else {
+            await this.tableGameSmartBot.removeAll();
+        }
+    }
+
+    addToPlayersAndPublish(bot) {
+        this.gameData.players[bot.id] = bot;
+        const payload = {
+            player: {
+                id: bot.id,
+                name: bot.name,
+                red: bot.red,
+                avatarId: bot.avatarId,
+                type: bot.patternId > 0 ? false : true,
+            },
+        };
+
+        this.publisher.publishToAllUsers(payload);
+    }
+
+    async resetInRoomTrackings() {
+        await this.userInfosRepository.updateMany(
+            { type: true, inGameRoom: this.definition.configName, patternId: 0 },
+            { inRoom: false, inGameRoom: "" }
+        );
+    }
+
+    async removeAllSmartBots(smartBots) {
+        await Promise.all(
+            smartBots.map(async (bot) => {
+                await this.userInfosRepository.updateOne({ id: bot.id }, { inRoom: false, inGameRoom: "", patternId: 0 });
+
+                this.publisher.publishToAllUsers({ outgame: { playerId: bot.id } });
+
+                delete this.gameData.players[bot.id];
+            })
+        );
     }
 
     resetAllBotData() {
@@ -41,6 +122,14 @@ export default class SedieBot extends Table.TableGameBot {
         };
 
         this.smallTickets = 0;
+    }
+
+    async run() {
+        await super.run();
+
+        if (this.gameData.gameConfigs?.smartBotEnabled && this.gameData.remainingTime > this.definition.durations.lockingBet) {
+            await this.tableGameSmartBot.run(this.gameData.roundId, this.gameData.remainingTime);
+        }
     }
 
     getBetChoice(bot) {
@@ -170,5 +259,20 @@ export default class SedieBot extends Table.TableGameBot {
 
     getTotalBetAmount(currentBet) {
         return currentBet ? this.definition.choices.reduce((total, choice) => total + currentBet[choice], 0) : 0;
+    }
+
+    smartBotAfterPlacingBet(bot, choice, amount, balance) {
+        if (this.gameData.players[bot.id]) {
+            this.gameData.players[bot.id].red = balance;
+        }
+
+        this.updateTotalBetsAndChips(choice, amount);
+        this.updateBalanceAndPublishBetPayload(bot.id, choice, amount, balance);
+    }
+
+    async insertOrUpdateBetForSmartBot(bot, choice, amount) {
+        const currentBet = await this.tempBetsRepository.findOne({ uid: bot.id, phien: this.gameData.roundId }).lean().exec();
+
+        await this.insertOrUpdateBet(bot, choice, amount, currentBet);
     }
 }
