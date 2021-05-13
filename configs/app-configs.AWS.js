@@ -41,7 +41,7 @@ export default {
         },
     },
     sentry: {
-        sentryUrl: "http://9438b42a28794aca91cfb3216466739e@10.99.99.187:803/106",
+        sentryUrl: "http://58fc00e79ab34a3bab04a79038760cb8@sentry.sabagame.com/8",
         logIdentifier: "sedie",
         env: "AWS",
     },
