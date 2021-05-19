@@ -64,5 +64,9 @@ export default {
         "https://admg.sabagame.com",
         "http://adm.sabagame.com",
         "https://adm.sabagame.com",
+        "http://m.sabagame.com",
+        "https://m.sabagame.com",
+        "http://m.gamesaba.com",
+        "https://m.gamesaba.com",
     ],
 };
