@@ -53,6 +53,6 @@ export default {
     corsUrls: ["https://sc1-games.sportsfun.app", "https://sc1-adm.sportsfun.app"],
     metrics: {
         enable: true,
-        secrectKey: "6c1f0f28-70f2-46ae-b031-22624a6cd8df",
+        secretKey: "6c1f0f28-70f2-46ae-b031-22624a6cd8df",
     },
 };

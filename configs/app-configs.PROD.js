@@ -70,6 +70,6 @@ export default {
     ],
     metrics: {
         enable: true,
-        secrectKey: "30d15293-c7de-4c77-9293-b85d6c5bfe1a",
+        secretKey: "30d15293-c7de-4c77-9293-b85d6c5bfe1a",
     },
 };
