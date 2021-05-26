@@ -59,4 +59,8 @@ export default {
         "http://l1-admin1.lumigame.com",
         "http://l1-m1.lumigame.com",
     ],
+    metrics: {
+        enable: true,
+        secrectKey: "6c1f0f28-70f2-46ae-b031-22624a6cd8df",
+    },
 };

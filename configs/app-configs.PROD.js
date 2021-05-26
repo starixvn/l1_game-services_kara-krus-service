@@ -32,8 +32,7 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url:
-            "mongodb://lmn_backend:M7K4ttH%2AtZ3ml%3F%29%7CA%5DjN4%3FLBhwF%266IO%3C@10.99.99.54:27101,10.99.99.53:27102/?replicaSet=SabaMain",
+        url: "mongodb://lmn_backend:M7K4ttH%2AtZ3ml%3F%29%7CA%5DjN4%3FLBhwF%266IO%3C@10.99.99.54:27101,10.99.99.53:27102/?replicaSet=SabaMain",
         options: {
             dbName: "minigame",
             useNewUrlParser: true,
@@ -69,4 +68,8 @@ export default {
         "http://m.gamesaba.com",
         "https://m.gamesaba.com",
     ],
+    metrics: {
+        enable: true,
+        secrectKey: "30d15293-c7de-4c77-9293-b85d6c5bfe1a",
+    },
 };

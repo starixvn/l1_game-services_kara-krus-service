@@ -59,4 +59,8 @@ export default {
         "http://sitm.sabagame.com",
         "https://sitm.sabagame.com",
     ],
+    metrics: {
+        enable: true,
+        secrectKey: "6c1f0f28-70f2-46ae-b031-22624a6cd8df",
+    },
 };
