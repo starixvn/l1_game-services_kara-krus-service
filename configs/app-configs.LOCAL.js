@@ -49,7 +49,7 @@ export default {
         audiences: ["api", "admin-api"],
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
-    enableCorsWs: true,
+    enableCorsWs: false,
     corsUrls: [
         "http://localhost:7456",
         "http://10.5.10.14:7456",
