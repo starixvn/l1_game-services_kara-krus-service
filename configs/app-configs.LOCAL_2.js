@@ -42,7 +42,7 @@ export default {
         },
     },
     sentry: {
-        sentryUrl: "https://acb36eb835d948d68c1aad9873754d51@sentry.lumigame.com/27",
+        sentryUrl: "https://62195acaeb164e829895d60189563a51@sentry.lumigame.com/26",
         logIdentifier: "sedie",
         env: "LOCAL_2",
     },
