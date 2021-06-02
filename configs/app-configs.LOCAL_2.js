@@ -50,7 +50,7 @@ export default {
         audiences: ["api", "admin-api"],
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
-    enableCorsWs: true,
+    enableCorsWs: false,
     corsUrls: [
         "http://localhost:7456",
         "http://l1-games2.lumigame.com",
