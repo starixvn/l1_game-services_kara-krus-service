@@ -1,4 +1,54 @@
+stages:
+  - test
+  - post-test
+  - build
+  - post-build
+  - deploy
+
+variables:
+  DOCKER_COMPOSE_REPO_URL: git@git3.nexdev.net:ci/repos-ci/pentagon_l1_sedie_service.git
+  PROJECT_NAME: l1-lottery-service
+
 include:
+  - project: "ci/common-ci"
+    ref: rocketor
+    file: "unit-test/js-unit-test.gitlab-ci.yml"
+  - project: "ci/common-ci"
+    ref: rocketor
+    file: "sonarqube/sonarqube.js-unittest.gitlab-ci.yml"  
+  - project: 'ci/common-ci'
+    ref: rocketor
+    file: 'rocketor-integration/rules/index.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: rocketor
+    file: 'docker/base/build-docker-image.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: rocketor
+    file: 'docker/base/post-build-docker-image.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: rocketor
+    file: '_teams/luminet/pentagon/deploy-docker-swarm-stack/index.gitlab-ci.yml'
   - project: "ci/repos-ci/pentagon_l1_sedie_service"
     ref: master
-    file: "gitlab-ci.yml"
+    file: ".gitlab-ci/lottery_service/build.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/deploy-vars.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/rules.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/deploy-local.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/deploy-sit.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/deploy-uat.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/deploy-prod.gitlab-ci.yml"
+  - project: "ci/repos-ci/pentagon_l1_sedie_service"
+    ref: master
+    file: ".gitlab-ci/lottery_service/deploy-aws.gitlab-ci.yml"
