@@ -41,21 +41,26 @@ export default {
         },
     },
     sentry: {
-        sentryUrl: "https://65b6a9f399b74794a7a23f90694d4fec@sentryuat.sabagame.com/186",
+        sentryUrl: "https://13f39b8359404ed5aec23655e64ccf78@sentry.lumigame.com/2",
         logIdentifier: "sedie",
-        env: "LOCAL",
+        env: "LOCAL-1",
     },
     authenticateSettings: {
         audiences: ["api", "admin-api"],
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
-    enableCorsWs: true,
+    enableCorsWs: false,
     corsUrls: [
         "http://localhost:7456",
         "http://localhost:7000",
         "http://localhost:3000",
-        "http://l1-games1.lumigame.com",
-        "http://l1-admin1.lumigame.com",
-        "http://l1-m1.lumigame.com",
+        "http://10.6.10.176:3000",
+        "https://l1-games1.lumigame.com",
+        "https://l1-admin1.lumigame.com",
+        "https://l1-m1.lumigame.com",
     ],
+    metrics: {
+        enable: true,
+        secretKey: "6c1f0f28-70f2-46ae-b031-22624a6cd8df",
+    },
 };
