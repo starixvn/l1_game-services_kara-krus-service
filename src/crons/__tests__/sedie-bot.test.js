@@ -327,4 +327,39 @@ describe("SedieBot tests", () => {
             expect(publisher.publishToAllUsers).toHaveBeenCalled();
         });
     });
+
+    describe("smartBotAfterPlacingBet test", () => {
+        it("should call super to update bets and publish payload", () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            const botPlayer = { id: "23" };
+            gameData.players[botPlayer.id] = botPlayer;
+            spyOn(TableGameBot.prototype, "updateTotalBetsAndChips");
+            spyOn(TableGameBot.prototype, "updateBalanceAndPublishBetPayload");
+
+            // act
+            bot.smartBotAfterPlacingBet(botPlayer, chance.pickone(bot.equalOpts), 20, 1000);
+
+            // assert
+            expect(TableGameBot.prototype.updateTotalBetsAndChips).toHaveBeenCalled();
+            expect(TableGameBot.prototype.updateBalanceAndPublishBetPayload).toHaveBeenCalled();
+        });
+    });
+
+    describe("insertOrUpdateBetForSmartBot test", () => {
+        it("should call super.insertOrUpdateBet", async () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            const botPlayer = { id: "23" };
+            gameData.players[botPlayer.id] = botPlayer;
+            spyOn(TableGameBot.prototype, "insertOrUpdateBet");
+            spyOn(tempBetsRepository, "findOne");
+
+            // act
+            await bot.insertOrUpdateBetForSmartBot(botPlayer, chance.pickone(bot.equalOpts), 20);
+
+            // assert
+            expect(TableGameBot.prototype.insertOrUpdateBet).toHaveBeenCalled();
+        });
+    });
 });
