@@ -1,6 +1,7 @@
 import Chance from "chance";
-import { stubMongooseModelStupidly } from "jest-micro-auto-stub";
+import { stub, stubMongooseModelStupidly } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
+import { logger } from "sc-common";
 import { Table } from "sc-game-base";
 import { BaseEventPublisher } from "sc-game-base/src/core/event-publishers";
 import { TableGameBot } from "sc-game-base/src/table/crons";
@@ -31,6 +32,16 @@ const userInfosRepository = stubMongooseModelStupidly(mongoose.Model);
 /** @type {mongoose.Model}*/
 const tempBetsRepository = stubMongooseModelStupidly(mongoose.Model);
 const publisher = new BaseEventPublisher(definition.name, gameData);
+
+const tableSmartBot = {
+    registerRemoveAllBotEvent: jest.fn(),
+    registerPlaceBetEvent: jest.fn(),
+    registerAdjustBetEvent: jest.fn(),
+    onError: jest.fn(),
+    removeAll: jest.fn(),
+};
+const logService = stub(logger);
+
 const chance = new Chance();
 
 describe("SedieBot tests", () => {
@@ -39,6 +50,16 @@ describe("SedieBot tests", () => {
 
         // act
         const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+
+        // assert
+        expect(bot.allBets).toEqual(constants.resetTotalBets);
+    });
+
+    it("all bet amount of choices should be zero after initialize with smartbot", () => {
+        // arrange
+
+        // act
+        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableSmartBot, logService);
 
         // assert
         expect(bot.allBets).toEqual(constants.resetTotalBets);
