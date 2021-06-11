@@ -220,9 +220,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     }
 
     getRandomChoiceFromGroup(group) {
-        const randomIndex = (Math.random() * group.length) >> 0;
-
-        return group[randomIndex];
+        return this.chance.pickone(group);
     }
 
     getTotalAmountOnChoiceGroup(choices) {
@@ -258,7 +256,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     }
 
     convertAmountToChip(amount) {
-        const chipList = constants.chips.filter((chip) => amount % chip === 0);
+        const chipList = constants.chips.filter((chip) => amount / chip >= 1);
 
         return chipList.length > 0 ? chipList[0] : this.getMinBet();
     }
