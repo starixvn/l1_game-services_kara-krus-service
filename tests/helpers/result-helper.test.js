@@ -1,4 +1,4 @@
-import { generateResult, getSettlementResult } from "../result-helper";
+import { generateResult, getSettlementResult } from "../../src/helpers/result-helper";
 
 describe("getSettlementResult tests", () => {
     it("should return odd and white3 if results have ONE red", () => {

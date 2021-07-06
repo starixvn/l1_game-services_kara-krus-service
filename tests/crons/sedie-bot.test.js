@@ -6,10 +6,10 @@ import { Table } from "sc-game-base";
 import { BaseEventPublisher } from "sc-game-base/src/core/event-publishers";
 import { TableGameBot } from "sc-game-base/src/table/crons";
 
-import constants from "../../constants";
-import gameSettings from "../../game-settings";
-import { generateResult, getSettlementResult } from "../../helpers/result-helper";
-import SedieBot from "../sedie-bot";
+import constants from "../../src/constants";
+import SedieBot from "../../src/crons/sedie-bot";
+import gameSettings from "../../src/game-settings";
+import { generateResult, getSettlementResult } from "../../src/helpers/result-helper";
 
 const definition = new Table.TableGameDefinition(gameSettings, generateResult, getSettlementResult);
 const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
