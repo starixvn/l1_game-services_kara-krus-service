@@ -1,5 +1,5 @@
 import { helpers } from "sc-common";
-import { Table } from "sc-game-base";
+import { Constants, Table } from "sc-game-base";
 
 import constants from "../constants";
 
@@ -88,7 +88,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             },
         };
 
-        this.publisher.publishToAllUsers(payload);
+        this.publisher.publishToAllUsersExceptSystem(Constants.Systems.Mobi, null, payload);
     }
 
     async resetInRoomTrackings() {

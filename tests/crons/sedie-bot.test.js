@@ -338,14 +338,14 @@ describe("SedieBot tests", () => {
             // arrange
             const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
             const botPlayer = { id: "23" };
-            spyOn(publisher, "publishToAllUsers");
+            spyOn(publisher, "publishToAllUsersExceptSystem");
 
             // act
             bot.addToPlayersAndPublish(botPlayer);
 
             // assert
             expect(gameData.players[botPlayer.id]).toEqual(botPlayer);
-            expect(publisher.publishToAllUsers).toHaveBeenCalled();
+            expect(publisher.publishToAllUsersExceptSystem).toHaveBeenCalled();
         });
     });
 
