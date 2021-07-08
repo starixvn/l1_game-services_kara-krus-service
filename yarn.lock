@@ -8237,10 +8237,10 @@
     "mongoose-long" "^0.3.0"
     "numeral" "^2.0.6"
 
-"sc-game-base@~1.24.1-beta.2":
-  "integrity" "sha512-gWrSG/N0Faxp7VTsU7MW2aA1jZZkAEuT0k66NRCRuSZXC/Zh39uKhzda0aRKg5ZvzoQw6ulbXqFFBe9gYRD2GA=="
-  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.24.1-beta.2.tgz"
-  "version" "1.24.1-beta.2"
+"sc-game-base@~1.24.1-beta.4":
+  "integrity" "sha512-CQWBeIUg22F7UKoZExKyet9ZP3qQqviasxHV1BwTbvSF9QjO5IAsY7OPX3UtG8Qwnnv8iFkoSbl8mZasFRv75A=="
+  "resolved" "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.24.1-beta.4.tgz"
+  "version" "1.24.1-beta.4"
   dependencies:
     "awilix" "^4.3.1"
     "axios" "^0.20.0"
