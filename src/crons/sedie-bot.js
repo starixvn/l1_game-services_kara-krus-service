@@ -103,7 +103,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             smartBots.map(async (bot) => {
                 await this.userInfosRepository.updateOne({ id: bot.id }, { inRoom: false, inGameRoom: "", patternId: 0 });
 
-                this.publisher.publishToAllUsers({ outgame: { playerId: bot.id } });
+                this.publisher.publishToAllUsersExceptSystem(Constants.Systems.Mobi, null, { outgame: { playerId: bot.id } });
 
                 delete this.gameData.players[bot.id];
             })
