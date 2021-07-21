@@ -1,6 +1,5 @@
 import { helpers } from "sc-common";
-import { Table } from "sc-game-base";
-import { Bots } from "sc-smart-bot";
+import { Constants, Table } from "sc-game-base";
 
 import constants from "../constants";
 
@@ -33,17 +32,23 @@ export default class SedieBot extends Table.Crons.TableGameBot {
 
         this.smallTicketRatio = 70;
         this.smallTickets = 0;
+        this.smallTicketValueRatio = 50;
         this.resetAllBets();
 
-        this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots, this);
-        this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
-        this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
-        this.tableGameSmartBot.onError(this.logService.logError);
+        if (this.tableGameSmartBot) {
+            this.tableGameSmartBot.registerRemoveAllBotEvent(this.removeAllSmartBots, this);
+            this.tableGameSmartBot.registerPlaceBetEvent(this.smartBotAfterPlacingBet, this);
+            this.tableGameSmartBot.registerAdjustBetEvent(this.insertOrUpdateBetForSmartBot, this);
+            this.tableGameSmartBot.onError(this.logService.logError);
+        }
     }
 
     async reset() {
         await super.reset();
-        await this.resetSmartBots();
+
+        if (this.tableGameSmartBot) {
+            await this.resetSmartBots();
+        }
     }
 
     async resetSmartBots() {
@@ -83,7 +88,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             },
         };
 
-        this.publisher.publishToAllUsers(payload);
+        this.publisher.publishToAllUsersExceptSystem(Constants.Systems.Mobi, null, payload);
     }
 
     async resetInRoomTrackings() {
@@ -98,7 +103,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
             smartBots.map(async (bot) => {
                 await this.userInfosRepository.updateOne({ id: bot.id }, { inRoom: false, inGameRoom: "", patternId: 0 });
 
-                this.publisher.publishToAllUsers({ outgame: { playerId: bot.id } });
+                this.publisher.publishToAllUsersExceptSystem(Constants.Systems.Mobi, null, { outgame: { playerId: bot.id } });
 
                 delete this.gameData.players[bot.id];
             })
@@ -172,7 +177,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         const isSmallTicket = this.totalTickets === 0 ? true : (this.smallTickets * 100) / this.totalTickets < this.smallTicketRatio;
         let maxBet = Math.min(gameConfigs.choices_maxbet[choice], gameConfigs.bot_maxbet);
 
-        const maxBetOfSmallTicket = Math.min(minBet * 50, maxBet);
+        const maxBetOfSmallTicket = Math.min(minBet * this.smallTicketValueRatio, maxBet);
 
         if (this.rareOpts.includes(choice)) {
             maxBet = Math.min(minBet * 10, gameConfigs.bot_maxbet * 0.2, gameConfigs.choices_maxbet[choice]);
@@ -215,8 +220,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     }
 
     getRandomChoiceFromGroup(group) {
-        const randomIndex = (Math.random() * group.length) >> 0;
-        return group[randomIndex];
+        return this.chance.pickone(group);
     }
 
     getTotalAmountOnChoiceGroup(choices) {
@@ -241,7 +245,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     }
 
     isSmallTicket(amount) {
-        return amount < this.getMinBet() * 50;
+        return amount < this.getMinBet() * this.smallTicketValueRatio;
     }
 
     updateBotInRoomData(bot, choice, amount, balance) {
@@ -252,7 +256,7 @@ export default class SedieBot extends Table.Crons.TableGameBot {
     }
 
     convertAmountToChip(amount) {
-        const chipList = constants.chips.filter((chip) => amount % chip === 0);
+        const chipList = constants.chips.filter((chip) => amount / chip >= 1);
 
         return chipList.length > 0 ? chipList[0] : this.getMinBet();
     }
