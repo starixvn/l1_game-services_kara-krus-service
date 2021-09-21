@@ -24,7 +24,8 @@
     "type": "module",
     "dependencies": {
         "nodemon": "^2.0.4",
-        "sc-game-base": "2.3.0",
+        "sc-game-base": "~1.24.1",
+        "sc-game-service-integration": "1.0.0-beta.3",
         "sc-smart-bot": "1.0.0"
     },
     "devDependencies": {

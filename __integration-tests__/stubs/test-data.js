@@ -14,6 +14,7 @@ const userSession = {
     ss: "1-session-id",
     currency: user.currency,
     username: `${user.id}_${user.name}`,
+    browserUserAgent: "browser-user-agent",
 };
 
 const socketOptions = {
@@ -23,28 +24,21 @@ const socketOptions = {
 };
 
 const gameConfig = {
+    type: 0,
     name: "xocxoc",
     enabled: true,
+    botenabled: true,
     minbet: 1,
     maxbet: 5000,
-    choices_maxbet: {
-        even: 3000,
-        odd: 3000,
-        red3: 3000,
-        white3: 3000,
-        red4: 1000,
-        white4: 1000,
-        red2: 3000,
-    },
-    odds: {
-        even: 1.97,
-        odd: 1.97,
-        red3: 3.76,
-        white3: 3.76,
-        red4: 14.5,
-        white4: 14.5,
-        red2: 2.5,
-    },
+    disabledround: 1187977,
+    bot_maxbet: 500,
+    hour_maxbot: [0, 0.005, 0.005, 0.005, 0.005, 0.005, 0.005, 0.05, 0.05, 0.05, 0.05, 0.05, 0.005, 0.005, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    disabled_message: "Game đang được bảo trì, vui lòng quay lại sau 10 phút.",
+    choices_maxbet: { even: 3000, odd: 3000, red3: 3000, white3: 3000, red4: 1000, white4: 1000, red2: 3000 },
+    odds: { even: 1.97, odd: 1.97, red3: 3.76, white3: 3.76, red4: 14.5, white4: 14.5, red2: 2.5 },
+    delayStartTime: 0,
+    siteExclusions: [],
+    enableFreeBet: false,
 };
 
 export { game, user, userSession, socketOptions, gameConfig };

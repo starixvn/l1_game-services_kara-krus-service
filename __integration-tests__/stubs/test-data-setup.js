@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import { middlewares } from "sc-common";
+import { createDummyUser, createGameConfig } from "sc-game-service-integration";
 
 import configs from "../../src/app-configs";
-import { createGameConfig } from "./game-config-stubs";
 import { gameConfig, user } from "./test-data";
-import { createDummyUser } from "./user-stubs";
 
 const connectDatabase = async () => {
     await middlewares.database.configureDatabase(mongoose, configs.database);

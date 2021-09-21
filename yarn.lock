@@ -8336,7 +8336,7 @@ sc-common@^1.6.0, sc-common@^1.7.0:
     mongoose-long "^0.3.0"
     numeral "^2.0.6"
 
-sc-game-base@~1.24.1:
+sc-game-base@1.24.1, sc-game-base@~1.24.1:
   version "1.24.1"
   resolved "http://npm.lumigame.com/sc-game-base/-/sc-game-base-1.24.1.tgz"
   integrity sha512-pp/05aTxBpn66LL2mGRy7nokaDhKCIAXFoAt6AvHSTLd91kfiM4Laz2Ovd3/SZLgKLD0tpIQjzTQ9oBwMeDMZg==
@@ -8358,6 +8358,13 @@ sc-game-base@~1.24.1:
     sc-common "^1.7.0"
     socket.io "^2.3.0"
     socket.io-prometheus-metrics "^1.0.6"
+
+sc-game-service-integration@1.0.0-beta.3:
+  version "1.0.0-beta.3"
+  resolved "http://npm.lumigame.com/sc-game-service-integration/-/sc-game-service-integration-1.0.0-beta.3.tgz#d35eb9a325c7a0ae2e8939d51be20b71f3ae0268"
+  integrity sha512-EFYCZ/kllu2W0EBwbxk2Gbg3sy3V5eg+Z/b0QLkpOuuperiGUKXkfAY6jjQKfDmgVSHLVCoaMtO+N9MbXIiiTQ==
+  dependencies:
+    sc-game-base "1.24.1"
 
 sc-semantic-release@^1.1.0:
   version "1.2.0"

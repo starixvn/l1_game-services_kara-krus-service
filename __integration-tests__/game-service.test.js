@@ -1,5 +1,6 @@
+import { eventTypes, GameServiceClient } from "sc-game-service-integration";
+
 import { socketOptions, userSession } from "./stubs/test-data";
-import { eventTypes, GameServiceClient } from "./utils/game-client";
 
 let gameServiceClient;
 const gameNameEvent = "XocXoc";
@@ -13,7 +14,7 @@ afterAll(() => {
     gameServiceClient.close();
 });
 
-describe("Dragon Tiger Service", () => {
+describe("Sedie Service", () => {
     it("should start and allow game client connect to.", (done) => {
         // Assert
         gameServiceClient.on(eventTypes.signedIn, () => {
@@ -21,43 +22,25 @@ describe("Dragon Tiger Service", () => {
         });
     });
 
-    it("should return game configuration (odds, min bet, max bet) when user joins game.", (done) => {
+    it("should receive enough data when user joins game.", (done) => {
+        // Arrange
+        const expectedGameConfigs = {
+            minbet: 1,
+            maxbet: 5000,
+            choices_maxbet: { even: 3000, odd: 3000, red3: 3000, white3: 3000, red4: 1000, white4: 1000, red2: 3000 },
+            odds: { even: 1.97, odd: 1.97, red3: 3.76, white3: 3.76, red4: 14.5, white4: 14.5, red2: 2.5 },
+            enableFreeBet: false,
+        };
+        const expectedUserData = { UID: 1, avatarId: 1, currency: "UUS", name: "Alvin", red: 20000 };
+
         // Act
         gameServiceClient.emit(eventTypes.inGame);
 
         // Assert
         gameServiceClient.on(gameNameEvent, (inGameData) => {
-            if (inGameData?.gameConfigs) {
-                expect(inGameData.gameConfigs.minbet).toBe(1);
-                expect(inGameData.gameConfigs.maxbet).toBe(5000);
-                // expect(inGameData.gameConfigs.maxBetChoices.dragon).toBe(20000);
-                // expect(inGameData.gameConfigs.maxBetChoices.tiger).toBe(20000);
-                // expect(inGameData.gameConfigs.maxBetChoices.tie).toBe(4000);
-                // expect(inGameData.gameConfigs.odds.dragon).toBe(2);
-                // expect(inGameData.gameConfigs.odds.tiger).toBe(2);
-                // expect(inGameData.gameConfigs.odds.tie).toBe(10);
-
-                done();
-            }
-        });
-    });
-
-    it("should return user information when user joins game.", (done) => {
-        // Act
-        gameServiceClient.emit(eventTypes.inGame);
-
-        // Assert
-        gameServiceClient.on(gameNameEvent, (inGameData) => {
-            if (inGameData?.user) {
-                console.log(inGameData.user);
-                expect(inGameData.user.UID).toBe(1);
-                expect(inGameData.user.avatarId).toBe(1);
-                expect(inGameData.user.currency).toBe("UUS");
-                expect(inGameData.user.name).toBe("Alvin");
-                expect(inGameData.user.red).toBe(20000);
-
-                done();
-            }
+            expect(inGameData.gameConfigs).toStrictEqual(expectedGameConfigs);
+            expect(inGameData.user).toStrictEqual(expectedUserData);
+            done();
         });
     });
 });
