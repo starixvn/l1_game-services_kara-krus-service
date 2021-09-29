@@ -41,4 +41,22 @@ const gameConfig = {
     enableFreeBet: false,
 };
 
-export { game, user, userSession, socketOptions, gameConfig };
+const rounds = [
+    {
+        id: 1190119,
+        result: { red1: false, red2: false, red3: true, red4: true },
+        settlementResult: { odd: false, even: true, red2: true, red3: false, red4: false, white3: false, white4: false },
+    },
+    {
+        id: 1190118,
+        result: { red1: false, red2: true, red3: true, red4: false },
+        settlementResult: { odd: false, even: true, red2: true, red3: false, red4: false, white3: false, white4: false },
+    },
+    {
+        id: 1190117,
+        result: { red1: true, red2: false, red3: false, red4: true },
+        settlementResult: { odd: false, even: true, red2: true, red3: false, red4: false, white3: false, white4: false },
+    },
+];
+
+export { game, user, userSession, socketOptions, gameConfig, rounds };
