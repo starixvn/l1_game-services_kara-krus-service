@@ -64,7 +64,7 @@ describe("Sedie Service", () => {
         });
     });
 
-    jest.setTimeout(30000);
+    jest.setTimeout(60000);
 
     it("should return endBet when user placing bet.", async (done) => {
         // Arrange
@@ -89,6 +89,22 @@ describe("Sedie Service", () => {
         gameServiceClient.on(gameNameEvent, (endBetData) => {
             if (endBetData.endBet) {
                 expect(endBetData).toStrictEqual(expectedEndBetResponse);
+                done();
+            }
+        });
+    });
+
+    it("should return bet history when user request", async (done) => {
+        // Arrange
+        await new Promise((r) => setTimeout(r, 30000));
+
+        // Act
+        gameServiceClient.emit(eventTypes.getHistory, { page: 1 });
+
+        // Assert
+        gameServiceClient.on(gameNameEvent, (betHistoryData) => {
+            if (betHistoryData?.history) {
+                expect(betHistoryData?.history.betLogs.length > 0).toBeTruthy();
                 done();
             }
         });
