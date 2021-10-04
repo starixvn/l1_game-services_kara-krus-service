@@ -22,16 +22,59 @@ describe("Sedie Service", () => {
         });
     });
 
-    it("should receive enough data when user joins game.", (done) => {
+    it("should return game configuration (odds, min bet, max bet) when user joins game.", (done) => {
+        // Act
+        gameServiceClient.emit(eventTypes.inGame);
+
+        // Assert
+        gameServiceClient.on(gameNameEvent, (inGameData) => {
+            if (inGameData?.gameConfigs) {
+                if (inGameData?.gameConfigs) {
+                    expect(inGameData.gameConfigs.minbet).toBe(1);
+                    expect(inGameData.gameConfigs.maxbet).toBe(5000);
+                    expect(inGameData.gameConfigs.choices_maxbet.even).toBe(3000);
+                    expect(inGameData.gameConfigs.choices_maxbet.odd).toBe(3000);
+                    expect(inGameData.gameConfigs.choices_maxbet.red2).toBe(3000);
+                    expect(inGameData.gameConfigs.choices_maxbet.red3).toBe(3000);
+                    expect(inGameData.gameConfigs.choices_maxbet.red4).toBe(1000);
+                    expect(inGameData.gameConfigs.choices_maxbet.white3).toBe(3000);
+                    expect(inGameData.gameConfigs.choices_maxbet.white4).toBe(1000);
+                    expect(inGameData.gameConfigs.odds.even).toBe(1.97);
+                    expect(inGameData.gameConfigs.odds.odd).toBe(1.97);
+                    expect(inGameData.gameConfigs.odds.red2).toBe(2.5);
+                    expect(inGameData.gameConfigs.odds.red3).toBe(3.76);
+                    expect(inGameData.gameConfigs.odds.red4).toBe(14.5);
+                    expect(inGameData.gameConfigs.odds.white3).toBe(3.76);
+                    expect(inGameData.gameConfigs.odds.white4).toBe(14.5);
+
+                    done();
+                }
+
+                done();
+            }
+        });
+    });
+
+    it("should return user information when user joins game.", (done) => {
+        // Act
+        gameServiceClient.emit(eventTypes.inGame);
+
+        // Assert
+        gameServiceClient.on(gameNameEvent, (inGameData) => {
+            if (inGameData?.user?.UID) {
+                expect(inGameData.user.UID).toBe(1);
+                expect(inGameData.user.avatarId).toBe(1);
+                expect(inGameData.user.currency).toBe("UUS");
+                expect(inGameData.user.name).toBe("Alvin");
+                expect(inGameData.user.red).toBe(20000);
+
+                done();
+            }
+        });
+    });
+
+    it("should return old round history when user joins game", (done) => {
         // Arrange
-        const expectedGameConfigs = {
-            minbet: 1,
-            maxbet: 5000,
-            choices_maxbet: { even: 3000, odd: 3000, red3: 3000, white3: 3000, red4: 1000, white4: 1000, red2: 3000 },
-            odds: { even: 1.97, odd: 1.97, red3: 3.76, white3: 3.76, red4: 14.5, white4: 14.5, red2: 2.5 },
-            enableFreeBet: false,
-        };
-        const expectedUserData = { UID: 1, avatarId: 1, currency: "UUS", name: "Alvin", red: 20000 };
         const expectedRoundHistory = [
             {
                 roundId: 1190117,
@@ -55,10 +98,8 @@ describe("Sedie Service", () => {
 
         // Assert
         gameServiceClient.on(gameNameEvent, (inGameData) => {
-            if (inGameData?.gameConfigs) {
-                expect(inGameData.gameConfigs).toStrictEqual(expectedGameConfigs);
+            if (inGameData?.roundHistory) {
                 expect(inGameData.roundHistory).toStrictEqual(expectedRoundHistory);
-                expect(inGameData.user).toStrictEqual(expectedUserData);
                 done();
             }
         });
@@ -66,7 +107,7 @@ describe("Sedie Service", () => {
 
     jest.setTimeout(60000);
 
-    it("should return endBet when user placing bet.", async (done) => {
+    it("should return current user ticket result when user is playing game.", async (done) => {
         // Arrange
         const betChoice = "even";
         const amount = 100;
@@ -80,7 +121,7 @@ describe("Sedie Service", () => {
             ownChip: { betChoice: "even", amount: 100 },
         };
 
-        await new Promise((r) => setTimeout(r, 15000));
+        await new Promise((r) => setTimeout(r, 10000));
 
         // Act
         gameServiceClient.emit(eventTypes.bet, { betChoice, amount });
