@@ -65,3 +65,4 @@ smoketest-run:
   trigger: 
     project: rnd/testing/trigger-auto-sc1
     branch: master
+  needs: ['deploy_sedie_service_local']
