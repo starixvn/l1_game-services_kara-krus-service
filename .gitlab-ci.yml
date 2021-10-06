@@ -58,11 +58,13 @@ include:
     ref: master
     file: ".gitlab-ci/sedie_service/deploy-aws.gitlab-ci.yml"
 
-smoketest-run:
+smoke_test:
   stage: smoke-test
   variables:
     PRODUCT: sedie
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^deploy-l1-sedie-service-local- */'
   trigger: 
     project: rnd/testing/trigger-auto-sc1
-    branch: master
-  needs: ['deploy_sedie_service_local']
+    branch: master  
+  needs: ['deploy_sedie_service_local']  
