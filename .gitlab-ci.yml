@@ -61,7 +61,7 @@ include:
 smoketest-run:
   stage: smoke-test
   variables:
-    PRODUCT: SEDIE
+    PRODUCT: sedie
   trigger: 
-    project: rnd/testing/mocha-playwright
+    project: rnd/testing/trigger-auto-sc1
     branch: master
