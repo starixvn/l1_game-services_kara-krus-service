@@ -4,7 +4,7 @@ stages:
   - build
   - post-build
   - deploy  
-  - smoke-test
+  - post-deploy
 
 variables:
   DOCKER_COMPOSE_REPO_URL: git@git3.nexdev.net:ci/repos-ci/pentagon_l1_sedie_service.git
@@ -59,8 +59,8 @@ include:
     ref: master
     file: ".gitlab-ci/sedie_service/deploy-aws.gitlab-ci.yml"
 
-smoke_test:
-  stage: smoke-test
+post_deploy:
+  stage: post-deploy
   variables:
     PRODUCT: $SMOKE_PRODUCT_NAME
   rules:
