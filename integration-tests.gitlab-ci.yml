@@ -1,6 +1,5 @@
 integration-tests:
-  stage: test
-  needs: ['unit-test-js']
+  stage: post-test
   tags:
     - docker
 
