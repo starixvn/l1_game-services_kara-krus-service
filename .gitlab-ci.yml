@@ -1,3 +1,6 @@
+variables:
+  SMOKE_PRODUCT_NAME: sedie
+
 include:
   - project: "ci/repos-ci/pentagon_l1_sedie_service"
     ref: master

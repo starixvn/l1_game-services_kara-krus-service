@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const schema = new mongoose.Schema({
+const bet = {
     uid: { type: String, required: true },
     name: { type: String, required: true },
     phien: { type: Number, required: true },
@@ -21,9 +21,17 @@ const schema = new mongoose.Schema({
     memberId: { type: Number },
     siteId: { type: String },
     freeBet: { type: Boolean, default: false },
-});
+};
 
-const bets = mongoose.model("XocXoc_cuoc", schema);
-const tmpBets = mongoose.model("XocXoc_tmpcuoc", schema);
+const bets = mongoose.model(
+    "XocXoc_cuoc",
+    new mongoose.Schema({
+        ...bet,
+        currency: { type: String, require: true },
+        rate: { type: Number, require: true },
+        partnerId: { type: String, require: true },
+    })
+);
+const tmpBets = mongoose.model("XocXoc_tmpcuoc", new mongoose.Schema(bet));
 
 export { bets as SedieBets, tmpBets as SedieTmpBets };
