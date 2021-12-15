@@ -6,7 +6,9 @@ const game = {
 const user = {
     id: 1,
     name: "Alvin",
-    currency: "UUS",
+    currencyName: "$US",
+    currencyCode: "USD",
+    partnerId: "dummy-partner-id",
 };
 
 const userSession = {

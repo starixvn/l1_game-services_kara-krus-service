@@ -30,15 +30,15 @@ describe("Sedie Service", () => {
         gameServiceClient.on(gameNameEvent, (inGameData) => {
             if (inGameData?.gameConfigs) {
                 if (inGameData?.gameConfigs) {
-                    expect(inGameData.gameConfigs.minbet).toBe(1);
-                    expect(inGameData.gameConfigs.maxbet).toBe(5000);
-                    expect(inGameData.gameConfigs.choices_maxbet.even).toBe(3000);
-                    expect(inGameData.gameConfigs.choices_maxbet.odd).toBe(3000);
-                    expect(inGameData.gameConfigs.choices_maxbet.red2).toBe(3000);
-                    expect(inGameData.gameConfigs.choices_maxbet.red3).toBe(3000);
-                    expect(inGameData.gameConfigs.choices_maxbet.red4).toBe(1000);
-                    expect(inGameData.gameConfigs.choices_maxbet.white3).toBe(3000);
-                    expect(inGameData.gameConfigs.choices_maxbet.white4).toBe(1000);
+                    expect(inGameData.gameConfigs.minBet).toBe(1);
+                    expect(inGameData.gameConfigs.maxBet).toBe(3000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.even).toBe(3000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.odd).toBe(3000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.red2).toBe(3000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.red3).toBe(3000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.red4).toBe(1000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.white3).toBe(3000);
+                    expect(inGameData.gameConfigs.maxBetPerChoices.white4).toBe(1000);
                     expect(inGameData.gameConfigs.odds.even).toBe(1.97);
                     expect(inGameData.gameConfigs.odds.odd).toBe(1.97);
                     expect(inGameData.gameConfigs.odds.red2).toBe(2.5);
@@ -64,7 +64,7 @@ describe("Sedie Service", () => {
             if (inGameData?.user?.UID) {
                 expect(inGameData.user.UID).toBe(1);
                 expect(inGameData.user.avatarId).toBe(1);
-                expect(inGameData.user.currency).toBe("UUS");
+                expect(inGameData.user.currency).toBe("$US");
                 expect(inGameData.user.name).toBe("Alvin");
                 expect(inGameData.user.red).toBe(20000);
 

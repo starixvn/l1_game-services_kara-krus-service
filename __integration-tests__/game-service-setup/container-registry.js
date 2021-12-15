@@ -3,7 +3,7 @@ import { endGame, getBalance, placeBet } from "sc-game-service-integration";
 
 import SeDieContainerRegistry from "../../src/sedie-container-registry";
 
-const { asClass, asValue } = awilix;
+const { asValue } = awilix;
 
 export class ContainerRegistry extends SeDieContainerRegistry {
     registerApis() {
