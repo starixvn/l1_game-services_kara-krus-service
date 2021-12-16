@@ -1,4 +1,4 @@
-import { eventTypes, GameServiceClient } from "sc-game-service-integration";
+import { eventTypes, GameClient } from "sc-game-service-integration-utils";
 
 import { socketOptions, userSession } from "./stubs/test-data";
 
@@ -7,7 +7,7 @@ const gameNameEvent = "XocXoc";
 
 beforeAll(() => {
     // Arrange
-    gameServiceClient = new GameServiceClient(socketOptions, userSession);
+    gameServiceClient = new GameClient(socketOptions, userSession);
 });
 
 afterAll(() => {
