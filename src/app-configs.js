@@ -2,7 +2,7 @@ export default {
     hostingPort: 5001,
     apiSettings: {
         enabledApi: true,
-        apiUrl: "http://localhost",
+        apiUrl: "http://localhost:9000",
         authUrl: "http://auth.lumigame.com",
         client: {
             id: "game-server",
@@ -11,7 +11,7 @@ export default {
         useAuthenticate: false,
         requestTimeout: 5000,
         placeBetTimeout: 4500,
-        enableApiLogs: true,
+        enabledApiLogs: true,
     },
     mainServerApiSettings: {
         url: "http://localhost:8080/api",
