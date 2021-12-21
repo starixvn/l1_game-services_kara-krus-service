@@ -1,10 +1,17 @@
 import mongoose from "mongoose";
 import { middlewares } from "sc-common";
-import { createGameConfig, createExchangeRate, createDummyUser } from "sc-game-service-integration-utils";
+import {
+    createCurrencyGroupGames,
+    createDummyCurrency,
+    createDummyUsers,
+    createExchangeRate,
+    createGameConfig,
+    createPartnerConfig,
+} from "sc-game-service-integration-utils";
 
-import configs from "../../src/app-configs";
-import SeDieRoundModel from "../../src/models/sedie-rounds";
-import { gameConfig, rounds, user } from "./test-data";
+import configs from "../../../src/app-configs";
+import SeDieRoundModel from "../../../src/models/sedie-rounds";
+import { currencyData, game, gameConfig, rounds } from "./test-data";
 
 const connectDatabase = async () => {
     await middlewares.database.configureDatabase(mongoose, configs.database);
@@ -23,7 +30,10 @@ const createTestData = async () => {
     await connectDatabase();
     await createExchangeRate();
     await createGameConfig(gameConfig);
-    await createDummyUser(user.id, user.name, user.currencyName, user.currencyCode, user.partnerId);
+    const partnerConfig = await createPartnerConfig(game.id);
+    const currency = await createDummyCurrency(partnerConfig.partnerId, currencyData.code, currencyData.name);
+    await createCurrencyGroupGames(currency.groupId, game.id, gameConfig);
+    await createDummyUsers(currency);
     await createRounds();
 
     console.log("Create game config & dummy user for testing successfully!");

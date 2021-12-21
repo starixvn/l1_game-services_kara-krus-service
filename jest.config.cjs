@@ -11,5 +11,8 @@ module.exports = async () => {
         testEnvironment: "node",
         testResultsProcessor: "jest-sonar-reporter",
         setupFilesAfterEnv: ["jest-extended"],
+        reporters: ["default", ["jest-junit", { outputDirectory: "coverage" }]],
+        coverageReporters: ["clover", "lcov", "text-summary", "cobertura"],
+        coverageDirectory: "coverage",
     };
 };
