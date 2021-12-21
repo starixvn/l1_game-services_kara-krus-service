@@ -20,7 +20,7 @@ const userSession = {
 };
 
 const socketOptions = {
-    socketUri: "http://127.0.0.1:5001/user/xocxoc",
+    socketUri: "http://localhost:5001/user/xocxoc",
     gameName: game.name,
     proxyRoute: "/socket.io",
 };

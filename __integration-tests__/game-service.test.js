@@ -9,9 +9,15 @@ import Axios from "axios";
 import httpAdapter from "axios/lib/adapters/http";
 Axios.defaults.adapter = httpAdapter;
 
+import { init, getBetLimit } from "sc-base-apis/src/api-client";
+import { logger } from "sc-common";
+jest.mock("sc-common");
+import configs from "../src/app-configs";
+import appConfigs from "../src/app-configs";
+
 beforeAll(() => {
     // Arrange
-    nock("http://localhost:9000").post("/Member/GetBetLimit").reply(200, { ok: true });
+
     gameServiceClient = new GameClient(socketOptions, userSession);
 });
 
@@ -21,6 +27,12 @@ afterAll(() => {
 
 describe("Sedie Service", () => {
     it("should start and allow game client connect to.", (done) => {
+        // nock("http://localhost:9000").post("/Member/GetBetLimit").reply(200, { ok: true });
+        // await init(appConfigs.apiSettings);
+        // const response = await getBetLimit();
+
+        // done();
+
         // Assert
         gameServiceClient.on(eventTypes.signedIn, () => {
             done();
