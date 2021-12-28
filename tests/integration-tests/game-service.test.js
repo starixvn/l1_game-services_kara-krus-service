@@ -1,16 +1,8 @@
-import {
-    errorUser,
-    eventTypes,
-    GameClientDriver,
-    internalServerErrorUser,
-    normalUser,
-} from "sc-game-service-integration-utils";
+import { errorUser, GameClientDriver, internalServerErrorUser, normalUser } from "sc-game-service-integration-utils";
 
 import { currencyData, socketOptions } from "./stubs/test-data";
 
-const gameNameEvent = "XocXoc";
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 60000;
-const WAITING_PLACE_BET_TIMEOUT = 10000;
 const WAITING_END_GAME_TIMEOUT = 30000;
 
 describe("SeDie Service", () => {
@@ -20,47 +12,59 @@ describe("SeDie Service", () => {
     });
 
     describe("Happy Path Cases", () => {
-        let gameServiceClient;
+        let gameClientDriver;
         beforeAll(() => {
             // Arrange
-            gameServiceClient = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            gameClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
         });
 
         afterAll(() => {
-            gameServiceClient.close();
+            gameClientDriver.close();
         });
 
         it("should start and allow game client connect to.", (done) => {
             // Assert
-            gameServiceClient.on(eventTypes.signedIn, () => {
+            gameClientDriver.handleSignedInEvent(() => {
                 done();
             });
         });
 
         it("should return game configuration (odds, min bet, max bet) when user joins game.", (done) => {
+            // Arrange
+            const expectedGameConfigs = {
+                minBet: 1,
+                maxBet: 3000,
+                maxBetPerChoices: {
+                    even: 3000,
+                    odd: 3000,
+                    red2: 3000,
+                    red3: 3000,
+                    red4: 1000,
+                    white3: 3000,
+                    white4: 1000,
+                },
+                odds: {
+                    even: 1.97,
+                    odd: 1.97,
+                    red2: 2.5,
+                    red3: 3.76,
+                    red4: 14.5,
+                    white3: 3.76,
+                    white4: 14.5,
+                },
+            };
+
             // Act
-            gameServiceClient.emit(eventTypes.inGame);
+            gameClientDriver.sendInGameEvent();
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (inGameData) => {
+            gameClientDriver.handleInGameEvent((inGameData) => {
                 if (inGameData?.gameConfigs) {
                     if (inGameData.gameConfigs) {
-                        expect(inGameData.gameConfigs.minBet).toBe(1);
-                        expect(inGameData.gameConfigs.maxBet).toBe(3000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.even).toBe(3000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.odd).toBe(3000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.red2).toBe(3000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.red3).toBe(3000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.red4).toBe(1000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.white3).toBe(3000);
-                        expect(inGameData.gameConfigs.maxBetPerChoices.white4).toBe(1000);
-                        expect(inGameData.gameConfigs.odds.even).toBe(1.97);
-                        expect(inGameData.gameConfigs.odds.odd).toBe(1.97);
-                        expect(inGameData.gameConfigs.odds.red2).toBe(2.5);
-                        expect(inGameData.gameConfigs.odds.red3).toBe(3.76);
-                        expect(inGameData.gameConfigs.odds.red4).toBe(14.5);
-                        expect(inGameData.gameConfigs.odds.white3).toBe(3.76);
-                        expect(inGameData.gameConfigs.odds.white4).toBe(14.5);
+                        expect(inGameData.gameConfigs.minBet).toEqual(expectedGameConfigs.minBet);
+                        expect(inGameData.gameConfigs.maxBet).toEqual(expectedGameConfigs.maxBet);
+                        expect(inGameData.gameConfigs.maxBetPerChoices).toStrictEqual(expectedGameConfigs.maxBetPerChoices);
+                        expect(inGameData.gameConfigs.odds).toStrictEqual(expectedGameConfigs.odds);
 
                         done();
                     }
@@ -68,17 +72,23 @@ describe("SeDie Service", () => {
             });
         });
         it("should return user information when user joins game.", async (done) => {
+            // Arrange
+            const expectedUser = {
+                UID: 1,
+                avatarId: 1,
+                currency: "$US",
+                name: "NormalUser",
+                rate: 1,
+                red: 25000,
+            };
+
             // Act
-            gameServiceClient.emit(eventTypes.inGame);
+            gameClientDriver.sendInGameEvent();
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (inGameData) => {
+            gameClientDriver.handleInGameEvent((inGameData) => {
                 if (inGameData?.user?.UID) {
-                    expect(inGameData.user.UID).toBe(1);
-                    expect(inGameData.user.avatarId).toBe(1);
-                    expect(inGameData.user.currency).toBe("$US");
-                    expect(inGameData.user.name).toBe("NormalUser");
-                    expect(inGameData.user.red).toBe(25000);
+                    expect(inGameData.user).toStrictEqual(expectedUser);
 
                     done();
                 }
@@ -106,10 +116,10 @@ describe("SeDie Service", () => {
             ];
 
             // Act
-            gameServiceClient.emit(eventTypes.inGame);
+            gameClientDriver.sendInGameEvent();
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (inGameData) => {
+            gameClientDriver.handleInGameEvent((inGameData) => {
                 if (inGameData?.roundHistory) {
                     expect(inGameData.roundHistory).toStrictEqual(expectedRoundHistory);
                     done();
@@ -131,13 +141,11 @@ describe("SeDie Service", () => {
                 ownChip: { betChoice: "even", amount: 100 },
             };
 
-            await new Promise((r) => setTimeout(r, WAITING_PLACE_BET_TIMEOUT));
-
             // Act
-            gameServiceClient.emit(eventTypes.bet, { betChoice, amount });
+            gameClientDriver.sendBetEvent(betChoice, amount);
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (endBetData) => {
+            gameClientDriver.handleEndBetEvent((endBetData) => {
                 if (endBetData.endBet) {
                     expect(endBetData).toStrictEqual(expectedEndBetResponse);
                     done();
@@ -150,10 +158,10 @@ describe("SeDie Service", () => {
             await new Promise((r) => setTimeout(r, WAITING_END_GAME_TIMEOUT));
 
             // Act
-            gameServiceClient.emit(eventTypes.getHistory, { page: 1 });
+            gameClientDriver.sendGetHistoryEvent();
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (betHistoryData) => {
+            gameClientDriver.handleGetHistoryEvent((betHistoryData) => {
                 if (betHistoryData?.history) {
                     expect(betHistoryData.history.betLogs.length > 0).toBeTruthy();
                     done();
@@ -167,50 +175,46 @@ describe("SeDie Service", () => {
             // Arrange
             const betChoice = "even";
             const amount = 100;
-            const gameServiceClient = new GameClientDriver(socketOptions, initUserSession(errorUser));
-            gameServiceClient.on(eventTypes.signedIn, () => {
-                gameServiceClient.emit(eventTypes.inGame);
+            const gameClientDriver = new GameClientDriver(socketOptions, initUserSession(errorUser));
+            gameClientDriver.handleSignedInEvent(() => {
+                gameClientDriver.sendInGameEvent();
             });
 
-            await new Promise((r) => setTimeout(r, WAITING_PLACE_BET_TIMEOUT)); // waiting for place bet time
-
             // Act
-            gameServiceClient.emit(eventTypes.bet, { betChoice, amount });
+            gameClientDriver.sendBetEvent(betChoice, amount);
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (endBetData) => {
+            gameClientDriver.handleEndBetEvent((endBetData) => {
                 if (endBetData.endBet == -1) {
                     expect(endBetData.betChoice).toEqual("even");
                     expect(endBetData.apiError.errorCode).toEqual(3002);
                     expect(endBetData.apiError.isPlaceBetFailed).toEqual(true);
                     done();
-                    gameServiceClient.close();
+                    gameClientDriver.close();
                 }
             });
         });
 
         it("should return error when get internal server error from api", async (done) => {
             // Arrange
-            const gameServiceClient = new GameClientDriver(socketOptions, initUserSession(internalServerErrorUser));
-            gameServiceClient.on(eventTypes.signedIn, () => {
-                gameServiceClient.emit(eventTypes.inGame);
+            const gameClientDriver = new GameClientDriver(socketOptions, initUserSession(internalServerErrorUser));
+            gameClientDriver.handleSignedInEvent(() => {
+                gameClientDriver.sendInGameEvent();
             });
             const betChoice = "even";
             const amount = 100;
 
-            await new Promise((r) => setTimeout(r, WAITING_PLACE_BET_TIMEOUT)); // waiting for place bet time
-
             // Act
-            gameServiceClient.emit(eventTypes.bet, { betChoice, amount });
+            gameClientDriver.sendBetEvent(betChoice, amount);
 
             // Assert
-            gameServiceClient.on(gameNameEvent, (endBetData) => {
+            gameClientDriver.handleEndBetEvent((endBetData) => {
                 if (endBetData.endBet == -1) {
                     expect(endBetData.betChoice).toEqual("even");
                     expect(endBetData.apiError.errorCode).toEqual("SB1900");
                     expect(endBetData.apiError.isPlaceBetFailed).toEqual(true);
                     done();
-                    gameServiceClient.close();
+                    gameClientDriver.close();
                 }
             });
         });
