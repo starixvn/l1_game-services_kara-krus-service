@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { users } from "sc-base-database";
 import { middlewares } from "sc-common";
 import {
     createCurrencyGroupGames,
@@ -7,13 +8,15 @@ import {
     createExchangeRate,
     createGameConfig,
     createPartnerConfig,
+    normalUser,
 } from "sc-game-service-integration-utils";
 
 import configs from "../../../src/app-configs";
-import SeDieRoundModel from "../../../src/models/sedie-rounds";
-import { currencyData, game, gameConfig, rounds } from "./test-data";
+import { SedieBets, SeDieRounds } from "../../../src/models";
+import { currencyData, game, gameConfig, rounds, userBetData } from "./test-data";
 
 const connectDatabase = async () => {
+    console.log("connect database");
     await middlewares.database.configureDatabase(mongoose, configs.database);
     await clearAllData();
 };
@@ -35,14 +38,26 @@ const createTestData = async () => {
     await createCurrencyGroupGames(currency.groupId, game.id, gameConfig);
     await createDummyUsers(currency);
     await createRounds();
+    await createUserBetData();
 
-    console.log("Create game config & dummy user for testing successfully!");
+    console.log("Create exchange rate, game config & dummy user for testing successfully!");
 
     process.exit(0);
 };
 
+const getUserId = async (memberId) => {
+    const user = await users.findOne({ "local.memberId": memberId }, { _id: true }).lean();
+    return user._id.toString();
+};
+
 const createRounds = async () => {
-    return SeDieRoundModel.insertMany(rounds);
+    return SeDieRounds.insertMany(rounds);
+};
+
+const createUserBetData = async () => {
+    const userId = await getUserId(normalUser.memberId);
+    const betData = userBetData(userId);
+    return SedieBets.insertMany(betData);
 };
 
 createTestData();
