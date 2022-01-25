@@ -58,6 +58,7 @@
         }
     },
     "jest": {
-        "testResultsProcessor": "jest-junit"
+        "testResultsProcessor": "jest-junit",
+        "verbose": true
     }
 }

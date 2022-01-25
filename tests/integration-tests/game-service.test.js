@@ -6,10 +6,27 @@ import {
     normalUser,
 } from "sc-game-service-integration-utils";
 
+import { runService } from "./game-service-setup/game-service-app";
 import { currencyData, socketOptions } from "./stubs/test-data";
+import { createTestData } from "./stubs/test-data-setup";
 
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 70000;
-const WAITING_END_GAME_TIMEOUT = 30000;
+let service;
+
+beforeAll(async (done) => {
+    await createTestData();
+    service = await runService();
+
+    done();
+});
+
+afterAll((done) => {
+    service.close(() => {
+        console.log("done");
+
+        done();
+    });
+});
 
 describe("SeDie Service", () => {
     let normalUserClientDriver;
@@ -17,7 +34,7 @@ describe("SeDie Service", () => {
     let internalServerErrorUserClientDriver;
     let endGameErrorUserClientDriver;
 
-    beforeAll(() => {
+    beforeAll((done) => {
         // set timeout for jest, waiting for socket response
         jest.setTimeout(JEST_ASSERT_WAITING_RESPONSE_TIMEOUT);
         normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
@@ -36,6 +53,8 @@ describe("SeDie Service", () => {
         endGameErrorUserClientDriver.handleSignedInEvent(() => {
             endGameErrorUserClientDriver.sendInGameEvent();
         });
+
+        done();
     });
 
     afterAll(() => {
@@ -216,8 +235,6 @@ describe("SeDie Service", () => {
                         return betLog;
                     });
 
-                    console.log(actualBetLogs);
-
                     expect(actualBetLogs).toEqual(expectedData);
                     done();
                 }
@@ -302,22 +319,6 @@ describe("SeDie Service", () => {
                 });
             });
         });
-
-        // describe("when receive end game error from api", () => {
-        //     beforeAll(async () => {
-        //         // Act
-        //         await endGameErrorUserClientDriver.sendBetEvent(betChoice, amount);
-        //     });
-
-        //     it("should return api error to client", (done) => {
-        //         // Assert
-        //         endGameErrorUserClientDriver.handleEndBetEvent((endGameData) => {
-        //             if (endGameData.apiError?.errorCode === 1000) {
-        //                 done();
-        //             }
-        //         });
-        //     });
-        // });
     });
 });
 

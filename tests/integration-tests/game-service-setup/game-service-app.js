@@ -7,7 +7,7 @@ import gameSettings from "../../../src/game-settings";
 import { generateResult, getSettlementResult } from "../../../src/helpers/result-helper";
 import SeDieContainerRegistry from "../../../src/sedie-container-registry";
 
-export const run = async () => {
+export const runService = async () => {
     initAPIStub(appConfigs.apiSettings.apiUrl);
     const definition = new Table.TableGameDefinition(gameSettings, generateResult, getSettlementResult);
     const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
@@ -15,6 +15,5 @@ export const run = async () => {
     const app = new Core.BaseGameApp("SeDie", appConfigs);
     await app.run();
     await app.startGame(container);
+    return app.connection;
 };
-
-run();

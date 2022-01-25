@@ -29,7 +29,7 @@ const clearAllData = async () => {
     }
 };
 
-const createTestData = async () => {
+export const createTestData = async () => {
     await connectDatabase();
     await createExchangeRate();
     await createGameConfig(gameConfig);
@@ -41,8 +41,6 @@ const createTestData = async () => {
     await createUserBetData();
 
     console.log("Create exchange rate, game config & dummy user for testing successfully!");
-
-    process.exit(0);
 };
 
 const getUserId = async (memberId) => {
@@ -59,5 +57,3 @@ const createUserBetData = async () => {
     const betData = userBetData(userId);
     return SedieBets.insertMany(betData);
 };
-
-createTestData();
