@@ -6,26 +6,21 @@ import {
     normalUser,
 } from "sc-game-service-integration-utils";
 
-import { runService } from "./game-service-setup/game-service-app";
+import { setup } from "./setup";
 import { currencyData, socketOptions } from "./stubs/test-data";
-import { createTestData } from "./stubs/test-data-setup";
+import { teardown } from "./teardown";
 
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 70000;
-let service;
 
 beforeAll(async (done) => {
-    await createTestData();
-    service = await runService();
+    await setup();
 
     done();
 });
 
-afterAll((done) => {
-    service.close(() => {
-        console.log("done");
-
-        done();
-    });
+afterAll(async (done) => {
+    await teardown();
+    done();
 });
 
 describe("SeDie Service", () => {
