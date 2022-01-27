@@ -26,8 +26,8 @@
     "dependencies": {
         "nodemon": "^2.0.4",
         "sc-game-base": "2.3.0",
-        "sc-smart-bot": "1.0.0",
-        "sc-game-service-integration-utils": "1.0.0-beta.22"
+        "sc-game-service-integration-utils": "1.0.0-beta.22",
+        "sc-smart-bot": "1.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
@@ -51,7 +51,8 @@
         "jest-micro-auto-stub": "^1.0.6",
         "jest-sonar-reporter": "^2.0.0",
         "sc-semantic-release": "^1.1.0",
-        "semantic-release": "^17.1.1"
+        "semantic-release": "^17.1.1",
+        "tree-kill": "^1.2.2"
     },
     "husky": {
         "hooks": {

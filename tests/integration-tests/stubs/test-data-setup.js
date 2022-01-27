@@ -11,20 +11,13 @@ import {
     normalUser,
 } from "sc-game-service-integration-utils";
 
+import appConfigs from "../../../src/app-configs";
 import { SedieBets, SeDieRounds } from "../../../src/models";
 import { currencyData, game, gameConfig, rounds, userBetData } from "./test-data";
 
 const connectDatabase = async () => {
     console.log("connect database");
-    await middlewares.database.configureDatabase(mongoose, {
-        url: "mongodb://localhost:27017",
-        options: {
-            dbName: "minigame",
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            auto_reconnect: true,
-        },
-    });
+    await middlewares.database.configureDatabase(mongoose, appConfigs.database);
     await clearAllData();
 };
 
@@ -48,6 +41,7 @@ export const createTestData = async () => {
     await createUserBetData();
 
     console.log("Create exchange rate, game config & dummy user for testing successfully!");
+    process.exit(0);
 };
 
 const getUserId = async (memberId) => {
@@ -64,3 +58,5 @@ const createUserBetData = async () => {
     const betData = userBetData(userId);
     return SedieBets.insertMany(betData);
 };
+
+createTestData();

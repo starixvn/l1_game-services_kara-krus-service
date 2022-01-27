@@ -1,3 +1,4 @@
+import { exec } from "child_process";
 import {
     endGameErrorUser,
     errorUser,
@@ -5,31 +6,37 @@ import {
     internalServerErrorUser,
     normalUser,
 } from "sc-game-service-integration-utils";
+import kill from "tree-kill";
 
-import { setup } from "./setup";
 import { currencyData, socketOptions } from "./stubs/test-data";
-import { teardown } from "./teardown";
 
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 70000;
 
+exec("npm run test-:-integration-:-setup-test-data", function (err, stdout) {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(stdout);
+});
+
+const processStartService = exec("nohup npm run test-:-integration-:-start-service &", function (err, stdout) {
+    if (err) {
+        console.error(err);
+        return;
+    }
+});
+
+processStartService.stdout.pipe(process.stdout);
+processStartService.stderr.pipe(process.stderr);
+
+let normalUserClientDriver;
+let errorUserClientDriver;
+let internalServerErrorUserClientDriver;
+let endGameErrorUserClientDriver;
+
 beforeAll(async (done) => {
-    await setup();
-
-    done();
-});
-
-afterAll(async (done) => {
-    await teardown();
-    done();
-});
-
-describe("SeDie Service", () => {
-    let normalUserClientDriver;
-    let errorUserClientDriver;
-    let internalServerErrorUserClientDriver;
-    let endGameErrorUserClientDriver;
-
-    beforeAll((done) => {
+    setTimeout(() => {
         // set timeout for jest, waiting for socket response
         jest.setTimeout(JEST_ASSERT_WAITING_RESPONSE_TIMEOUT);
         normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
@@ -50,15 +57,21 @@ describe("SeDie Service", () => {
         });
 
         done();
-    });
+    }, 20000);
+}, 21000);
 
-    afterAll(() => {
-        normalUserClientDriver.close();
-        errorUserClientDriver.close();
-        internalServerErrorUserClientDriver.close();
-        endGameErrorUserClientDriver.close();
-    });
+afterAll((done) => {
+    normalUserClientDriver.close();
+    errorUserClientDriver.close();
+    internalServerErrorUserClientDriver.close();
+    endGameErrorUserClientDriver.close();
 
+    kill(processStartService.pid, () => {
+        done();
+    });
+}, 10000);
+
+describe("SeDie Service", () => {
     describe("when sign in successful", () => {
         it("should receive signed in response", (done) => {
             // Assert
@@ -119,8 +132,9 @@ describe("SeDie Service", () => {
             },
         ];
 
-        beforeAll(() => {
+        beforeAll((done) => {
             normalUserClientDriver.sendInGameEvent();
+            done();
         });
 
         it("should return game configuration (odds, min bet, max bet)", (done) => {
@@ -243,9 +257,10 @@ describe("SeDie Service", () => {
         const amount = 100;
 
         describe("when place bet successful", () => {
-            beforeAll(async () => {
+            beforeAll(async (done) => {
                 // Act
                 await normalUserClientDriver.sendBetEvent(betChoice, amount);
+                done();
             });
 
             it("should return current user ticket result", (done) => {
@@ -278,9 +293,10 @@ describe("SeDie Service", () => {
         });
 
         describe("when get error response from api", () => {
-            beforeAll(async () => {
+            beforeAll(async (done) => {
                 // Act
                 await errorUserClientDriver.sendBetEvent(betChoice, amount);
+                done();
             });
 
             it("should return api error to client", (done) => {
@@ -297,9 +313,10 @@ describe("SeDie Service", () => {
         });
 
         describe("when API internal server error", () => {
-            beforeAll(async () => {
+            beforeAll(async (done) => {
                 // Act
                 await internalServerErrorUserClientDriver.sendBetEvent(betChoice, amount);
+                done();
             });
 
             it("should return api error to client", (done) => {

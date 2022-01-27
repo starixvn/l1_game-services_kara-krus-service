@@ -34,8 +34,6 @@ integration-tests:
     - cp ./configs/app-configs.IGT.js ./src/app-configs.js
     - npm set registry http://npm.lumigame.com
     - yarn install
-    - npm run test-:-integration-:-setup-test-data
-    - nohup npm run test-:-integration-:-start-service &
 
   script:
     - npm run test-:-integration-:-start-test
