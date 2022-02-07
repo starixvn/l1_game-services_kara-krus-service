@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { spawn } from "child_process";
 import {
     endGameErrorUser,
     errorUser,
@@ -6,29 +6,38 @@ import {
     internalServerErrorUser,
     normalUser,
 } from "sc-game-service-integration-utils";
-import kill from "tree-kill";
 
 import { currencyData, socketOptions } from "./stubs/test-data";
 
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 70000;
 
-exec("npm run test-:-integration-:-setup-test-data", function (err, stdout) {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(stdout);
+const setupTestDataJob = spawn("node", ["--es-module-specifier-resolution=node", "./tests/integration-tests/stubs/test-data-setup.js"]);
+setupTestDataJob.stdout.on("data", (data) => {
+    console.log(`stdout: ${data}`);
 });
 
-const processStartService = exec("nohup npm run test-:-integration-:-start-service &", function (err, stdout) {
-    if (err) {
-        console.error(err);
-        return;
-    }
+setupTestDataJob.stderr.on("data", (data) => {
+    console.log(`stderr: ${data}`);
+});
+setupTestDataJob.on("close", (code) => {
+    console.log(`child process exited with code ${code}`);
 });
 
-processStartService.stdout.pipe(process.stdout);
-processStartService.stderr.pipe(process.stderr);
+const processStartService = spawn("node", [
+    "--es-module-specifier-resolution=node",
+    "./tests/integration-tests/game-service-setup/game-service-app.js",
+    {
+        stdio: [null, null, null, "ipc"],
+    },
+]);
+
+processStartService.stdout.on("data", (data) => {
+    console.log(`stdout: ${data}`);
+});
+
+processStartService.stderr.on("data", (data) => {
+    console.log(`stderr: ${data}`);
+});
 
 let normalUserClientDriver;
 let errorUserClientDriver;
@@ -60,16 +69,15 @@ beforeAll(async (done) => {
     }, 20000);
 }, 21000);
 
-afterAll((done) => {
+afterAll(() => {
     normalUserClientDriver.close();
     errorUserClientDriver.close();
     internalServerErrorUserClientDriver.close();
     endGameErrorUserClientDriver.close();
 
-    kill(processStartService.pid, () => {
-        done();
-    });
-}, 10000);
+    processStartService.stdin.pause();
+    processStartService.kill();
+});
 
 describe("SeDie Service", () => {
     describe("when sign in successful", () => {

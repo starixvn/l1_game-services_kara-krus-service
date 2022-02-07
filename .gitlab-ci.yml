@@ -36,7 +36,7 @@ integration-tests:
     - yarn install
 
   script:
-    - npm run test-:-integration-:-start-test
+    - npm run integration-test
 
   rules:
     - <<: *if-deploy-local
@@ -57,10 +57,4 @@ integration-tests:
       junit:
         - junit.xml
     expire_in: 1 day
-
-unit-test-js:
-  artifacts:
-    reports:
-      junit: coverage/*.xml
-      cobertura: coverage/cobertura-coverage.xml
 

@@ -15,7 +15,6 @@ export const run = async () => {
     const app = new Core.BaseGameApp("SeDie", appConfigs);
     await app.run();
     await app.startGame(container);
-    return app.connection;
 };
 
 run();

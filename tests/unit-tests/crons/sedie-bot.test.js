@@ -1,5 +1,5 @@
 import Chance from "chance";
-import { stub, stubMongooseModelStupidly } from "jest-micro-auto-stub";
+import { stub, stubMongoose } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
 import { logger } from "sc-common";
 import { Table } from "sc-game-base";
@@ -28,9 +28,9 @@ gameData.gameConfigs = {
 };
 
 /** @type {mongoose.Model}*/
-const userInfosRepository = stubMongooseModelStupidly(mongoose.Model);
+const userInfosRepository = stubMongoose(mongoose.Model);
 /** @type {mongoose.Model}*/
-const tempBetsRepository = stubMongooseModelStupidly(mongoose.Model);
+const tempBetsRepository = stubMongoose(mongoose.Model);
 const publisher = new BaseEventPublisher(definition.name, gameData);
 
 const tableSmartBot = {
