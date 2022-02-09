@@ -1,17 +1,17 @@
 export default {
-    hostingPort: 8082,
+    hostingPort: 5001,
     apiSettings: {
         enabledApi: true,
-        apiUrl: "http://api.lumigame.com",
+        apiUrl: "http://localhost:9000",
         authUrl: "http://auth.lumigame.com",
         client: {
             id: "game-server",
             secret: "gameserver@20luminet&",
         },
-        useAuthenticate: true,
-        requestTimeout: 10000,
+        useAuthenticate: false,
+        requestTimeout: 5000,
         placeBetTimeout: 4500,
-        enableApiLogs: true,
+        enabledApiLogs: true,
     },
     mainServerApiSettings: {
         url: "http://localhost:8080/api",
@@ -31,7 +31,7 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url: "mongodb://127.0.0.1:27017",
+        url: "mongodb://localhost:27017",
         options: {
             dbName: "minigame",
             useNewUrlParser: true,

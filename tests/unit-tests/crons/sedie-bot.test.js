@@ -1,15 +1,15 @@
 import Chance from "chance";
-import { stub, stubMongooseModelStupidly } from "jest-micro-auto-stub";
+import { stub, stubMongoose } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
 import { logger } from "sc-common";
 import { Table } from "sc-game-base";
 import { BaseEventPublisher } from "sc-game-base/src/core/event-publishers";
 import { TableGameBot } from "sc-game-base/src/table/crons";
 
-import constants from "../../src/constants";
-import SedieBot from "../../src/crons/sedie-bot";
-import gameSettings from "../../src/game-settings";
-import { generateResult, getSettlementResult } from "../../src/helpers/result-helper";
+import constants from "../../../src/constants";
+import SedieBot from "../../../src/crons/sedie-bot";
+import gameSettings from "../../../src/game-settings";
+import { generateResult, getSettlementResult } from "../../../src/helpers/result-helper";
 
 const definition = new Table.TableGameDefinition(gameSettings, generateResult, getSettlementResult);
 const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
@@ -28,9 +28,9 @@ gameData.gameConfigs = {
 };
 
 /** @type {mongoose.Model}*/
-const userInfosRepository = stubMongooseModelStupidly(mongoose.Model);
+const userInfosRepository = stubMongoose(mongoose.Model);
 /** @type {mongoose.Model}*/
-const tempBetsRepository = stubMongooseModelStupidly(mongoose.Model);
+const tempBetsRepository = stubMongoose(mongoose.Model);
 const publisher = new BaseEventPublisher(definition.name, gameData);
 
 const tableSmartBot = {
