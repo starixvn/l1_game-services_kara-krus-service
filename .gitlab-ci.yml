@@ -58,3 +58,8 @@ integration-tests:
         - junit.xml
     expire_in: 1 day
 
+unit-test-js:
+  artifacts:
+    reports:
+      junit: coverage/*.xml
+      cobertura: coverage/cobertura-coverage.xml

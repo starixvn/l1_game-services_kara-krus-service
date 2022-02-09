@@ -5,8 +5,8 @@
     "main": "./src/app.js",
     "scripts": {
         "test": "jest --testPathPattern=tests/unit-tests/",
-        "integration-test": "jest --testPathPattern=tests/integration-tests/ --ci --reporters=default --reporters=jest-junit --forceExit",
         "test-coverage": "jest --collect-coverage --testPathPattern=tests/unit-tests/",
+        "integration-test": "jest --testPathPattern=tests/integration-tests/ --ci --reporters=default --reporters=jest-junit --forceExit",
         "dev": "nodemon --es-module-specifier-resolution=node --watch ./src ./src/app.js",
         "debug": "nodemon --es-module-specifier-resolution=node --watch ./ --inspect ./src/app.js",
         "prod": "node --max-old-space-size=8192 --es-module-specifier-resolution=node ./src/app.js",
@@ -23,7 +23,6 @@
     "dependencies": {
         "nodemon": "^2.0.4",
         "sc-game-base": "2.3.0",
-        "sc-game-service-integration-utils": "1.0.0",
         "sc-smart-bot": "1.0.0"
     },
     "devDependencies": {
@@ -46,6 +45,7 @@
         "jest-junit": "^12.2.0",
         "jest-micro-auto-stub": "^1.0.9",
         "jest-sonar-reporter": "^2.0.0",
+        "sc-game-service-integration-utils": "1.0.0",
         "sc-semantic-release": "^1.1.0",
         "semantic-release": "^17.1.1"
     },
@@ -55,7 +55,6 @@
         }
     },
     "jest": {
-        "testResultsProcessor": "jest-junit",
-        "verbose": true
+        "testResultsProcessor": "jest-junit"
     }
 }
