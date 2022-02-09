@@ -6,7 +6,7 @@ import gameSettings from "./game-settings";
 import { generateResult, getSettlementResult } from "./helpers/result-helper";
 import SeDieContainerRegistry from "./sedie-container-registry";
 
-export const run = async () => {
+const run = async () => {
     const definition = new Table.TableGameDefinition(gameSettings, generateResult, getSettlementResult);
     const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
     const container = new SeDieContainerRegistry().register(appConfigs, definition, gameData);

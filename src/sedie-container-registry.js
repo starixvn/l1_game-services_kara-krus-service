@@ -1,4 +1,4 @@
-import { asClass, asValue } from "awilix";
+import awilix from "awilix";
 import { Table } from "sc-game-base";
 import { SmartBotContainerRegistry } from "sc-smart-bot";
 
@@ -12,6 +12,8 @@ import {
     SeDieSmartBotPatterns,
     SedieTmpBets,
 } from "./models";
+
+const { asClass, asValue } = awilix;
 
 export default class SeDieContainerRegistry extends Table.TableContainerRegistry {
     registerModels() {
