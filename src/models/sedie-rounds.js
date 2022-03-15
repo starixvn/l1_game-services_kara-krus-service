@@ -31,6 +31,7 @@ const Schema = new mongoose.Schema({
     settlementResult: settlementResultSchema,
     time: { type: Date, default: new Date() },
     exchangeRateId: { type: Number, require: true },
+    md5: { hashValue: { type: String }, rawValue: { type: String } },
 });
 
 export default mongoose.model(modelName, Schema);

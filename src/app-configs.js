@@ -1,5 +1,5 @@
 export default {
-    hostingPort: 5001,
+    hostingPort: 5002,
     apiSettings: {
         enabledApi: true,
         apiUrl: "http://localhost:9000",
