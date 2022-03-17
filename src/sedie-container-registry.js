@@ -11,6 +11,7 @@ import {
     SeDieSmartBotBetLogs,
     SeDieSmartBotPatterns,
     SedieTmpBets,
+    SedieMD5s,
 } from "./models";
 
 const { asClass, asValue } = awilix;
@@ -26,6 +27,7 @@ export default class SeDieContainerRegistry extends Table.TableContainerRegistry
             betPatternRepository: asValue(SeDieSmartBotPatterns),
             betActionRepository: asValue(SeDieSmartBotBetActions),
             smartBotBetLogsRepository: asValue(SeDieSmartBotBetLogs),
+            md5sRepository: asValue(SedieMD5s),
         });
 
         this.container.register(new SmartBotContainerRegistry().register());
