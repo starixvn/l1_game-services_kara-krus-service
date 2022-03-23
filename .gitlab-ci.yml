@@ -39,15 +39,10 @@ integration-tests:
     - npm run integration-test
 
   rules:
-    - <<: *if-deploy-local
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
       when: never
-    - <<: *if-deploy-sit
-      when: never
-    - <<: *if-deploy-uat
-      when: never
-    - <<: *if-deploy-prod
-      when: never
-    - when: always
+    - if: '$CI_COMMIT_BRANCH'
 
   artifacts:
     when: always
