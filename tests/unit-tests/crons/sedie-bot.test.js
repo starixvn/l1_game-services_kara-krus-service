@@ -45,118 +45,139 @@ const logService = stub(logger);
 const chance = new Chance();
 
 describe("SedieBot tests", () => {
-    it("all bet amount of choices should be zero after initialize", () => {
-        // arrange
+    describe("when after initialize", () => {
+        it("all bet amount of choices should be zero", () => {
+            // arrange
 
-        // act
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            // act
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
 
-        // assert
-        expect(bot.allBets).toEqual(constants.resetTotalBets);
-    });
-
-    it("all bet amount of choices should be zero after initialize with smartbot", () => {
-        // arrange
-
-        // act
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableSmartBot, logService);
-
-        // assert
-        expect(bot.allBets).toEqual(constants.resetTotalBets);
-    });
-
-    it("reset should call super.reset", async () => {
-        // arrange
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-        spyOn(TableGameBot.prototype, "reset");
-
-        // act
-        await bot.reset();
-
-        // assert
-        expect(TableGameBot.prototype.reset).toHaveBeenCalled();
-    });
-
-    it("run should call super.run", async () => {
-        // arrange
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-        spyOn(TableGameBot.prototype, "run");
-
-        // act
-        await bot.run();
-
-        // assert
-        expect(TableGameBot.prototype.run).toHaveBeenCalled();
-    });
-
-    it("resetAllBotData should call super.resetAllBotData", () => {
-        // arrange
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-        spyOn(TableGameBot.prototype, "resetAllBotData");
-
-        // act
-        bot.resetAllBotData();
-
-        // assert
-        expect(TableGameBot.prototype.resetAllBotData).toHaveBeenCalled();
-    });
-
-    it("resetInRoomTrackings should call userInfosRepository.updateMany", async () => {
-        // arrange
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-        spyOn(userInfosRepository, "updateMany");
-
-        // act
-        await bot.resetInRoomTrackings();
-
-        // assert
-        expect(userInfosRepository.updateMany).toHaveBeenCalledWith(
-            { type: true, inGameRoom: definition.configName, patternId: 0 },
-            { inRoom: false, inGameRoom: "" }
-        );
-    });
-
-    it("getAllBetAmount should return sum of bot bet amount", () => {
-        // arrange
-        const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-        let expected = 0;
-
-        definition.choices.forEach((choice) => {
-            const randomAmount = chance.integer();
-            bot.allBets[choice] = randomAmount;
-            expected += randomAmount;
+            // assert
+            expect(bot.allBets).toEqual(constants.resetTotalBets);
         });
+    });
 
-        // act
-        const totalBetAmount = bot.getAllBetAmount();
+    describe("when after initialize with smartbot", () => {
+        it("all bet amount of choices should be zero", () => {
+            // arrange
 
-        // assert
-        expect(totalBetAmount).toEqual(expected);
+            // act
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableSmartBot, logService);
+
+            // assert
+            expect(bot.allBets).toEqual(constants.resetTotalBets);
+        });
+    });
+
+    describe("reset", () => {
+        it("should call super.reset", async () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            spyOn(TableGameBot.prototype, "reset");
+
+            // act
+            await bot.reset();
+
+            // assert
+            expect(TableGameBot.prototype.reset).toHaveBeenCalled();
+        });
+    });
+
+    describe("run", () => {
+        it("should call super.run", async () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            spyOn(TableGameBot.prototype, "run");
+
+            // act
+            await bot.run();
+
+            // assert
+            expect(TableGameBot.prototype.run).toHaveBeenCalled();
+        });
+    });
+
+    describe("resetAllBotData", () => {
+        it("should call super.resetAllBotData", () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            spyOn(TableGameBot.prototype, "resetAllBotData");
+
+            // act
+            bot.resetAllBotData();
+
+            // assert
+            expect(TableGameBot.prototype.resetAllBotData).toHaveBeenCalled();
+        });
+    });
+
+    describe("resetInRoomTrackings", () => {
+        it("should call userInfosRepository.updateMany", async () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            spyOn(userInfosRepository, "updateMany");
+
+            // act
+            await bot.resetInRoomTrackings();
+
+            // assert
+            expect(userInfosRepository.updateMany).toHaveBeenCalledWith(
+                { type: true, inGameRoom: definition.configName, patternId: 0 },
+                { inRoom: false, inGameRoom: "" }
+            );
+        });
+    });
+
+    describe("getAllBetAmount", () => {
+        it("should return sum of bot bet amount", () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            let expected = 0;
+
+            definition.choices.forEach((choice) => {
+                const randomAmount = chance.integer();
+                bot.allBets[choice] = randomAmount;
+                expected += randomAmount;
+            });
+
+            // act
+            const totalBetAmount = bot.getAllBetAmount();
+
+            // assert
+            expect(totalBetAmount).toEqual(expected);
+        });
     });
 
     describe("isSmallTicket test", () => {
-        it("should return true if amount less than minBet * smallTicketValueRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            const randomAmount = chance.integer({ min: bot.getMinBet(), max: bot.getMinBet() * bot.smallTicketValueRatio - 1 });
+        describe("when amount less than minBet * smallTicketValueRatio", () => {
+            it("should return true", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                const randomAmount = chance.integer({ min: bot.getMinBet(), max: bot.getMinBet() * bot.smallTicketValueRatio - 1 });
 
-            // act
-            const result = bot.isSmallTicket(randomAmount);
+                // act
+                const result = bot.isSmallTicket(randomAmount);
 
-            // assert
-            expect(result).toBeTrue();
+                // assert
+                expect(result).toBeTrue();
+            });
         });
 
-        it("should return false if amount greater than minBet * smallTicketValueRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            const randomAmount = chance.integer({ min: bot.getMinBet() * bot.smallTicketValueRatio, max: gameData.gameConfigs.bot_maxbet });
+        describe("amount greater than minBet * smallTicketValueRatio", () => {
+            it("should return false", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                const randomAmount = chance.integer({
+                    min: bot.getMinBet() * bot.smallTicketValueRatio,
+                    max: gameData.gameConfigs.bot_maxbet,
+                });
 
-            // act
-            const result = bot.isSmallTicket(randomAmount);
+                // act
+                const result = bot.isSmallTicket(randomAmount);
 
-            // assert
-            expect(result).toBeFalse();
+                // assert
+                expect(result).toBeFalse();
+            });
         });
     });
 
@@ -242,81 +263,91 @@ describe("SedieBot tests", () => {
     });
 
     describe("getMaxBet test", () => {
-        it("should return the max value of small ticket if not reach smallTicketRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            const betChoice = chance.pickone(bot.mainOpts);
+        describe("when not reach smallTicketRatio", () => {
+            it("should return the max value of small ticket", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                const betChoice = chance.pickone(bot.mainOpts);
 
-            // act
-            const maxBet = bot.getMaxBet(null, betChoice);
+                // act
+                const maxBet = bot.getMaxBet(null, betChoice);
 
-            // assert
-            expect(maxBet).toEqual(bot.getMinBet() * bot.smallTicketValueRatio);
+                // assert
+                expect(maxBet).toEqual(bot.getMinBet() * bot.smallTicketValueRatio);
+            });
         });
 
-        it("betChoice is mainOpts should return the lowest-valued between bot_maxbet and choice_maxbet if already passed smallTicketRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            bot.smallTickets = 1;
-            bot.totalTickets = 1;
-            const betChoice = chance.pickone(bot.mainOpts);
+        describe("when betChoice is mainOpts and already passed smallTicketRatio", () => {
+            it("should return the lowest-valued between bot_maxbet and choice_maxbet ", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                bot.smallTickets = 1;
+                bot.totalTickets = 1;
+                const betChoice = chance.pickone(bot.mainOpts);
 
-            // act
-            const maxBet = bot.getMaxBet(null, betChoice);
+                // act
+                const maxBet = bot.getMaxBet(null, betChoice);
 
-            // assert
-            expect(maxBet).toEqual(gameData.gameConfigs.bot_maxbet);
+                // assert
+                expect(maxBet).toEqual(gameData.gameConfigs.bot_maxbet);
+            });
         });
 
-        it("betChoice is subOpts should return totalBetAmount * subOptRatio if already passed smallTicketRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            bot.smallTickets = 1;
-            bot.totalTickets = 1;
-            const totalBetAmount = 1000;
-            const expected = (totalBetAmount * bot.betChoiceRatio.SubOpts) / 100;
-            spyOn(bot, "getAllBetAmount").and.returnValue(totalBetAmount);
-            const betChoice = chance.pickone(bot.subOpts);
+        describe("when betChoice is subOpts and passed smallTicketRatio", () => {
+            it("should return totalBetAmount * subOptRatio ", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                bot.smallTickets = 1;
+                bot.totalTickets = 1;
+                const totalBetAmount = 1000;
+                const expected = (totalBetAmount * bot.betChoiceRatio.SubOpts) / 100;
+                spyOn(bot, "getAllBetAmount").and.returnValue(totalBetAmount);
+                const betChoice = chance.pickone(bot.subOpts);
 
-            // act
-            const maxBet = bot.getMaxBet(null, betChoice);
+                // act
+                const maxBet = bot.getMaxBet(null, betChoice);
 
-            // assert
-            expect(maxBet).toEqual(expected);
+                // assert
+                expect(maxBet).toEqual(expected);
+            });
         });
 
-        it("betChoice is equalOpts should return totalBetAmount * equalOptRatio if already passed smallTicketRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            bot.smallTickets = 1;
-            bot.totalTickets = 1;
-            const totalBetAmount = 1000;
-            const expected = (totalBetAmount * bot.betChoiceRatio.EqualOpts) / 100;
-            spyOn(bot, "getAllBetAmount").and.returnValue(totalBetAmount);
-            const betChoice = chance.pickone(bot.equalOpts);
+        describe("when betChoice is equalOpts and passed smallTicketRatio", () => {
+            it("should return totalBetAmount * equalOptRatio", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                bot.smallTickets = 1;
+                bot.totalTickets = 1;
+                const totalBetAmount = 1000;
+                const expected = (totalBetAmount * bot.betChoiceRatio.EqualOpts) / 100;
+                spyOn(bot, "getAllBetAmount").and.returnValue(totalBetAmount);
+                const betChoice = chance.pickone(bot.equalOpts);
 
-            // act
-            const maxBet = bot.getMaxBet(null, betChoice);
+                // act
+                const maxBet = bot.getMaxBet(null, betChoice);
 
-            // assert
-            expect(maxBet).toEqual(expected);
+                // assert
+                expect(maxBet).toEqual(expected);
+            });
         });
 
-        it("betChoice is rareOpts should return minBet * 10 if already passed smallTicketRatio", () => {
-            // arrange
-            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            bot.smallTickets = 1;
-            bot.totalTickets = 1;
-            const totalBetAmount = 1000;
-            const expected = gameData.gameConfigs.minbet * 10;
-            spyOn(bot, "getAllBetAmount").and.returnValue(totalBetAmount);
-            const betChoice = chance.pickone(bot.rareOpts);
+        describe("when betChoice is rareOpts and passed smallTicketRatio", () => {
+            it("should return minBet * 10", () => {
+                // arrange
+                const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+                bot.smallTickets = 1;
+                bot.totalTickets = 1;
+                const totalBetAmount = 1000;
+                const expected = gameData.gameConfigs.minbet * 10;
+                spyOn(bot, "getAllBetAmount").and.returnValue(totalBetAmount);
+                const betChoice = chance.pickone(bot.rareOpts);
 
-            // act
-            const maxBet = bot.getMaxBet({ betOnChoices: [] }, betChoice);
+                // act
+                const maxBet = bot.getMaxBet({ betOnChoices: [] }, betChoice);
 
-            // assert
-            expect(maxBet).toEqual(expected);
+                // assert
+                expect(maxBet).toEqual(expected);
+            });
         });
     });
 
@@ -350,7 +381,7 @@ describe("SedieBot tests", () => {
     });
 
     describe("smartBotAfterPlacingBet test", () => {
-        it("should call super to update bets and publish payload", () => {
+        it("should call super to update bets ", () => {
             // arrange
             const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
             const botPlayer = { id: "23" };
@@ -363,6 +394,20 @@ describe("SedieBot tests", () => {
 
             // assert
             expect(TableGameBot.prototype.updateTotalBetsAndChips).toHaveBeenCalled();
+        });
+
+        it("should  publish payload", () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            const botPlayer = { id: "23" };
+            gameData.players[botPlayer.id] = botPlayer;
+            spyOn(TableGameBot.prototype, "updateTotalBetsAndChips");
+            spyOn(TableGameBot.prototype, "updateBalanceAndPublishBetPayload");
+
+            // act
+            bot.smartBotAfterPlacingBet(botPlayer, chance.pickone(bot.equalOpts), 20, 1000);
+
+            // assert
             expect(TableGameBot.prototype.updateBalanceAndPublishBetPayload).toHaveBeenCalled();
         });
     });
