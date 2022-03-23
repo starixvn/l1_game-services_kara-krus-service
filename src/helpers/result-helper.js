@@ -32,7 +32,7 @@ const formatUnicode = (isRed) => {
 };
 
 export const generateRawResultForMd5 = (roundResult) => {
-    return `${formatUnicode(roundResult.red1)}${formatUnicode(roundResult.red2)}${formatUnicode(roundResult.red3)}${formatUnicode(
+    return `{${formatUnicode(roundResult.red1)}${formatUnicode(roundResult.red2)}${formatUnicode(roundResult.red3)}${formatUnicode(
         roundResult.red4
-    )}`;
+    )}}`;
 };
