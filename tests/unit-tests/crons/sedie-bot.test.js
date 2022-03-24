@@ -194,7 +194,7 @@ describe("SedieBot tests", () => {
             expect(TableGameBot.prototype.updateBotInRoomData).toHaveBeenCalled();
         });
 
-        it("should update small tickets count and allBets", () => {
+        it("should update small tickets count", () => {
             // arrange
             spyOn(TableGameBot.prototype, "updateBotInRoomData");
             const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
@@ -206,6 +206,19 @@ describe("SedieBot tests", () => {
 
             // assert
             expect(bot.smallTickets).toEqual(1);
+        });
+
+        it("should update allBets", () => {
+            // arrange
+            spyOn(TableGameBot.prototype, "updateBotInRoomData");
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            const randomAmount = chance.integer({ min: bot.getMinBet(), max: bot.getMinBet() * bot.smallTicketValueRatio - 1 });
+            const choice = chance.pickone(bot.mainOpts);
+
+            // act
+            bot.updateBotInRoomData({}, choice, randomAmount, 1000);
+
+            // assert
             expect(bot.allBets[choice]).toEqual(randomAmount);
         });
     });
@@ -365,7 +378,7 @@ describe("SedieBot tests", () => {
     });
 
     describe("addToPlayersAndPublish test", () => {
-        it("should add to players and publish to all users", () => {
+        it("should add to players", () => {
             // arrange
             const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
             const botPlayer = { id: "23" };
@@ -376,6 +389,18 @@ describe("SedieBot tests", () => {
 
             // assert
             expect(gameData.players[botPlayer.id]).toEqual(botPlayer);
+        });
+
+        it("should publish to all users", () => {
+            // arrange
+            const bot = new SedieBot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
+            const botPlayer = { id: "23" };
+            spyOn(publisher, "publishToAllUsersExceptSystem");
+
+            // act
+            bot.addToPlayersAndPublish(botPlayer);
+
+            // assert
             expect(publisher.publishToAllUsersExceptSystem).toHaveBeenCalled();
         });
     });
