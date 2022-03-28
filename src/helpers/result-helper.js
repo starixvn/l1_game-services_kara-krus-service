@@ -27,7 +27,7 @@ export const getSettlementResult = (roundResult) => {
     }, {});
 };
 
-export const generateRawResultForMd5 = (roundResult) => {
+export const generateRawResultForHash = (roundResult) => {
     let result = "";
     const redCount = Object.entries(roundResult)
         .map((i) => i[1])
@@ -37,7 +37,7 @@ export const generateRawResultForMd5 = (roundResult) => {
             result = "⚪⚪⚪⚪";
             break;
         case 1:
-            result = "⚪⚪⚪🔴";
+            result = "🔴⚪⚪⚪";
             break;
         case 2:
             result = "🔴🔴⚪⚪";
