@@ -5,6 +5,7 @@ import { initUserSession } from "./init-user-session";
 describe("when user joins game", () => {
     it("should return game configs", (done) => {
         setTimeout(() => {
+            console.log("ingame connect");
             // Arrange
             const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
@@ -44,6 +45,6 @@ describe("when user joins game", () => {
                     }
                 }
             });
-        }, 10000);
+        }, 3000);
     });
 });

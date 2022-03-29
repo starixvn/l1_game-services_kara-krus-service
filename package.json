@@ -6,6 +6,8 @@
     "scripts": {
         "test": "jest --testPathPattern=tests/unit-tests/",
         "test-coverage": "jest --collect-coverage --testPathPattern=tests/unit-tests/",
+        "setup-integration-test-data": "node --es-module-specifier-resolution=node ./tests/integration-tests/stubs/test-data-setup.js",
+        "start-integration-test-service": "node --es-module-specifier-resolution=node ./tests/integration-tests/game-service-setup/game-service-app.js",
         "integration-test": "jest tests/integration-tests/index.test.js --ci --reporters=default --reporters=jest-junit --forceExit",
         "dev": "nodemon --es-module-specifier-resolution=node --watch ./src ./src/app.js",
         "debug": "nodemon --es-module-specifier-resolution=node --watch ./ --inspect ./src/app.js",

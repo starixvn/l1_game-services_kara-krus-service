@@ -2,19 +2,19 @@ import { GameClientDriver, normalUser } from "sc-game-service-integration-utils"
 import { socketOptions } from "./stubs/test-data";
 import { initUserSession } from "./init-user-session";
 
-xdescribe("signin", () => {
+describe("signin", () => {
     it("should receive signed in response", (done) => {
         setTimeout(() => {
-            console.log("connect");
+            console.log("signin connect");
             // Arrange & Act
             const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
             // Assert
             normalUserClientDriver.handleSignedInEvent(() => {
-                console.log("ok");
+                console.log("signin ok");
                 normalUserClientDriver.close();
                 done();
             });
-        }, 10000);
+        }, 3000);
     });
 });
