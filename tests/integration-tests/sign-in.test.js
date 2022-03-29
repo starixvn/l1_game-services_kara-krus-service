@@ -12,6 +12,7 @@ describe("signin", () => {
             // Assert
             normalUserClientDriver.handleSignedInEvent(() => {
                 console.log("ok");
+                normalUserClientDriver.close();
                 done();
             });
         }, 10000);

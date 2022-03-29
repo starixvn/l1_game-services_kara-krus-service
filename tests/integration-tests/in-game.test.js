@@ -38,6 +38,7 @@ describe("when user joins game", () => {
                             white4: 14.5,
                         });
 
+                        normalUserClientDriver.close();
                         done();
                     }
                 }
