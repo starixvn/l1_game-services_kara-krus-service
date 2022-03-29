@@ -1,5 +1,5 @@
 export default {
-    hostingPort: 5001,
+    hostingPort: 5002,
     apiSettings: {
         enabledApi: true,
         apiUrl: "http://l1_game_api_local:5000",
@@ -32,7 +32,7 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url: "mongodb://mongo:27017",
+        url: "mongodb://localhost:27017",
         options: {
             dbName: "game-service-test-db",
             useNewUrlParser: true,
