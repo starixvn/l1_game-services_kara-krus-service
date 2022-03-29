@@ -6,7 +6,7 @@ const game = {
 const currencyData = { code: "USD", name: "$US" };
 
 const socketOptions = {
-    socketUri: "http://localhost:5001/user/xocxoc",
+    socketUri: "http://localhost:5002/user/xocxoc",
     gameName: game.name,
     proxyRoute: "/socket.io",
 };
