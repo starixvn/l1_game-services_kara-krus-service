@@ -14,6 +14,6 @@ describe("signin", () => {
                 console.log("ok");
                 done();
             });
-        }, 1000);
+        }, 5000);
     });
 });
