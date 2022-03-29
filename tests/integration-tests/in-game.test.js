@@ -4,42 +4,44 @@ import { initUserSession } from "./init-user-session";
 
 describe("when user joins game", () => {
     it("should return game configs", (done) => {
-        // Arrange
-        const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+        setTimeout(() => {
+            // Arrange
+            const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
-        // Act
-        normalUserClientDriver.handleSignedInEvent(() => {
-            normalUserClientDriver.sendInGameEvent();
-        });
+            // Act
+            normalUserClientDriver.handleSignedInEvent(() => {
+                normalUserClientDriver.sendInGameEvent();
+            });
 
-        // Assert
-        normalUserClientDriver.handleInGameEvent((inGameData) => {
-            if (inGameData?.gameConfigs) {
-                if (inGameData.gameConfigs) {
-                    expect(inGameData.gameConfigs.minBet).toEqual(1);
-                    expect(inGameData.gameConfigs.maxBet).toEqual(3000);
-                    expect(inGameData.gameConfigs.maxBetPerChoices).toStrictEqual({
-                        even: 3000,
-                        odd: 3000,
-                        red2: 3000,
-                        red3: 3000,
-                        red4: 1000,
-                        white3: 3000,
-                        white4: 1000,
-                    });
-                    expect(inGameData.gameConfigs.odds).toStrictEqual({
-                        even: 1.97,
-                        odd: 1.97,
-                        red2: 2.5,
-                        red3: 3.76,
-                        red4: 14.5,
-                        white3: 3.76,
-                        white4: 14.5,
-                    });
+            // Assert
+            normalUserClientDriver.handleInGameEvent((inGameData) => {
+                if (inGameData?.gameConfigs) {
+                    if (inGameData.gameConfigs) {
+                        expect(inGameData.gameConfigs.minBet).toEqual(1);
+                        expect(inGameData.gameConfigs.maxBet).toEqual(3000);
+                        expect(inGameData.gameConfigs.maxBetPerChoices).toStrictEqual({
+                            even: 3000,
+                            odd: 3000,
+                            red2: 3000,
+                            red3: 3000,
+                            red4: 1000,
+                            white3: 3000,
+                            white4: 1000,
+                        });
+                        expect(inGameData.gameConfigs.odds).toStrictEqual({
+                            even: 1.97,
+                            odd: 1.97,
+                            red2: 2.5,
+                            red3: 3.76,
+                            red4: 14.5,
+                            white3: 3.76,
+                            white4: 14.5,
+                        });
 
-                    done();
+                        done();
+                    }
                 }
-            }
-        });
+            });
+        }, 10000);
     });
 });
