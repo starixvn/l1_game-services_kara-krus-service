@@ -17,6 +17,7 @@ describe("when user joins game", () => {
             normalUserClientDriver.handleInGameEvent((inGameData) => {
                 if (inGameData?.gameConfigs) {
                     if (inGameData.gameConfigs) {
+                        console.log("ingame data", inGameData.gameConfigs);
                         expect(inGameData.gameConfigs.minBet).toEqual(1);
                         expect(inGameData.gameConfigs.maxBet).toEqual(3000);
                         expect(inGameData.gameConfigs.maxBetPerChoices).toStrictEqual({
