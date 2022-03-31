@@ -60,6 +60,6 @@
         "testResultsProcessor": "jest-junit"
     },
     "resolutions": {
-        "sc-game-base": "2.6.1-beta.13"
+        "sc-game-base": "2.6.1-beta.16"
     }
 }
