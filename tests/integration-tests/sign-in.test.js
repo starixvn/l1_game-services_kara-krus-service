@@ -8,6 +8,7 @@ export const signinTest = () => {
             // Arrange & Act
             const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
+            console.log(normalUserClientDriver);
             // Assert
             normalUserClientDriver.handleSignedInEvent(() => {
                 normalUserClientDriver.close();

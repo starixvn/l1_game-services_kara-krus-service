@@ -11,6 +11,7 @@ const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 120000;
 beforeAll((done) => {
     jest.setTimeout(JEST_ASSERT_WAITING_RESPONSE_TIMEOUT);
     startSetupDataProcess(() => {
+        console.log("done setup db");
         processStartService = startServiceProcess(() => {
             console.log("start tests");
             done();
