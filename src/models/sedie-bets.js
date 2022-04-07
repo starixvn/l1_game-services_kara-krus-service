@@ -21,6 +21,11 @@ const bet = {
     memberId: { type: Number },
     siteId: { type: String },
     freeBet: { type: Boolean, default: false },
+
+    playerId: { type: Number },
+    operatorId: { type: String, required: false },
+    roundId: { type: Number, default: 0 },
+    paid: { type: Boolean, default: false },
 };
 
 const bets = mongoose.model(
