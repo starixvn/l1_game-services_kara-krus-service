@@ -30,8 +30,8 @@ integration-tests:
       
   image: registry.nexdev.net:5050/docker/node:14.15.1-slim
   before_script:
-    - cp ./src/app-configs.js ./src/app-configs.original.js
-    - cp ./configs/app-configs.IGT.js ./src/app-configs.js
+    - cp ./src/app-configs.IGT.js ./src/app-configs.IGT.original.js
+    - cp ./configs/app-configs.IGT.js ./src/app-configs.IGT.js
     - npm set registry http://npm.lumigame.com
     - yarn install
     
