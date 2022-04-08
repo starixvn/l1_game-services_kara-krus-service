@@ -62,6 +62,7 @@ const userBetData = (uid) => {
             thanhtoan: true,
             white3: 0,
             white4: 0,
+            roundId: 1190119,
         },
         {
             freeBet: false,
@@ -83,6 +84,8 @@ const userBetData = (uid) => {
             thanhtoan: true,
             white3: 0,
             white4: 0,
+            roundId: 1190119,
+            paid: true,
         },
     ];
 };

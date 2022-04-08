@@ -36,6 +36,8 @@ export const getHistoryTest = () => {
                     partnerId: "dummy-partner-id",
                     rate: 1,
                     betLogDetails: [],
+                    roundId: 1190119,
+                    paid: true,
                 },
                 {
                     odd: 0,
@@ -62,6 +64,8 @@ export const getHistoryTest = () => {
                     partnerId: "dummy-partner-id",
                     rate: 1,
                     betLogDetails: [],
+                    roundId: 1190119,
+                    paid: false,
                 },
             ];
 
