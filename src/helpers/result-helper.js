@@ -13,20 +13,24 @@ const settlementRuleEntries = Object.entries({
     white4: (totalReds) => totalReds === 0,
 });
 
+const mathRandom = () => {
+    return Math.random();
+};
+
 const random1 = () => {
-    return (Math.random() * 2) >> 0 !== 0;
+    return (mathRandom() * 2) >> 0 !== 0;
 };
 
 const random2 = () => {
-    return Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 3 <= 10;
+    return Math.floor(mathRandom() * 6) + Math.floor(mathRandom() * 6) + Math.floor(mathRandom() * 6) + 3 <= 10;
 };
 
 const random3 = () => {
-    return (Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 3) % 2 === 0;
+    return (Math.floor(mathRandom() * 6) + Math.floor(mathRandom() * 6) + Math.floor(mathRandom() * 6) + 3) % 2 === 0;
 };
 
 const random4 = () => {
-    return (Math.floor(Math.random() * 10000) + 1) % 2 !== 0;
+    return (Math.floor(mathRandom() * 10000) + 1) % 2 !== 0;
 };
 
 const random5 = () => {
@@ -74,27 +78,17 @@ export const getSettlementResult = (roundResult) => {
 };
 
 export const generateRawResultForHash = (roundResult) => {
-    let result = "";
     const redCount = Object.entries(roundResult)
         .map((i) => i[1])
         .filter((i) => i).length;
-    switch (redCount) {
-        case 0:
-            result = "⚪⚪⚪⚪";
-            break;
-        case 1:
-            result = "🔴⚪⚪⚪";
-            break;
-        case 2:
-            result = "🔴🔴⚪⚪";
-            break;
-        case 3:
-            result = "🔴🔴🔴⚪";
-            break;
-        case 4:
-            result = "🔴🔴🔴🔴";
-            break;
-    }
 
-    return `{${result}}`;
+    const resultByRedCountMapping = {
+        0: "⚪⚪⚪⚪",
+        1: "🔴⚪⚪⚪",
+        2: "🔴🔴⚪⚪",
+        3: "🔴🔴🔴⚪",
+        4: "🔴🔴🔴🔴",
+    };
+
+    return `{${resultByRedCountMapping[redCount]}}`;
 };
