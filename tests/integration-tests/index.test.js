@@ -13,8 +13,10 @@ beforeAll((done) => {
     startSetupDataProcess(() => {
         console.log("done setup db");
         processStartService = startServiceProcess(() => {
-            console.log("start tests");
-            done();
+            setTimeout(() => {
+                console.log("start tests");
+                done();
+            }, 15000);
         });
     });
 });
