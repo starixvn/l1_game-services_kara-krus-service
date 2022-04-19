@@ -1,12 +1,14 @@
+import gameSetting from "./../../../src/game-settings";
+
 const game = {
-    id: 2,
-    name: "XocXoc",
+    id: gameSetting.id,
+    name: gameSetting.name,
 };
 
 const currencyData = { code: "USD", name: "$US" };
 
 const socketOptions = {
-    socketUri: "http://localhost:5001/user/xocxoc",
+    socketUri: `http://localhost:5002/user/${gameSetting.name.toLowerCase()}`,
     gameName: game.name,
     proxyRoute: "/socket.io",
 };
@@ -60,6 +62,7 @@ const userBetData = (uid) => {
             thanhtoan: true,
             white3: 0,
             white4: 0,
+            roundId: 1190119,
         },
         {
             freeBet: false,
@@ -81,6 +84,8 @@ const userBetData = (uid) => {
             thanhtoan: true,
             white3: 0,
             white4: 0,
+            roundId: 1190119,
+            paid: true,
         },
     ];
 };

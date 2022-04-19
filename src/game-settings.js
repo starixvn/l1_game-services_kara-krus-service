@@ -1,6 +1,7 @@
 export default {
     id: 2,
-    name: "XocXoc",
+    name: "SeDie",
+    configName: "xocxoc",
     durations: {
         wholeRound: 39,
         placingBets: 30,

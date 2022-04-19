@@ -11,13 +11,14 @@ import {
     normalUser,
 } from "sc-game-service-integration-utils";
 
-import appConfigs from "../../../src/app-configs";
+import appConfigs from "../../../src/app-configs.IGT";
 import { SedieBets, SeDieRounds } from "../../../src/models";
 import { currencyData, game, gameConfig, rounds, userBetData } from "./test-data";
 
 const connectDatabase = async () => {
     console.log("connect database");
     await middlewares.database.configureDatabase(mongoose, appConfigs.database);
+
     await clearAllData();
 };
 
@@ -34,6 +35,7 @@ export const createTestData = async () => {
     await createExchangeRate();
     await createGameConfig(gameConfig);
     const partnerConfig = await createPartnerConfig(game.id);
+
     const currency = await createDummyCurrency(partnerConfig.partnerId, currencyData.code, currencyData.name);
     await createCurrencyGroupGames(currency.groupId, game.id, gameConfig);
     await createDummyUsers(currency);

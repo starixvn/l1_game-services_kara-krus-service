@@ -27,27 +27,34 @@ describe("isStartingTime tests", () => {
 
     const chance = new Chance();
 
-    it("should return true time is shakeThePlateTime", () => {
-        // arrange
-        gameData.remainingTime = gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration;
-        const cron = new SedieGameCron(gameDefinition, gameData);
+    describe("when remainingTime equals placingBets + shakeThePlateDuration", () => {
+        it("should return true", () => {
+            // arrange
+            gameData.remainingTime = gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration;
+            const cron = new SedieGameCron(gameDefinition, gameData);
 
-        // act
-        var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
+            // act
+            var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
 
-        // assert
-        expect(result).toBeTrue();
+            // assert
+            expect(result).toBeTrue();
+        });
     });
 
-    it("should return false time is NOT shakeThePlateTime", () => {
-        // arrange
-        gameData.remainingTime = chance.integer({ min: gameDefinition.durations.lockingBet, max: gameDefinition.durations.placingBets });
-        const cron = new SedieGameCron(gameDefinition, gameData);
+    describe("when remainingTime does not equal placingBets + shakeThePlateDuration", () => {
+        it("should return false", () => {
+            // arrange
+            gameData.remainingTime = chance.integer({
+                min: gameDefinition.durations.lockingBet,
+                max: gameDefinition.durations.placingBets,
+            });
+            const cron = new SedieGameCron(gameDefinition, gameData);
 
-        // act
-        var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
+            // act
+            var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
 
-        // assert
-        expect(result).toBeFalse();
+            // assert
+            expect(result).toBeFalse();
+        });
     });
 });
