@@ -29,7 +29,7 @@
         "sc-smart-bot": "1.0.0"
     },
     "resolutions": {
-        "sc-game-base": "2.7.1-beta.1"
+        "sc-game-base": "3.0.1-beta.1"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
