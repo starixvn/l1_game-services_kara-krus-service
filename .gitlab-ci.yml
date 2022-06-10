@@ -1,57 +1,14 @@
 variables:
   SMOKE_PRODUCT_NAME: sedie
+  ENABLE_INTEGRATION_TEST: 'true'
 
 include:
   - project: "ci/repos-ci/pentagon_l1_sedie_service"
     ref: master
     file: "gitlab-ci.yml"
-
-.if-deploy-local: &if-deploy-local
-  if: '$CI_COMMIT_TAG =~ /local/'
-
-.if-deploy-sit: &if-deploy-sit
-  if: '$CI_COMMIT_TAG =~ /sit/'
-
-.if-deploy-uat: &if-deploy-uat
-  if: '$CI_COMMIT_TAG =~ /uat/'
-
-.if-deploy-prod: &if-deploy-prod
-  if: '$CI_COMMIT_TAG =~ /prod/'
-
-integration-tests:
-  stage: test
-  needs: ['unit-test-js']
-  tags:
-    - docker
-
-  services:
-    - name: registry.nexdev.net:5050/docker/database/mongo:4.4.8
-      alias: mongo
-      
-  image: registry.nexdev.net:5050/docker/node:14.15.1-slim
-  before_script:
-    - cp ./src/app-configs.IGT.js ./src/app-configs.IGT.original.js
-    - cp ./configs/app-configs.IGT.js ./src/app-configs.IGT.js
-    - npm set registry http://npm.lumigame.com
-    - yarn install
-    
-  script:
-    - npm run integration-test
-
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
-      when: never
-    - if: '$CI_COMMIT_BRANCH'
-
-  artifacts:
-    when: always
-    paths:
-      - ./coverage
-    reports:
-      junit:
-        - junit.xml
-    expire_in: 1 day
+  - project: "ci/common-ci"
+    ref: add-integration-tests
+    file: "integration-test/nodejs-integration-test.gitlab-ci.yml"
 
 unit-test-js:
   artifacts:
