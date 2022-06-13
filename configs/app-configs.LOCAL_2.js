@@ -24,6 +24,10 @@ export default {
         placeBetTimeout: 4500,
         useAuthenticate: true,
     },
+    userServiceSettings: {
+        url: "https://l1-proxy2.lumigame.com/user",
+        requestTimeout: 10000,
+    },
     socketOptions: {
         pingInterval: 60 * 1000,
         pingTimeout: 60 * 1000,

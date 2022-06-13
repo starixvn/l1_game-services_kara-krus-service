@@ -23,6 +23,10 @@ export default {
         requestTimeout: 10000,
         useAuthenticate: true,
     },
+    userServiceSettings: {
+        url: "https://l1-proxy1.lumigame.com/user",
+        requestTimeout: 10000,
+    },
     socketOptions: {
         pingInterval: 60 * 1000,
         pingTimeout: 60 * 1000,

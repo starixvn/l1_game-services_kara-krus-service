@@ -23,6 +23,10 @@ export default {
         requestTimeout: 10000,
         useAuthenticate: true,
     },
+    userServiceSettings: {
+        url: "http://l1_user_service_uat:5000",
+        requestTimeout: 10000,
+    },
     socketOptions: {
         pingInterval: 60 * 1000,
         pingTimeout: 60 * 1000,

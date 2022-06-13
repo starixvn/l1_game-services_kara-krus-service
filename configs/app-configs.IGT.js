@@ -23,6 +23,10 @@ export default {
         requestTimeout: 10000,
         useAuthenticate: true,
     },
+    userServiceSettings: {
+        url: "http://localhost:8004/api",
+        requestTimeout: 10000,
+    },
     socketOptions: {
         pingInterval: 60 * 1000,
         pingTimeout: 60 * 1000,
