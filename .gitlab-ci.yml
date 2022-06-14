@@ -1,6 +1,5 @@
 variables:
   SMOKE_PRODUCT_NAME: sedie
-  ENABLE_INTEGRATION_TEST: 'true'
 
 include:
   - project: "ci/repos-ci/pentagon_l1_sedie_service"
