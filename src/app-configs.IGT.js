@@ -1,6 +1,14 @@
 import appConfigs from "./app-configs";
 
 export default Object.assign(appConfigs, {
+    authenticateSettings: {
+        url: "http://l1_auth_api_local:5000",
+        id: "game-services",
+        secret: "gameservices@20luminet&",
+        requestTimeout: 3000,
+        useAuthenticate: false,
+        audiences: ["api", "admin-api"],
+    },
     database: {
         url: "mongodb://localhost:27017",
         options: {
