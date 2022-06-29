@@ -83,6 +83,7 @@ export const ingameTest = () => {
                         name: "NormalUser",
                         rate: 1,
                         red: 25000,
+                        type: false,
                     });
 
                     normalUserClientDriver.close();

@@ -1,5 +1,5 @@
 import { Core, Table } from "sc-game-base";
-import { initAPIStub } from "sc-game-service-integration-utils";
+import { initAPIStub, stubUserService } from "sc-game-service-integration-utils";
 
 import appConfigs from "../../../src//app-configs.IGT";
 import constants from "../../../src/constants";
@@ -10,6 +10,8 @@ import SeDieDefinition from "../../../src/sedie-definition";
 
 export const run = async () => {
     initAPIStub(appConfigs.apiSettings.apiUrl);
+    stubUserService(appConfigs);
+
     const definition = new SeDieDefinition(gameSettings, generateResult, getSettlementResult, generateRawResultForHash);
     const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
     const container = new SeDieContainerRegistry().register(appConfigs, definition, gameData);
