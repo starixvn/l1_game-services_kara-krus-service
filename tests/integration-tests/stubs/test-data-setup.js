@@ -13,7 +13,8 @@ import {
 
 import appConfigs from "../../../src/app-configs.IGT";
 import { SedieBets, SeDieRounds } from "../../../src/models";
-import { currencyData, game, gameConfig, rounds, userBetData } from "./test-data";
+import { currencyData, game, gameConfig, rounds, userBetData, promotions } from "./test-data";
+import { Core } from "sc-game-base";
 
 const connectDatabase = async () => {
     console.log("connect database");
@@ -41,6 +42,7 @@ export const createTestData = async () => {
     await createDummyUsers(currency);
     await createRounds();
     await createUserBetData();
+    await createPromotionData();
 
     console.log("Create exchange rate, game config & dummy user for testing successfully!");
     process.exit(0);
@@ -59,6 +61,10 @@ const createUserBetData = async () => {
     const userId = await getUserId(normalUser.memberId);
     const betData = userBetData(userId);
     return SedieBets.insertMany(betData);
+};
+
+const createPromotionData = async () => {
+    await Core.Models.Promotions.insertMany(promotions);
 };
 
 createTestData();

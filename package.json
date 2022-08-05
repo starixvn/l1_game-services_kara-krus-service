@@ -25,11 +25,11 @@
         "nodemon": "^2.0.4",
         "random": "^3.0.6",
         "random-js": "^2.1.0",
-        "sc-game-base": "3.0.4",
+        "sc-game-base": "3.0.8-beta.2",
         "sc-smart-bot": "1.0.0"
     },
     "resolutions": {
-        "sc-game-base": "3.0.4"
+        "sc-game-base": "3.0.8-beta.2"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
@@ -51,7 +51,7 @@
         "jest-junit": "^12.2.0",
         "jest-micro-auto-stub": "^1.0.9",
         "jest-sonar-reporter": "^2.0.0",
-        "sc-game-service-integration-utils": "1.2.4",
+        "sc-game-service-integration-utils": "1.2.6",
         "sc-semantic-release": "^1.1.0",
         "semantic-release": "^17.1.1"
     },

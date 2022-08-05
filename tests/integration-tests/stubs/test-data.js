@@ -90,4 +90,15 @@ const userBetData = (uid) => {
     ];
 };
 
-export { game, currencyData, socketOptions, gameConfig, rounds, userBetData };
+const promotions = [
+    {
+        gameId: gameSetting.id,
+        startDateTime: new Date(new Date().setHours(new Date().getHours() - 1)),
+        endDateTime: new Date(new Date().setHours(new Date().getHours() + 1)),
+        isDaily: true,
+        odds: { even: 1.98, odd: 1.98 },
+        status: "enabled",
+    },
+];
+
+export { game, currencyData, socketOptions, gameConfig, rounds, userBetData, promotions };
