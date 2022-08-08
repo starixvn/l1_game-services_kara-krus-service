@@ -63,7 +63,9 @@ export default {
     chatBotSettings: {
         url: "https://bot.nexdev.net/skynex/api/messages/",
         token: "0A40aOc7CtpzjbBSJu8KNWQRoXyjRvf9",
-        conversationId: -1001516573929,
         requestTimeout: 5000,
+        conversationIds: {
+            boostedOdds: -1001516573929,
+        },
     },
 };
