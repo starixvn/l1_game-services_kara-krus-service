@@ -70,4 +70,5 @@ export default {
             boostedOdds: -1001516573929,
         },
     },
+    enabledBoostedOdds: true,
 };
