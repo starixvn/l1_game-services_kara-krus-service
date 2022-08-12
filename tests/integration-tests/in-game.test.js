@@ -49,15 +49,14 @@ export const ingameTest = () => {
                         white4: 1000,
                     });
                     expect(inGameData.gameConfigs.odds).toStrictEqual({
-                        even: 1.98,
-                        odd: 1.98,
+                        even: 1.97,
+                        odd: 1.97,
                         red2: 2.5,
                         red3: 3.76,
                         red4: 14.5,
                         white3: 3.76,
                         white4: 14.5,
                     });
-                    expect(inGameData.gameConfigs.boostedChoices).toEqual(["even", "odd"]);
 
                     normalUserClientDriver.close();
                     done();
