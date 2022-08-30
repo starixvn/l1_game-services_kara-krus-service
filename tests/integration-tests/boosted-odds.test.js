@@ -7,27 +7,29 @@ export const boostedOddsTest = () => {
         it("should return boosted odds then original odds", (done) => {
             // Arrange
             const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            const boostedOdds = 1.98;
+            const originalOdds = 1.97;
 
             // Act
             normalUserClientDriver.handleSignedInEvent(() => {
                 normalUserClientDriver.sendInGameEvent();
             });
 
-            let boostedOdds = false;
+            let hasBoostedOdds = false;
 
             // Assert
             normalUserClientDriver.handleInGameEvent((inGameData) => {
-                if (inGameData.gameConfigs && inGameData.gameConfigs.odds.even === 1.98) {
-                    if (!boostedOdds) {
+                if (inGameData.gameConfigs && inGameData.gameConfigs.odds.even === boostedOdds) {
+                    if (!hasBoostedOdds) {
                         setTimeout(() => {
                             normalUserClientDriver.sendInGameEvent();
-                        }, 30000);
+                        }, 45000);
                     }
 
-                    boostedOdds = true;
+                    hasBoostedOdds = true;
                 }
 
-                if (boostedOdds && inGameData.gameConfigs && inGameData.gameConfigs.odds.even === 1.97) {
+                if (hasBoostedOdds && inGameData.gameConfigs && inGameData.gameConfigs.odds.even === originalOdds) {
                     expect(inGameData.gameConfigs.boostedChoices).toEqual([]);
                     normalUserClientDriver.close();
                     done();
