@@ -1,5 +1,5 @@
 variables:
-  SMOKE_PRODUCT_NAME: sedie
+  SMOKE_PRODUCT_NAME: 2
 
 include:
   - project: "ci/repos-ci/pentagon_l1_sedie_service"
