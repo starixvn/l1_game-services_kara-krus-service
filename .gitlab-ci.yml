@@ -2,7 +2,7 @@ variables:
     SMOKE_PRODUCT_NAME: 2
     DOCKER_SLIM: enable
     ENABLE_NODEJS_INTEGRATION_TEST: 'true'
-    NODEJS_INTEGRATION_TEST_IMAGE_VERSION: registry.nexdev.net:5050/docker/node:14.15.1-slim
+    NODEJS_INTEGRATION_TEST_IMAGE_VERSION: registry.nexdev.net:5050/docker/node:18.1-buster-slim
     NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: registry.nexdev.net:5050/docker/database/mongo:4.4.8
   
 include:
@@ -17,4 +17,4 @@ include:
       file: "integration-test/nodejs-integration-test.gitlab-ci.yml"
 
 unit-test-js:
-  image: registry.nexdev.net:5050/docker/node:14.15.1-slim
+  image: registry.nexdev.net:5050/docker/node:18.1-buster-slim
