@@ -25,11 +25,11 @@
         "nodemon": "^2.0.4",
         "random": "^3.0.6",
         "random-js": "^2.1.0",
-        "sc-game-base": "3.3.0-beta.5",
+        "sc-game-base": "3.3.0-beta.7",
         "sc-smart-bot": "1.0.0"
     },
     "resolutions": {
-        "sc-game-base": "3.3.0-beta.5"
+        "sc-game-base": "3.3.0-beta.7"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
