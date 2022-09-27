@@ -18,3 +18,17 @@ include:
 
 unit-test-js:
   image: registry.nexdev.net:5050/docker/node:18.1-buster-slim
+
+smoke-test:
+  stage: post-deploy
+  variables:
+    PRODUCT: $SMOKE_PRODUCT_NAME
+    PROJECT: $SMOKE_PROJECT_NAME
+    MODE: $SMOKE_MODE
+    ENV: $TRANSFORM_CONFIG
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^deploy-.*-local\d*-.*/ && $DEPLOY_BY == "rocketor"'
+  trigger: 
+    project: rnd/testing/trigger-auto-sc1
+    branch: master
