@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const bet = {
     uid: { type: String, required: true },
     name: { type: String, required: true },
-    phien: { type: Number, required: true },
 
     odd: { type: Number, default: 0 },
     even: { type: Number, default: 0 },
@@ -13,12 +12,10 @@ const bet = {
     white3: { type: Number, default: 0 },
     white4: { type: Number, default: 0 },
 
-    thanhtoan: { type: Boolean, default: false },
     betwin: { type: Number, default: 0 },
     time: { type: Date },
     odds: { type: Object },
 
-    memberId: { type: Number },
     siteId: { type: String },
     freeBet: { type: Boolean, default: false },
 

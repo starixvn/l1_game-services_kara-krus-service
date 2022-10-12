@@ -10,7 +10,7 @@ export default Object.assign(appConfigs, {
         audiences: ["api", "admin-api"],
     },
     database: {
-        url: "mongodb://localhost:27017",
+        url: "mongodb://0.0.0.0:27017",
         options: {
             dbName: "game-service-test-db",
             useNewUrlParser: true,

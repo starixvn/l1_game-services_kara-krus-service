@@ -14,6 +14,9 @@ describe("Result statistic: 100000 times", () => {
                 white4: 0,
             };
             const totalRounds = 100000;
+            const dragonTails = {};
+            let isEven = false;
+            let continuity = 0;
 
             // Act
             for (let i = 0; i < totalRounds; i++) {
@@ -27,6 +30,22 @@ describe("Result statistic: 100000 times", () => {
                 statisticResult.red4 += settlementResult.red4 >> 0;
                 statisticResult.white3 += settlementResult.white3 >> 0;
                 statisticResult.white4 += settlementResult.white4 >> 0;
+                if (i > 0) {
+                    if (isEven && settlementResult.even) {
+                        continuity++;
+                    } else {
+                        if (!isEven && settlementResult.odd) {
+                            continuity++;
+                        } else {
+                            if (continuity >= 4) {
+                                dragonTails[continuity] = dragonTails[continuity] ?? 0;
+                                dragonTails[continuity] += 1;
+                            }
+                            continuity = 0;
+                        }
+                    }
+                }
+                isEven = settlementResult.even ? true : false;
             }
 
             // Assert
@@ -38,6 +57,7 @@ describe("Result statistic: 100000 times", () => {
             console.log(
                 `Mode:${mode}, countResult: ${JSON.stringify(statisticResult)}, percentageResult: ${JSON.stringify(resultPercentage)}`
             );
+            console.log(`dragon tails: ${JSON.stringify(dragonTails)}`);
 
             expect(resultPercentage.odd).toBeGreaterThanOrEqual(49.5);
             expect(resultPercentage.even).toBeGreaterThanOrEqual(49.5);
@@ -46,6 +66,13 @@ describe("Result statistic: 100000 times", () => {
             expect(resultPercentage.red4).toBeGreaterThanOrEqual(6);
             expect(resultPercentage.white3).toBeGreaterThanOrEqual(24.5);
             expect(resultPercentage.white4).toBeGreaterThanOrEqual(6);
+            expect(dragonTails[4]).toBeLessThan(1700);
+            expect(dragonTails[5]).toBeLessThan(850);
+            expect(dragonTails[6]).toBeLessThan(450);
+            expect(dragonTails[7]).toBeLessThan(250);
+            expect(dragonTails[8]).toBeLessThan(130);
+            expect(dragonTails[9]).toBeLessThan(70);
+            expect(dragonTails[10]).toBeLessThan(40);
         });
     });
 });

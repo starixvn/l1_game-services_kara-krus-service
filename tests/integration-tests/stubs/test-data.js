@@ -44,44 +44,41 @@ const userBetData = (uid) => {
     return [
         {
             freeBet: false,
-            phien: 1190119,
             uid: uid,
             betwin: 0,
             currency: "$US",
             even: 100,
-            memberId: 1,
+            playerId: 1,
             name: "NormalUser",
             odd: 0,
             odds: gameConfig.odds,
-            partnerId: "dummy-partner-id",
+            operatorId: "dummy-operator-id",
             rate: 1,
             red2: 0,
             red3: 0,
             red4: 0,
             siteId: "111",
-            thanhtoan: true,
             white3: 0,
             white4: 0,
             roundId: 1190119,
+            paid: true,
         },
         {
             freeBet: false,
-            phien: 1190119,
             uid: uid,
             betwin: 0,
             currency: "$US",
             even: 100,
-            memberId: 4,
+            playerId: 4,
             name: "NormalUser",
             odd: 0,
             odds: gameConfig.odds,
-            partnerId: "dummy-partner-id",
+            operatorId: "dummy-operator-id",
             rate: 1,
             red2: 0,
             red3: 0,
             red4: 0,
             siteId: "111",
-            thanhtoan: true,
             white3: 0,
             white4: 0,
             roundId: 1190119,
@@ -90,4 +87,15 @@ const userBetData = (uid) => {
     ];
 };
 
-export { game, currencyData, socketOptions, gameConfig, rounds, userBetData };
+const promotions = [
+    {
+        gameId: gameSetting.id,
+        startDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 20)),
+        endDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 60)),
+        isDaily: false,
+        odds: { even: 1.98, odd: 1.98 },
+        status: "enabled",
+    },
+];
+
+export { game, currencyData, socketOptions, gameConfig, rounds, userBetData, promotions };
