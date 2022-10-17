@@ -67,7 +67,7 @@ export default {
         token: "0A40aOc7CtpzjbBSJu8KNWQRoXyjRvf9",
         requestTimeout: 5000,
         conversationIds: {
-            boostedOdds: -1001774561372,
+            boostedOdds: -1001744731510,
         },
     },
     enabledBoostedOdds: true,
