@@ -1,14 +1,16 @@
 import { Core, Table } from "sc-game-base";
 import { initAPIStub, stubUserService } from "sc-game-service-integration-utils";
 
-import appConfigs from "../../../src//app-configs.IGT";
 import constants from "../../../src/constants";
-import gameSettings from "../../../src/game-settings";
+import gameSettings from "./game-settings";
 import { generateResult, getSettlementResult, generateRawResultForHash } from "../../../src/helpers/result-helper";
 import SeDieContainerRegistry from "../../../src/sedie-container-registry";
 import SeDieDefinition from "../../../src/sedie-definition";
+import { buildConfigs } from "./helper";
 
-export const run = async () => {
+export const run = async (processId, overrideConfigs) => {
+    const appConfigs = Object.assign({}, buildConfigs(processId), overrideConfigs);
+
     initAPIStub(appConfigs.apiSettings.apiUrl);
     stubUserService(appConfigs);
 
@@ -20,4 +22,6 @@ export const run = async () => {
     await app.startGame(container);
 };
 
-run();
+const processId = process.argv[3];
+const overrideConfigs = JSON.parse(process.argv[4]);
+run(processId, overrideConfigs);

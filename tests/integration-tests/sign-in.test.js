@@ -1,18 +1,29 @@
+import { startService } from "./_stubs/test-jobs";
+const path = require("path");
+import { getProcessId, buildConfigs, initUserSession, checkConnect } from "./_stubs/helper";
 import { GameClientDriver, normalUser } from "sc-game-service-integration-utils";
-import { socketOptions } from "./stubs/test-data";
-import { initUserSession } from "./init-user-session";
+import { socketOptionsFunc } from "./_stubs/test-data";
 
-export const signinTest = () => {
-    describe("signin", () => {
-        it("should receive signed in response", (done) => {
-            // Arrange & Act
-            const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+const scriptName = path.basename(__filename);
+const processId = getProcessId(scriptName);
+startService(processId);
 
-            // Assert
-            normalUserClientDriver.handleSignedInEvent(() => {
-                normalUserClientDriver.close();
-                done();
-            });
+const appConfigs = buildConfigs(processId);
+const socketOptions = socketOptionsFunc(appConfigs.hostingPort);
+
+describe("signin", () => {
+    it("check connect", (done) => {
+        checkConnect(processId, done);
+    });
+
+    it("should receive signed in response", (done) => {
+        //Arrange & Act
+        const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+
+        //Assert
+        normalUserClientDriver.handleSignedInEvent(() => {
+            normalUserClientDriver.close();
+            done();
         });
     });
-};
+});

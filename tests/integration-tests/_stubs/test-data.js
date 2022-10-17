@@ -1,4 +1,4 @@
-import gameSetting from "./../../../src/game-settings";
+import gameSetting from "../../../src/game-settings";
 
 const game = {
     id: gameSetting.id,
@@ -7,10 +7,12 @@ const game = {
 
 const currencyData = { code: "USD", name: "$US" };
 
-const socketOptions = {
-    socketUri: `http://localhost:5002/user/${gameSetting.name.toLowerCase()}`,
-    gameName: game.name,
-    proxyRoute: "/socket.io",
+const socketOptionsFunc = (port) => {
+    return {
+        socketUri: `http://localhost:${port}/user/${gameSetting.name.toLowerCase()}`,
+        gameName: game.name,
+        proxyRoute: "/socket.io",
+    };
 };
 
 const gameConfig = {
@@ -90,12 +92,12 @@ const userBetData = (uid) => {
 const promotions = [
     {
         gameId: gameSetting.id,
-        startDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 20)),
-        endDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 60)),
+        startDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 15)),
+        endDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 15 + 6)),
         isDaily: false,
         odds: { even: 1.98, odd: 1.98 },
         status: "enabled",
     },
 ];
 
-export { game, currencyData, socketOptions, gameConfig, rounds, userBetData, promotions };
+export { game, currencyData, socketOptionsFunc, gameConfig, rounds, userBetData, promotions };
