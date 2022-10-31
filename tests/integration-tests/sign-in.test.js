@@ -16,14 +16,14 @@ describe("signin", () => {
         checkConnect(processId, done);
     });
 
-    it("should receive signed in response", (done) => {
-        //Arrange & Act
+    it("should receive signed in response", async () => {
+        //Arrange
         const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
 
+        // Act
+        await normalUserClientDriver.handleSignedInEvent();
+
         //Assert
-        normalUserClientDriver.handleSignedInEvent(() => {
-            normalUserClientDriver.close();
-            done();
-        });
+        normalUserClientDriver.close();
     });
 });

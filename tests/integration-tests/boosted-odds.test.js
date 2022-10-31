@@ -17,7 +17,7 @@ describe("boosted odds", () => {
         checkConnect(processId, done);
     });
 
-    it("should return boosted odds", (done) => {
+    it("should return boosted odds", async () => {
         // Arrange
         const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
         const expectedOdds = {
@@ -30,22 +30,20 @@ describe("boosted odds", () => {
             red2: 2.5,
         };
 
+        await normalUserClientDriver.handleSignedInEvent();
+        normalUserClientDriver.sendInGameEvent();
+
         // Act
-        normalUserClientDriver.handleSignedInEvent(() => {
-            normalUserClientDriver.sendInGameEvent();
-        });
+        const data = await normalUserClientDriver.handleGameEvent(
+            (data) => data.odds && data.odds.values && data.odds.values.even === 1.98
+        );
 
         // Assert
-        normalUserClientDriver.on(socketOptions.gameName, (data) => {
-            if (data.odds && data.odds.values && data.odds.values.even === 1.98) {
-                expect(data.odds.values).toEqual(expectedOdds);
-                normalUserClientDriver.close();
-                done();
-            }
-        });
+        expect(data.odds.values).toEqual(expectedOdds);
+        normalUserClientDriver.close();
     });
 
-    it("should return original odds", (done) => {
+    it("should return original odds", async () => {
         // Arrange
         const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
         const expectedOdds = {
@@ -58,18 +56,14 @@ describe("boosted odds", () => {
             red2: 2.5,
         };
 
+        await normalUserClientDriver.handleSignedInEvent();
+        normalUserClientDriver.sendInGameEvent();
+
         // Act
-        normalUserClientDriver.handleSignedInEvent(() => {
-            normalUserClientDriver.sendInGameEvent();
-        });
+        const data = await normalUserClientDriver.handleGameEvent((data) => data.odds);
 
         // Assert
-        normalUserClientDriver.on(socketOptions.gameName, (data) => {
-            if (data.odds) {
-                expect(data.odds.values).toEqual(expectedOdds);
-                normalUserClientDriver.close();
-                done();
-            }
-        });
+        expect(data.odds.values).toEqual(expectedOdds);
+        normalUserClientDriver.close();
     });
 });
