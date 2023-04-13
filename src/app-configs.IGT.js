@@ -18,4 +18,11 @@ export default Object.assign(appConfigs, {
             auto_reconnect: true,
         },
     },
+    socketOptions: {
+        pingInterval: 60 * 1000,
+        pingTimeout: 60 * 1000,
+        transports: ["websocket", "polling"],
+        allowUpgrades: false,
+    },
+    disableCors: true,
 });

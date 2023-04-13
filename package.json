@@ -8,6 +8,7 @@
         "test-coverage": "jest --collect-coverage --testPathPattern=tests/unit-tests/",
         "integration-test": "jest tests/integration-tests/index.test.js --ci --reporters=default --reporters=jest-junit --forceExit",
         "dev": "nodemon --es-module-specifier-resolution=node --watch ./src ./src/app.js",
+        "mock-service": "nodemon --es-module-specifier-resolution=node --watch ./src  ./tests/integration-tests/mock-game-service.js",
         "debug": "nodemon --es-module-specifier-resolution=node --watch ./ --inspect ./src/app.js",
         "prod": "node --max-old-space-size=8192 --es-module-specifier-resolution=node ./src/app.js",
         "reg": "npm set registry https://npm.lumigame.com"
