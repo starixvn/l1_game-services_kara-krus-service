@@ -4,7 +4,7 @@ COPY package.json yarn.lock .modprunerrc ./
 RUN npm run reg \
     && yarn install --production \
     && npx mod-pruner prune --force
-COPY ./ .
+COPY ./src/ .
 
 FROM hub.lumigame.com/docker-hub/library/node:18.1-alpine
 ARG NODE_ENV=production
@@ -18,7 +18,4 @@ COPY --from=builder /app .
 
 HEALTHCHECK --interval=10s CMD node --es-module-specifier-resolution=node healthcheck.js
 
-EXPOSE 5002
-
-CMD [ "node", "--es-module-specifier-resolution=node", "./tests/integration-tests/mock-game-service.js" ]
-
+CMD [ "node", "--es-module-specifier-resolution=node", "./app.js" ]
