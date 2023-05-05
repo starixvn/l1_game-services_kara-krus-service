@@ -61,5 +61,4 @@ export default {
         },
     },
     enabledBoostedOdds: true,
-    disableCors: true,
 };

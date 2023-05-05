@@ -18,7 +18,7 @@ beforeAll((done) => {
                 console.log("start tests");
                 done();
             }, 15000);
-        });
+        }, false);
     });
 });
 

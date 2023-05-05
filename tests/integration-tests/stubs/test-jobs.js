@@ -19,13 +19,14 @@ export const startSetupDataProcess = (onSetupDataDone) => {
     return setupDataProcess;
 };
 
-export const startServiceProcess = (onServiceStarted) => {
+export const startServiceProcess = (onServiceStarted, isSupportGameBaseClient = false) => {
     const serviceProcess = spawn("node", [
         "--es-module-specifier-resolution=node",
         "./tests/integration-tests/game-service-setup/game-service-app.js",
         {
             stdio: ["pipe", "pipe", "pipe", "ipc"],
         },
+        isSupportGameBaseClient,
     ]);
 
     serviceProcess.stdout.on("data", (data) => {

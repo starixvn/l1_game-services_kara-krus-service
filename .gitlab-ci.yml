@@ -2,8 +2,8 @@ variables:
     SMOKE_PRODUCT_NAME: 2
     DOCKER_SLIM: enable
     ENABLE_NODEJS_INTEGRATION_TEST: 'true'
-    NODEJS_INTEGRATION_TEST_IMAGE_VERSION: registry.nexdev.net:5050/docker/node:18.1-buster-slim
-    NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: registry.nexdev.net:5050/docker/database/mongo:4.4.8
+    NODEJS_INTEGRATION_TEST_IMAGE_VERSION:  hub.lumigame.com/docker-hub/library/node:18.1-alpine
+    NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: hub.lumigame.com/dbs/mongo:4.4-igt
   
 include:
     - project: "ci/repos-ci/pentagon_l1_sedie_service"
@@ -17,7 +17,7 @@ include:
       file: "integration-test/nodejs-integration-test.gitlab-ci.yml"
 
 unit-test-js:
-  image: registry.nexdev.net:5050/docker/node:18.1-buster-slim
+  image:  hub.lumigame.com/docker-hub/library/node:18.1-alpine
 
 smoke-test:
   stage: post-deploy

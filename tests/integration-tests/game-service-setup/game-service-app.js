@@ -1,4 +1,4 @@
-import { Table } from "sc-game-base";
+import { Core, Table } from "sc-game-base";
 import { initAPIStub, stubUserService } from "sc-game-service-integration-utils";
 
 import appConfigs from "../../../src//app-configs.IGT";
@@ -9,14 +9,22 @@ import SeDieContainerRegistry from "../../../src/sedie-container-registry";
 import SeDieDefinition from "../../../src/sedie-definition";
 import SupportedGameBaseClientApp from "./supported-game-base-client-app";
 
-export const run = async (isSupportGameBaseClient = true) => {
+export const run = async () => {
+    const isSupportGameBaseClient = JSON.parse(process.argv[3]);
+
+    if (isSupportGameBaseClient) {
+        appConfigs.database.url = "mongodb://mongo:27017";
+        appConfigs.disableCors = true;
+    }
+
     initAPIStub(appConfigs.apiSettings.apiUrl);
     stubUserService(appConfigs);
+    console.log(`isSupportGameBaseClient: ${isSupportGameBaseClient}, mongodb: ${appConfigs.database.url}`);
 
     const definition = new SeDieDefinition(gameSettings, generateResult, getSettlementResult, generateRawResultForHash);
     const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
     const container = new SeDieContainerRegistry().register(appConfigs, definition, gameData);
-    const app = isSupportGameBaseClient  ? new SupportedGameBaseClientApp("SeDie", appConfigs): new Core.BaseGameApp("SeDie", appConfigs);
+    const app = isSupportGameBaseClient ? new SupportedGameBaseClientApp("SeDie", appConfigs) : new Core.BaseGameApp("SeDie", appConfigs);
     await app.run();
     await app.startGame(container);
 };

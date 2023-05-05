@@ -10,7 +10,7 @@ export default Object.assign(appConfigs, {
         audiences: ["api", "admin-api"],
     },
     database: {
-        url: "mongodb://mongo:27017",
+        url: "mongodb://0.0.0.0:27017",
         options: {
             dbName: "game-service-test-db",
             useNewUrlParser: true,
@@ -18,11 +18,4 @@ export default Object.assign(appConfigs, {
             auto_reconnect: true,
         },
     },
-    socketOptions: {
-        pingInterval: 60 * 1000,
-        pingTimeout: 60 * 1000,
-        transports: ["websocket", "polling"],
-        allowUpgrades: false,
-    },
-    disableCors: true,
 });
