@@ -27,7 +27,8 @@
         "random": "^3.0.6",
         "random-js": "^2.1.0",
         "sc-game-base": "3.3.0",
-        "sc-smart-bot": "1.0.0"
+        "sc-smart-bot": "1.0.0",
+        "sc-game-service-integration-utils": "1.3.2"
     },
     "resolutions": {
         "sc-game-base": "3.3.0"
@@ -52,7 +53,6 @@
         "jest-junit": "^12.2.0",
         "jest-micro-auto-stub": "^1.0.9",
         "jest-sonar-reporter": "^2.0.0",
-        "sc-game-service-integration-utils": "1.3.2",
         "sc-semantic-release": "^1.1.0",
         "semantic-release": "^17.1.1"
     },
