@@ -20,6 +20,18 @@ const gameConfig = {
     maxBet: 3000,
     maxBetPerChoices: { even: 3000, odd: 3000, red3: 3000, white3: 3000, red4: 1000, white4: 1000, red2: 3000 },
     odds: { even: 1.97, odd: 1.97, red3: 3.76, white3: 3.76, red4: 14.5, white4: 14.5, red2: 2.5 },
+    choices_maxbet: {
+        even: 10000,
+        odd: 10000,
+        red3: 10000,
+        white3: 10000,
+        red4: 10000,
+        white4: 10000,
+        red2: 10000,
+    },
+    botenabled: true,
+    hour_maxbot: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    bot_maxbet: 1000,
 };
 
 const rounds = [
