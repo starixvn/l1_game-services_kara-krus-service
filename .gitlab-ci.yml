@@ -2,33 +2,10 @@ variables:
     SMOKE_PRODUCT_NAME: 2
     DOCKER_SLIM: enable
     ENABLE_NODEJS_INTEGRATION_TEST: 'true'
-    NODEJS_INTEGRATION_TEST_IMAGE_VERSION: registry.nexdev.net:5050/docker/node:18.1-buster-slim
-    NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: registry.nexdev.net:5050/docker/database/mongo:4.4.8
+    NODEJS_INTEGRATION_TEST_IMAGE_VERSION: hub.lumigame.com/base/node:18.1-buster-slim
+    NODEJS_INTEGRATION_TEST_DB_IMAGE_VERSION: hub.lumigame.com/docker-hub/library/mongo:4.4.8
   
 include:
-    - project: "ci/repos-ci/pentagon_l1_sedie_service"
-      ref: master
-      file: "gitlab-ci.yml"
-    - project: "ci/repos-ci/pentagon_l2_sedie_service"
-      ref: master
-      file: "gitlab-ci-mixing.yml"
-    - project: "ci/common-ci"
-      ref: rocketor
-      file: "integration-test/nodejs-integration-test.gitlab-ci.yml"
-
-unit-test-js:
-  image: registry.nexdev.net:5050/docker/node:18.1-buster-slim
-
-smoke-test:
-  stage: post-deploy
-  variables:
-    PRODUCT: $SMOKE_PRODUCT_NAME
-    PROJECT: $SMOKE_PROJECT_NAME
-    MODE: $SMOKE_MODE
-    ENV: $TRANSFORM_CONFIG
-  allow_failure: true
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^deploy-.*-local\d*-.*/ && $DEPLOY_BY == "rocketor"'
-  trigger: 
-    project: rnd/testing/trigger-auto-sc1
-    branch: master
+  - project: "ci/core-cicd"
+    ref: main
+    file: "luminet.gitlab-ci.yml"
