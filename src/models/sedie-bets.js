@@ -19,7 +19,7 @@ const bet = {
     siteId: { type: String },
     freeBet: { type: Boolean, default: false },
 
-    playerId: { type: Number },
+    playerId: { type: String },
     operatorId: { type: String, required: false },
     roundId: { type: Number, default: 0 },
     paid: { type: Boolean, default: false },
@@ -37,3 +37,4 @@ const bets = mongoose.model(
 const tmpBets = mongoose.model("XocXoc_tmpcuoc", new mongoose.Schema(bet));
 
 export { bets as SedieBets, tmpBets as SedieTmpBets };
+
