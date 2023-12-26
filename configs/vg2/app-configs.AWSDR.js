@@ -44,7 +44,7 @@ export default {
     sentry: {
         sentryUrl: "https://8ac47fca6d3e4a41908896a64ef201ac@scsentry.sgamesuat.com/53",
         logIdentifier: "sedie",
-        env: "UAT",
+        env: "DR",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
     metrics: {
