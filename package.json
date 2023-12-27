@@ -29,6 +29,10 @@
         "sc-instrument": "1.1.1",
         "sc-smart-bot": "1.0.0"
     },
+    "resolutions": {
+        "sc-base-apis": "1.18.3-beta.0",
+        "sc-base-database": "1.11.1"
+    },
     "devDependencies": {
         "@babel/core": "^7.0.0",
         "@babel/preset-env": "^7.12.11",
