@@ -35,7 +35,7 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url: "mongodb://lmn_backend:LmnBackend%40517@10.99.99.187:37301/?replicaSet=SabaL2SIT",
+        url: "mongodb://lmn_backend:LmnBackend%40517@10.99.99.53:39230,10.99.99.54:39230,10.99.99.188:39230,10.99.99.187:39230/?replicaSet=SabaL2SIT",
         options: {
             dbName: "minigame",
             useNewUrlParser: true,
