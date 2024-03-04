@@ -61,4 +61,9 @@ export default {
         },
     },
     enabledBoostedOdds: true,
+    otel: {
+        system: "SG",
+        enabled: true,
+        endpoint: "http://10.10.50.69:4318/v1/traces",
+    },
 };
