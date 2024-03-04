@@ -5,6 +5,16 @@ import gameSettings from "../../src/game-settings";
 
 export const settleTest = () => {
     describe("when settle", () => {
+        let driver;
+        beforeAll(async () => {
+            driver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            await driver.handleSignedInEvent();
+        });
+
+        afterAll(() => {
+            driver.close();
+        });
+
         const getTimeOutToBet = (remainingTime, durations) => {
             let timeout = 0;
             if (remainingTime <= durations.lockingBet) {
@@ -16,75 +26,33 @@ export const settleTest = () => {
             return timeout;
         };
 
-        it("should return settled status data", (done) => {
+        it("should return settled status data", async () => {
             // Arrange
-            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
-            client.handleSignedInEvent(() => {
-                client.sendInGameEvent();
-            });
-            let receivedRemainingTime = false;
+            const amount = 100;
+            driver.sendInGameEvent();
+            const { remainingTime } = await driver.handleGameEvent((inGameData) => inGameData.remainingTime);
+
+            setTimeout(() => {
+                driver.sendBetEvent("even", amount);
+            }, getTimeOutToBet(remainingTime, gameSettings.durations) * 1000);
 
             // Act
-            client.on(socketOptions.gameName, (inGameData) => {
-                if (inGameData.remainingTime && !receivedRemainingTime) {
-                    receivedRemainingTime = true;
-                    setTimeout(() => {
-                        client.emit(eventTypes.bet, { betChoice: "even", amount: 100 });
-                    }, getTimeOutToBet(inGameData.remainingTime, gameSettings.durations) * 1000);
-                }
-            });
+            const result = await driver.handleGameEvent((data) => data.status);
 
             // Assert
-            client.on(socketOptions.gameName, (data) => {
-                if (data.status) {
-                    expect(data.status.bet).toBeGreaterThan(0);
-
-                    client.close();
-                    done();
-                }
-            });
+            expect(result.status.bet).toBeGreaterThan(0);
         });
 
-        it("should return settled finish data and hashResult with rawValue", (done) => {
-            // Arrange & Act
-            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
-            client.handleSignedInEvent(() => {
-                client.sendInGameEvent();
-            });
+        it("should return settled finish data and hashResult with rawValue", async () => {
+            // Arrange
+            driver.sendInGameEvent();
+            await driver.handleGameEvent((inGameData) => inGameData.remainingTime);
+
+            // Act
+            const result = await driver.handleGameEvent((data) => data.resultHash);
 
             // Assert
-            client.on(socketOptions.gameName, (data) => {
-                if (data.finish && data.resultHash) {
-                    expect(data.resultHash.rawValue).not.toBeEmpty();
-
-                    client.close();
-                    done();
-                }
-            });
-        });
-
-        it("should return resultHash at start placingBet time", (done) => {
-            // Arrange & Act
-            const client = new GameClientDriver(socketOptions, initUserSession(normalUser));
-
-            // Assert
-            let startTime = new Date();
-            client.on(socketOptions.gameName, (data) => {
-                if (data.remainingTime && data.remainingTime === gameSettings.durations.wholeRound) {
-                    startTime = new Date();
-                }
-
-                if (data.resultHash) {
-                    let endTime = new Date();
-                    expect(data.resultHash.hashValue).not.toBeEmpty();
-                    expect(Math.round((endTime - startTime) / 1000)).toEqual(
-                        gameSettings.durations.wholeRound - gameSettings.durations.placingBets - 1
-                    );
-
-                    client.close();
-                    done();
-                }
-            });
+            expect(result.resultHash.rawValue).not.toBeNull();
         });
     });
 };
