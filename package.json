@@ -22,6 +22,7 @@
     "type": "module",
     "dependencies": {
         "chance": "^1.1.8",
+        "prom-client": "^15.1.0",
         "random": "^3.0.6",
         "random-js": "^2.1.0",
         "sc-game-base": "4.1.0",
