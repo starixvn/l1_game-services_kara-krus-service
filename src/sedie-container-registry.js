@@ -3,6 +3,7 @@ import { Table } from "sc-game-base";
 import { SmartBotContainerRegistry } from "sc-smart-bot";
 
 import PlaceBetConsumer from "./consumers/sedie-place-bet-consumer";
+import SeDieSettleGameRoundConsumer from "./consumers/sedie-settle-game-round-consumer";
 import { SedieBot, SedieGameCron } from "./crons";
 import {
     SedieBets,
@@ -38,6 +39,7 @@ export default class SeDieContainerRegistry extends Table.TableContainerRegistry
 
         this.container.register({
             placeBetConsumer: asClass(PlaceBetConsumer).singleton(),
+            settleGameRoundConsumer: asClass(SeDieSettleGameRoundConsumer).singleton().proxy(),
         });
     }
 
