@@ -24,11 +24,11 @@
         "chance": "^1.1.8",
         "random": "^3.0.6",
         "random-js": "^2.1.0",
-        "sc-game-base": "3.3.0",
+        "sc-game-base": "4.1.0",
+        "sc-instrument": "1.1.1",
         "sc-smart-bot": "1.0.0"
     },
     "resolutions": {
-        "sc-game-base": "3.3.0",
         "sc-base-apis": "1.18.2",
         "sc-base-database": "1.11.1"
     },
@@ -37,17 +37,17 @@
         "@babel/preset-env": "^7.12.11",
         "@commitlint/cli": "^9.1.2",
         "@commitlint/config-conventional": "^9.1.2",
-        "@types/jest": "^26.0.20",
-        "babel-jest": "^26.6.3",
+        "@types/jest": "27.0.0",
+        "babel-jest": "27.0.0",
         "husky": "^4.2.5",
         "install": "^0.13.0",
-        "jest": "^26.6.3",
+        "jest": "27.0.0",
         "jest-extended": "^0.11.5",
         "jest-junit": "^12.2.0",
         "jest-micro-auto-stub": "^1.0.9",
         "jest-sonar-reporter": "^2.0.0",
         "nodemon": "^2.0.4",
-        "sc-game-service-integration-utils": "1.3.2"
+        "sc-game-service-integration-utils": "1.3.7"
     },
     "husky": {
         "hooks": {
