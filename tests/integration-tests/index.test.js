@@ -26,9 +26,8 @@ afterAll(() => {
     processStartService.stdin.pause();
     processStartService.kill();
 });
-
-boostedOddsTest();
 signinTest();
+boostedOddsTest();
 ingameTest();
 getHistoryTest();
 placeBetTest();

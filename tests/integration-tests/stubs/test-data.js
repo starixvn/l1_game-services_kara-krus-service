@@ -90,7 +90,7 @@ const userBetData = (uid) => {
 const promotions = [
     {
         gameId: gameSetting.id,
-        startDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 20)),
+        startDateTime: new Date(new Date().setSeconds(new Date().getSeconds())),
         endDateTime: new Date(new Date().setSeconds(new Date().getSeconds() + 60)),
         isDaily: false,
         odds: { even: 1.98, odd: 1.98 },

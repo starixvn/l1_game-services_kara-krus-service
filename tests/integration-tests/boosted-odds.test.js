@@ -4,9 +4,18 @@ import { initUserSession } from "./init-user-session";
 
 export const boostedOddsTest = () => {
     describe("boosted odds", () => {
-        it("should return boosted odds", (done) => {
+        let driver;
+        beforeAll(async () => {
+            driver = new GameClientDriver(socketOptions, initUserSession(normalUser));
+            await driver.handleSignedInEvent();
+        });
+
+        afterAll(() => {
+            driver.close();
+        });
+
+        it("should return boosted odds", async () => {
             // Arrange
-            const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
             const expectedOdds = {
                 even: 1.98,
                 odd: 1.98,
@@ -16,25 +25,19 @@ export const boostedOddsTest = () => {
                 white4: 14.5,
                 red2: 2.5,
             };
+            driver.sendInGameEvent();
 
             // Act
-            normalUserClientDriver.handleSignedInEvent(() => {
-                normalUserClientDriver.sendInGameEvent();
-            });
+            const { gameConfigs } = await driver.handleGameEvent((inGameData) => inGameData.gameConfigs);
+
+            console.log(gameConfigs);
 
             // Assert
-            normalUserClientDriver.on(socketOptions.gameName, (data) => {
-                if (data.odds) {
-                    expect(data.odds.values).toEqual(expectedOdds);
-                    normalUserClientDriver.close();
-                    done();
-                }
-            });
+            expect(gameConfigs.odds).toStrictEqual(expectedOdds);
         });
 
-        it("should return original odds", (done) => {
+        it("should return original odds", async () => {
             // Arrange
-            const normalUserClientDriver = new GameClientDriver(socketOptions, initUserSession(normalUser));
             const expectedOdds = {
                 even: 1.97,
                 odd: 1.97,
@@ -45,19 +48,13 @@ export const boostedOddsTest = () => {
                 red2: 2.5,
             };
 
+            driver.sendInGameEvent();
+
             // Act
-            normalUserClientDriver.handleSignedInEvent(() => {
-                normalUserClientDriver.sendInGameEvent();
-            });
+            const { gameConfigs } = await driver.handleGameEvent((inGameData) => inGameData.gameConfigs);
 
             // Assert
-            normalUserClientDriver.on(socketOptions.gameName, (data) => {
-                if (data.odds) {
-                    expect(data.odds.values).toEqual(expectedOdds);
-                    normalUserClientDriver.close();
-                    done();
-                }
-            });
+            expect(gameConfigs.originalOdds).toStrictEqual(expectedOdds);
         });
     });
 };
