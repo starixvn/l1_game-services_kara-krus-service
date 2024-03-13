@@ -62,4 +62,9 @@ export default {
         },
     },
     enabledBoostedOdds: true,
+    otel: {
+        system: "VG",
+        enabled: false,
+        endpoint: "http://10.2.190.51:4318/v1/traces",
+    },
 };
