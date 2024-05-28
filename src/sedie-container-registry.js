@@ -4,7 +4,7 @@ import { SmartBotContainerRegistry } from "sc-smart-bot";
 
 import PlaceBetConsumer from "./consumers/sedie-place-bet-consumer";
 import SeDieSettleGameRoundConsumer from "./consumers/sedie-settle-game-round-consumer";
-import { SedieBot, SedieGameCron } from "./crons";
+import { SedieBot, SedieGameCron, SedieProcessBetQueue } from "./crons";
 import {
     SedieBets,
     SeDieRounds,
@@ -14,6 +14,7 @@ import {
     SedieTmpBets,
     SedieResults,
 } from "./models";
+import SedieSocketRouter from "./routers/sedie-socket-router";
 
 const { asClass, asValue } = awilix;
 
@@ -49,6 +50,14 @@ export default class SeDieContainerRegistry extends Table.TableContainerRegistry
         this.container.register({
             bot: asClass(SedieBot).singleton(),
             gameCron: asClass(SedieGameCron).singleton().proxy(),
+            processBetQueue: asClass(SedieProcessBetQueue).singleton().proxy(),
+        });
+    }
+
+    registerRouters() {
+        super.registerRouters();
+        this.container.register({
+            socketRouter: asClass(SedieSocketRouter).proxy(),
         });
     }
 }
