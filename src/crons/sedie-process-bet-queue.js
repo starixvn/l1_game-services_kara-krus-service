@@ -17,7 +17,7 @@ export default class SedieProcessBetQueue extends Table.Crons.TableProcessBetQue
             this.baseMetrics.socketIOMetrics.metrics.betEventLatency = new prom.Histogram({
                 name: "bet_event_latency_miliseconds",
                 help: "Bet event latency in miliseconds",
-                buckets: [0.1, 5, 15, 50, 100, 500],
+                buckets: [5, 10, 30, 50, 100, 500, 1000, 2000],
             });
         }
 
