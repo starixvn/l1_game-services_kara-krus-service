@@ -1,4 +1,5 @@
 import { Core } from "sc-game-base";
+import * as prom from "prom-client";
 
 export default class SedieProcessBetQueue extends Core.Crons.ProcessBetQueue {
     async proceedBet(player, payload) {
