@@ -21,7 +21,7 @@ export default class SedieProcessBetQueue extends Core.Crons.ProcessBetQueue {
             });
         }
 
-        const latency = Date.now() - clientSentTime;
+        const latency = Date.now() - Date.parse(clientSentTime);
         this.baseMetrics.socketIOMetrics.metrics.betEventLatency.observe(latency);
     }
 }
