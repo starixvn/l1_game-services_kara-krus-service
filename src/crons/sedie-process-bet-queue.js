@@ -1,7 +1,7 @@
 import { Table } from "sc-game-base";
 import * as prom from "prom-client";
 
-export default class SedieProcessBetQueue extends Table.Crons.ProcessBetQueue {
+export default class SedieProcessBetQueue extends Table.Crons.TableProcessBetQueue {
     async proceedBet(player, payload) {
         this.collectEventLatency(payload);
 
