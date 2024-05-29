@@ -16,11 +16,12 @@ export default class SedieProcessBetQueue extends Core.Crons.ProcessBetQueue {
         if (!this.baseMetrics.socketIOMetrics.metrics.betEventLatency) {
             this.baseMetrics.socketIOMetrics.metrics.betEventLatency = new prom.Histogram({
                 name: "bet_event_latency_miliseconds",
-                help: "Bet event latency",
+                help: "Bet event latency in miliseconds",
+                buckets: [0.1, 5, 15, 50, 100, 500],
             });
         }
 
         const latency = Date.now() - clientSentTime;
-        this.baseMetrics.socketIOMetrics.metrics.betEventLatency.set(latency);
+        this.baseMetrics.socketIOMetrics.metrics.betEventLatency.observe(latency);
     }
 }
