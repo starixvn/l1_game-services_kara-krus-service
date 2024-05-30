@@ -18,7 +18,7 @@ export default class BetEventMetric {
         }
 
         if (!this.baseMetrics.socketIOMetrics.metrics.betEventLatency) {
-            this.baseMetrics.socketIOMetrics.metrics.betEventLatency = initHistogram({
+            this.baseMetrics.socketIOMetrics.metrics.betEventLatency = this.initHistogram({
                 name: `${this.prefix}_latency_miliseconds`,
                 buckets: this.buckets,
             });
