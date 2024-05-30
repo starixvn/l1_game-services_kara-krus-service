@@ -1,27 +1,36 @@
 import { Table } from "sc-game-base";
-import * as prom from "prom-client";
 
 export default class SedieProcessBetQueue extends Table.Crons.TableProcessBetQueue {
-    async proceedBet(player, payload) {
-        this.collectEventLatency(payload);
+    constructor({
+        definition,
+        gameData,
+        placeBetPublisher,
+        placeBet,
+        logService,
+        betsRepository,
+        betLogsRepository,
+        userInfosRepository,
+        baseMetrics,
+        betEventMetric,
+    }) {
+        super({
+            definition,
+            gameData,
+            placeBetPublisher,
+            placeBet,
+            logService,
+            betsRepository,
+            betLogsRepository,
+            userInfosRepository,
+            baseMetrics,
+        });
 
-        return super.proceedBet(player, payload);
+        this.betEventMetric = betEventMetric;
     }
 
-    collectEventLatency({ clientSentTime }) {
-        if (!this.baseMetrics.metricsEnabled) {
-            return;
-        }
+    async proceedBet(player, payload) {
+        this.betEventMetric.collectEventLatency(payload);
 
-        if (!this.baseMetrics.socketIOMetrics.metrics.betEventLatency) {
-            this.baseMetrics.socketIOMetrics.metrics.betEventLatency = new prom.Histogram({
-                name: "bet_event_latency_miliseconds",
-                help: "Bet event latency in miliseconds",
-                buckets: [5, 10, 30, 50, 100, 500, 1000, 2000],
-            });
-        }
-
-        const latency = Date.now() - Date.parse(clientSentTime);
-        this.baseMetrics.socketIOMetrics.metrics.betEventLatency.observe(latency);
+        return super.proceedBet(player, payload);
     }
 }

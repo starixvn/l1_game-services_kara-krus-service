@@ -14,7 +14,8 @@ import {
     SedieTmpBets,
     SedieResults,
 } from "./models";
-import SedieSocketRouter from "./routers/sedie-socket-router";
+import { SedieSocketRouter } from "./routers";
+import { BetEventMetric } from "./metrics";
 
 const { asClass, asValue } = awilix;
 
@@ -46,6 +47,10 @@ export default class SeDieContainerRegistry extends Table.TableContainerRegistry
 
     registerCrons() {
         super.registerCrons();
+
+        this.container.register({
+            betEventMetric: asClass(BetEventMetric).singleton().proxy(),
+        });
 
         this.container.register({
             bot: asClass(SedieBot).singleton(),
