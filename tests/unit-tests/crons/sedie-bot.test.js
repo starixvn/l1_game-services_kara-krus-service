@@ -15,13 +15,12 @@ const definition = new Table.TableGameDefinition(gameSettings, generateResult, g
 const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
 gameData.gameConfigs = {
     choices_maxbet: {
-        even: 2000,
-        odd: 2000,
+        red: 2000,
+        white: 2000,
         red3: 1000,
         white3: 1000,
-        red4: 100,
-        white4: 100,
-        red2: 2000,
+        red2: 100,
+        red1: 100,
     },
     minbet: 1,
     bot_maxbet: 1000,

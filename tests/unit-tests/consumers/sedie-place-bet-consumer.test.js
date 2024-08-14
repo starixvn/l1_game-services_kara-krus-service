@@ -43,7 +43,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
         durations: {
             wholeRound: 39,
             placingBets: 30,
-            lockingBet: 5,
+            lockingBet: 3,
             shakeThePlateDuration: 2,
         },
     });

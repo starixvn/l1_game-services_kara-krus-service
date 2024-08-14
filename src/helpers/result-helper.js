@@ -4,13 +4,12 @@ import randomLib1 from "random";
 import { MersenneTwister19937, Random } from "random-js";
 
 const settlementRuleEntries = Object.entries({
-    odd: (totalReds) => totalReds % 2 === 1,
-    even: (totalReds) => totalReds % 2 === 0,
-    red2: (totalReds) => totalReds === 2,
+    red: (totalReds) => totalReds === 2 || totalReds === 3,
+    white: (totalReds) => totalReds === 0 || totalReds === 1,
     red3: (totalReds) => totalReds === 3,
-    red4: (totalReds) => totalReds === 4,
-    white3: (totalReds) => totalReds === 1,
-    white4: (totalReds) => totalReds === 0,
+    red2: (totalReds) => totalReds === 2,
+    red1: (totalReds) => totalReds === 1,
+    white3: (totalReds) => totalReds === 0,
 });
 
 const mathRandom = () => {
@@ -52,9 +51,9 @@ const random8 = () => {
 };
 
 export const randomModes = {
-    1: [random1, random2, random3, random4],
-    2: [random5, random6, random7, random8],
-    3: [random1, random3, random5, random7],
+    1: [random1, random2, random3],
+    2: [random4, random5, random6],
+    3: [random7, random8, random5],
 };
 
 export const generateResult = (mode) => {
@@ -62,9 +61,8 @@ export const generateResult = (mode) => {
     const red1 = randomModes[selectedMode][0]();
     const red2 = randomModes[selectedMode][1]();
     const red3 = randomModes[selectedMode][2]();
-    const red4 = randomModes[selectedMode][3]();
 
-    return { red1, red2, red3, red4 };
+    return { red1, red2, red3 };
 };
 
 export const getSettlementResult = (roundResult) => {
@@ -83,11 +81,10 @@ export const generateRawResultForHash = (roundResult) => {
         .filter((i) => i).length;
 
     const resultByRedCountMapping = {
-        0: "⚪⚪⚪⚪",
-        1: "🔴⚪⚪⚪",
-        2: "🔴🔴⚪⚪",
-        3: "🔴🔴🔴⚪",
-        4: "🔴🔴🔴🔴",
+        0: "⚪⚪⚪",
+        1: "🔴⚪⚪",
+        2: "🔴🔴⚪",
+        3: "🔴🔴🔴",
     };
 
     return `{${resultByRedCountMapping[redCount]}}`;

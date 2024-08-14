@@ -1,18 +1,17 @@
-import { generateResult, getSettlementResult, generateRawResultForHash } from "../../../src/helpers/result-helper";
+import { generateRawResultForHash, generateResult, getSettlementResult } from "../../../src/helpers/result-helper";
 
 describe("getSettlementResult tests", () => {
     describe("when results have ONE red", () => {
-        it("should return odd and white3", () => {
+        it("should return white and red1", () => {
             // arrange
-            const roundResult = { red1: true, red2: false, red3: false, red4: false };
+            const roundResult = { red1: true, red2: false, red3: false };
             const expected = {
-                odd: true,
-                even: false,
-                red2: false,
+                red: false,
+                white: true,
                 red3: false,
-                red4: false,
-                white3: true,
-                white4: false,
+                red2: false,
+                red1: true,
+                white3: false,
             };
 
             // act
@@ -24,17 +23,16 @@ describe("getSettlementResult tests", () => {
     });
 
     describe("when results have TWO reds", () => {
-        it("should should return even and red2 ", () => {
+        it("should should return red and red2 ", () => {
             // arrange
-            const roundResult = { red1: true, red2: true, red3: false, red4: false };
+            const roundResult = { red1: true, red2: true, red3: false };
             const expected = {
-                odd: false,
-                even: true,
-                red2: true,
+                red: true,
+                white: false,
                 red3: false,
-                red4: false,
+                red2: true,
+                red1: false,
                 white3: false,
-                white4: false,
             };
 
             // act
@@ -46,39 +44,16 @@ describe("getSettlementResult tests", () => {
     });
 
     describe("when results have THREE reds", () => {
-        it("should should return odd and red3", () => {
+        it("should should return red and red3", () => {
             // arrange
-            const roundResult = { red1: true, red2: true, red3: true, red4: false };
+            const roundResult = { red1: true, red2: true, red3: true };
             const expected = {
-                odd: true,
-                even: false,
-                red2: false,
+                red: true,
+                white: false,
                 red3: true,
-                red4: false,
-                white3: false,
-                white4: false,
-            };
-
-            // act
-            var result = getSettlementResult(roundResult);
-
-            // assert
-            expect(result).toStrictEqual(expected);
-        });
-    });
-
-    describe("when results have FOUR reds", () => {
-        it("should return even and red4", () => {
-            // arrange
-            const roundResult = { red1: true, red2: true, red3: true, red4: true };
-            const expected = {
-                odd: false,
-                even: true,
                 red2: false,
-                red3: false,
-                red4: true,
+                red1: false,
                 white3: false,
-                white4: false,
             };
 
             // act
@@ -90,17 +65,16 @@ describe("getSettlementResult tests", () => {
     });
 
     describe("when results have NO reds", () => {
-        it("should return even and white4", () => {
+        it("should return white and white3", () => {
             // arrange
-            const roundResult = { red1: false, red2: false, red3: false, red4: false };
+            const roundResult = { red1: false, red2: false, red3: false };
             const expected = {
-                odd: false,
-                even: true,
-                red2: false,
+                red: false,
+                white: true,
                 red3: false,
-                red4: false,
-                white3: false,
-                white4: true,
+                red2: false,
+                red1: false,
+                white3: true,
             };
 
             // act
@@ -119,7 +93,7 @@ describe("generateResult tests", () => {
             var result = generateResult();
 
             // assert
-            expect(Object.keys(result).length).toBe(4);
+            expect(Object.keys(result).length).toBe(3);
         });
     });
 
@@ -129,7 +103,7 @@ describe("generateResult tests", () => {
             var result = generateResult(10);
 
             // assert
-            expect(Object.keys(result).length).toBe(4);
+            expect(Object.keys(result).length).toBe(3);
         });
     });
 
@@ -139,7 +113,7 @@ describe("generateResult tests", () => {
             var result = generateResult(2);
 
             // assert
-            expect(Object.keys(result).length).toBe(4);
+            expect(Object.keys(result).length).toBe(3);
         });
     });
 });
@@ -148,61 +122,49 @@ describe("generateRawResultForHash", () => {
     describe("when zero red", () => {
         it("should format result in unicode", () => {
             // Arrange
-            const roundResult = { red1: false, red2: false, red3: false, red4: false };
+            const roundResult = { red1: false, red2: false, red3: false };
 
             // Act
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{⚪⚪⚪⚪}");
+            expect(result).toBe("{⚪⚪⚪}");
         });
     });
     describe("when 1 red", () => {
         it("should format result in unicode", () => {
             // Arrange
-            const roundResult = { red1: false, red2: false, red3: true, red4: false };
+            const roundResult = { red1: false, red2: false, red3: true };
 
             // Act
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🔴⚪⚪⚪}");
+            expect(result).toBe("{🔴⚪⚪}");
         });
     });
     describe("when 2 reds", () => {
         it("should format result in unicode", () => {
             // Arrange
-            const roundResult = { red1: false, red2: true, red3: true, red4: false };
+            const roundResult = { red1: false, red2: true, red3: true };
 
             // Act
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🔴🔴⚪⚪}");
+            expect(result).toBe("{🔴🔴⚪}");
         });
     });
     describe("when 3 reds", () => {
         it("should format result in unicode", () => {
             // Arrange
-            const roundResult = { red1: false, red2: true, red3: true, red4: true };
+            const roundResult = { red1: true, red2: true, red3: true };
 
             // Act
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🔴🔴🔴⚪}");
-        });
-    });
-    describe("when 4 reds", () => {
-        it("should format result in unicode", () => {
-            // Arrange
-            const roundResult = { red1: true, red2: true, red3: true, red4: true };
-
-            // Act
-            const result = generateRawResultForHash(roundResult);
-
-            // Assert
-            expect(result).toBe("{🔴🔴🔴🔴}");
+            expect(result).toBe("{🔴🔴🔴}");
         });
     });
 });

@@ -4,7 +4,7 @@ export default {
     configName: "sedie3",
     durations: {
         wholeRound: 39,
-        placingBets: 27,
+        placingBets: 30,
         lockingBet: 3,
         shakeThePlateDuration: 2,
     },
