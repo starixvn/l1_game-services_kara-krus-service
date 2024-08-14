@@ -4,13 +4,12 @@ const bet = {
     uid: { type: String, required: true },
     name: { type: String, required: true },
 
-    odd: { type: Number, default: 0 },
-    even: { type: Number, default: 0 },
+    red: { type: Number, default: 0 },
+    white: { type: Number, default: 0 },
+    red1: { type: Number, default: 0 },
     red2: { type: Number, default: 0 },
     red3: { type: Number, default: 0 },
-    red4: { type: Number, default: 0 },
     white3: { type: Number, default: 0 },
-    white4: { type: Number, default: 0 },
 
     betwin: { type: Number, default: 0 },
     time: { type: Date },
@@ -26,7 +25,7 @@ const bet = {
 };
 
 const bets = mongoose.model(
-    "XocXoc_cuoc",
+    "sedie3_bets",
     new mongoose.Schema({
         ...bet,
         currency: { type: String, require: true },
@@ -34,7 +33,6 @@ const bets = mongoose.model(
         partnerId: { type: String, require: true },
     })
 );
-const tmpBets = mongoose.model("XocXoc_tmpcuoc", new mongoose.Schema(bet));
+const tmpBets = mongoose.model("sedie3_tmpbets", new mongoose.Schema(bet));
 
 export { bets as SedieBets, tmpBets as SedieTmpBets };
-

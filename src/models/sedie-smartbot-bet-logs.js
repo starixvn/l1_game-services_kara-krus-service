@@ -11,4 +11,4 @@ const schema = new mongoose.Schema({
     amount: { type: Number, required: true },
 });
 
-export default mongoose.model("smartbot_xocxoc_bet_logs", schema);
+export default mongoose.model("smartbot_sedies_bet_logs", schema);

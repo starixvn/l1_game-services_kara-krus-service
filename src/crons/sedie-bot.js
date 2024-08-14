@@ -19,15 +19,15 @@ export default class SedieBot extends Table.Crons.TableGameBot {
         this.logService = logService;
 
         this.betChoiceRatio = {
-            MainOpts: 90, //odd | even
-            SubOpts: 5, //white3 | red3
-            RareOpts: 1, //red4 | white4
-            EqualOpts: 4, //red2
+            MainOpts: 90, // red | white
+            SubOpts: 5, // white3 | red3
+            RareOpts: 1, // red1
+            EqualOpts: 4, // red2
         };
 
-        this.mainOpts = ["even", "odd"];
+        this.mainOpts = ["red", "white"];
         this.subOpts = ["white3", "red3"];
-        this.rareOpts = ["red4", "white4"];
+        this.rareOpts = ["red1"];
         this.equalOpts = ["red2"];
 
         this.smallTicketRatio = 70;
@@ -117,13 +117,12 @@ export default class SedieBot extends Table.Crons.TableGameBot {
 
     resetAllBets() {
         this.allBets = {
-            odd: 0,
-            even: 0,
+            red: 0,
+            white: 0,
             white3: 0,
+            red1: 0,
             red2: 0,
             red3: 0,
-            red4: 0,
-            white4: 0,
         };
 
         this.smallTickets = 0;

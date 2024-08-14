@@ -1,7 +1,7 @@
 import Chance from "chance";
-import randomLib1 from "random";
-import { Random, MersenneTwister19937 } from "random-js";
 import { randomInt } from "crypto";
+import randomLib1 from "random";
+import { MersenneTwister19937, Random } from "random-js";
 
 const settlementRuleEntries = Object.entries({
     odd: (totalReds) => totalReds % 2 === 1,

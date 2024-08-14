@@ -7,12 +7,12 @@ import SeDieSettleGameRoundConsumer from "./consumers/sedie-settle-game-round-co
 import { SedieBot, SedieGameCron } from "./crons";
 import {
     SedieBets,
+    SedieResults,
     SeDieRounds,
     SeDieSmartBotBetActions,
     SeDieSmartBotBetLogs,
     SeDieSmartBotPatterns,
     SedieTmpBets,
-    SedieResults,
 } from "./models";
 
 const { asClass, asValue } = awilix;

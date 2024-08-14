@@ -9,4 +9,4 @@ const schema = new mongoose.Schema({
     amount: { type: Number, required: true },
 });
 
-export default mongoose.model("smartbot_xocxoc_bets", schema);
+export default mongoose.model("smartbot_sedie3_bets", schema);
