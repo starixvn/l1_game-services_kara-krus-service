@@ -43,7 +43,7 @@ export default {
     },
     sentry: {
         sentryUrl: "https://52368c4019044019885440599c180bda@scsentry.sgamesuat.com/24",
-        logIdentifier: "sedie",
+        logIdentifier: "sedie3",
         env: "DR",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",

@@ -43,7 +43,7 @@ export default {
     },
     sentry: {
         sentryUrl: "",
-        logIdentifier: "sedie",
+        logIdentifier: "sedie3",
         env: "DEV",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",

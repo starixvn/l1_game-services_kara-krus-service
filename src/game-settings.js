@@ -1,15 +1,15 @@
 export default {
     id: 2,
-    name: "SeDie",
-    configName: "xocxoc",
+    name: "SeDie3",
+    configName: "sedie3",
     durations: {
         wholeRound: 39,
-        placingBets: 30,
-        lockingBet: 5,
+        placingBets: 27,
+        lockingBet: 3,
         shakeThePlateDuration: 2,
     },
-    choices: ["even", "odd", "red3", "red4", "white3", "white4", "red2"],
-    choicesMapper: { even: 1, odd: 2, red3: 3, red4: 4, white3: 5, white4: 6, red2: 7 },
+    choices: ["red", "white", "red3", "red2", "red1", "white3"],
+    choicesMapper: { red: 1, white: 2, red3: 3, red2: 4, red1: 5, white3: 6 },
     defaultBetTracks: {},
-    hedgeBetGroups: [["even", "odd"]],
+    hedgeBetGroups: [["red", "white"]],
 };
