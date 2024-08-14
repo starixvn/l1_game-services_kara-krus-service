@@ -1,6 +1,6 @@
 export default {
-    gameId: 2,
-    gameName: "xocxoc",
+    gameId: 95,
+    gameName: "sedie3",
     hostingPort: 5000,
     apiSettings: {
         enabledApi: true,
