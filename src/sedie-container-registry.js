@@ -6,6 +6,7 @@ import PlaceBetConsumer from "./consumers/sedie-place-bet-consumer";
 import SeDieSettleGameRoundConsumer from "./consumers/sedie-settle-game-round-consumer";
 import { SedieBot, SedieGameCron } from "./crons";
 import {
+    SedieBetLogs,
     SedieBets,
     SedieResults,
     SeDieRounds,
@@ -29,6 +30,7 @@ export default class SeDieContainerRegistry extends Table.TableContainerRegistry
             betActionRepository: asValue(SeDieSmartBotBetActions),
             smartBotBetLogsRepository: asValue(SeDieSmartBotBetLogs),
             resultsRepository: asValue(SedieResults),
+            betLogsRepository: asValue(SedieBetLogs),
         });
 
         this.container.register(new SmartBotContainerRegistry().register());

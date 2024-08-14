@@ -33,6 +33,32 @@ const bets = mongoose.model(
         partnerId: { type: String, require: true },
     })
 );
+
 const tmpBets = mongoose.model("sedie3_tmpbets", new mongoose.Schema(bet));
 
-export { bets as SedieBets, tmpBets as SedieTmpBets };
+const betLog = {
+    uid: { type: String, required: true },
+    name: { type: String, required: true },
+
+    choice: { type: String, required: true },
+    amount: { type: Number, default: 0, required: true },
+
+    time: { type: Date },
+
+    siteId: { type: String },
+    freeBet: { type: Boolean, default: false },
+
+    playerId: { type: String, required: true },
+    operatorId: { type: String, required: true },
+    roundId: { type: Number, default: 0, required: true },
+
+    currency: { type: String, required: true },
+    rate: { type: Number, required: true },
+
+    clientSentTime: { type: Date },
+    receivedTime: { type: Date },
+};
+
+const betsLogs = mongoose.model("sedie3_betlogs", new mongoose.Schema(betLog));
+
+export { betsLogs as SedieBetLogs, bets as SedieBets, tmpBets as SedieTmpBets };
