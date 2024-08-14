@@ -1,5 +1,5 @@
 export default {
-    id: 2,
+    id: 95,
     name: "SeDie3",
     configName: "sedie3",
     durations: {
