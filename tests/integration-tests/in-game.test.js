@@ -1,7 +1,7 @@
 import { GameClientDriver, normalUser } from "sc-game-service-integration-utils";
-import { socketOptions } from "./stubs/test-data";
-import { initUserSession } from "./init-user-session";
 import gameSettings from "../../src/game-settings";
+import { initUserSession } from "./init-user-session";
+import { socketOptions } from "./stubs/test-data";
 
 export const ingameTest = () => {
     describe("when user joins game", () => {
@@ -47,22 +47,21 @@ export const ingameTest = () => {
             expect(gameConfigs.minBet).toEqual(1);
             expect(gameConfigs.maxBet).toEqual(3000);
             expect(gameConfigs.maxBetPerChoices).toStrictEqual({
-                even: 3000,
-                odd: 3000,
-                red2: 3000,
+                red: 3000,
+                white: 3000,
                 red3: 3000,
-                red4: 1000,
                 white3: 3000,
-                white4: 1000,
+                red1: 1000,
+                red2: 1000,
             });
+
             expect(gameConfigs.originalOdds).toStrictEqual({
-                even: 1.97,
-                odd: 1.97,
-                red2: 2.5,
-                red3: 3.76,
-                red4: 14.5,
-                white3: 3.76,
-                white4: 14.5,
+                red: 1.96,
+                white: 1.96,
+                white3: 7.84,
+                red1: 2.61,
+                red2: 2.61,
+                red3: 7.84,
             });
         });
 

@@ -1,6 +1,6 @@
 import { GameClientDriver, normalUser } from "sc-game-service-integration-utils";
-import { socketOptions } from "./stubs/test-data";
 import { initUserSession } from "./init-user-session";
+import { socketOptions } from "./stubs/test-data";
 
 export const getHistoryTest = () => {
     describe("when get history", () => {
@@ -21,50 +21,46 @@ export const getHistoryTest = () => {
             // Arrange
             const expectedData = [
                 {
-                    odd: 0,
-                    even: 100,
+                    white: 0,
+                    red: 100,
+                    red1: 0,
                     red2: 0,
                     red3: 0,
-                    red4: 0,
                     white3: 0,
-                    white4: 0,
                     betwin: 0,
                     freeBet: false,
                     phien: 1190119,
                     name: "NormalUser",
                     odds: {
-                        even: 1.97,
-                        odd: 1.97,
-                        red3: 3.76,
-                        white3: 3.76,
-                        red4: 14.5,
-                        white4: 14.5,
-                        red2: 2.5,
+                        red: 1.96,
+                        white: 1.96,
+                        red3: 7.84,
+                        white3: 7.84,
+                        red2: 2.61,
+                        red1: 2.61,
                     },
                     rate: 1,
                     betLogDetails: [],
                     roundId: 1190119,
                 },
                 {
-                    odd: 0,
-                    even: 100,
+                    white: 0,
+                    red: 100,
+                    red1: 0,
                     red2: 0,
                     red3: 0,
-                    red4: 0,
                     white3: 0,
-                    white4: 0,
                     betwin: 0,
                     freeBet: false,
                     phien: 1190119,
                     name: "NormalUser",
                     odds: {
-                        even: 1.97,
-                        odd: 1.97,
-                        red3: 3.76,
-                        white3: 3.76,
-                        red4: 14.5,
-                        white4: 14.5,
-                        red2: 2.5,
+                        red: 1.96,
+                        white: 1.96,
+                        red3: 7.84,
+                        white3: 7.84,
+                        red2: 2.61,
+                        red1: 2.61,
                     },
                     rate: 1,
                     betLogDetails: [],

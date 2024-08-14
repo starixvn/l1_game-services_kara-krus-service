@@ -1,6 +1,6 @@
 import { GameClientDriver, normalUser } from "sc-game-service-integration-utils";
-import { socketOptions } from "./stubs/test-data";
 import { initUserSession } from "./init-user-session";
+import { socketOptions } from "./stubs/test-data";
 
 export const boostedOddsTest = () => {
     describe("boosted odds", () => {
@@ -17,13 +17,12 @@ export const boostedOddsTest = () => {
         it("should return boosted odds", async () => {
             // Arrange
             const expectedOdds = {
-                even: 1.98,
-                odd: 1.98,
-                red3: 3.76,
-                white3: 3.76,
-                red4: 14.5,
-                white4: 14.5,
-                red2: 2.5,
+                red: 1.98,
+                white: 1.98,
+                red3: 7.84,
+                white3: 7.84,
+                red2: 2.61,
+                red1: 2.61,
             };
             driver.sendInGameEvent();
 
@@ -39,13 +38,12 @@ export const boostedOddsTest = () => {
         it("should return original odds", async () => {
             // Arrange
             const expectedOdds = {
-                even: 1.97,
-                odd: 1.97,
-                red3: 3.76,
-                white3: 3.76,
-                red4: 14.5,
-                white4: 14.5,
-                red2: 2.5,
+                red: 1.96,
+                white: 1.96,
+                red3: 7.84,
+                white3: 7.84,
+                red2: 2.61,
+                red1: 2.61,
             };
 
             driver.sendInGameEvent();

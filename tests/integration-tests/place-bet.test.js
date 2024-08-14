@@ -1,7 +1,7 @@
-import { GameClientDriver, normalUser, eventTypes, errorUser, internalServerErrorUser } from "sc-game-service-integration-utils";
-import { socketOptions } from "./stubs/test-data";
-import { initUserSession } from "./init-user-session";
+import { GameClientDriver, normalUser } from "sc-game-service-integration-utils";
 import gameSettings from "../../src/game-settings";
+import { initUserSession } from "./init-user-session";
+import { socketOptions } from "./stubs/test-data";
 
 export const placeBetTest = () => {
     describe("place bet", () => {
@@ -44,16 +44,16 @@ export const placeBetTest = () => {
 
                 // Act
                 setTimeout(() => {
-                    driver.sendBetEvent("even", 100);
+                    driver.sendBetEvent("red", 100);
                 }, getTimeOutToBet(remainingTime, gameSettings.durations) * 1000);
 
                 const result = await driver.handleGameEvent((data) => data.endBet);
 
                 // Assert
-                expect(result.betChoice).toBe("even");
+                expect(result.betChoice).toBe("red");
                 expect(result.endBet).toBe(100);
-                expect(result.ownBets).toEqual({ even: 100 });
-                expect(result.ownChip).toEqual({ betChoice: "even", amount: 100 });
+                expect(result.ownBets).toEqual({ red: 100 });
+                expect(result.ownChip).toEqual({ betChoice: "red", amount: 100 });
             });
         });
 
@@ -65,7 +65,7 @@ export const placeBetTest = () => {
 
                 // Act
                 setTimeout(() => {
-                    driver.sendBetEvent("even", 100);
+                    driver.sendBetEvent("white", 100);
                 }, getTimeOutToBetInvalid(remainingTime, gameSettings.durations) * 1000);
 
                 const result = await driver.handleGameEvent((data) => data.endBet);

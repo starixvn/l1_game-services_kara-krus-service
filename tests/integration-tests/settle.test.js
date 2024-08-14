@@ -33,7 +33,7 @@ export const settleTest = () => {
             const { remainingTime } = await driver.handleGameEvent((inGameData) => inGameData.remainingTime);
 
             setTimeout(() => {
-                driver.sendBetEvent("even", amount);
+                driver.sendBetEvent("red", amount);
             }, getTimeOutToBet(remainingTime, gameSettings.durations) * 1000);
 
             // Act

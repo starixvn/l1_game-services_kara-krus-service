@@ -1,10 +1,10 @@
-import { startServiceProcess, startSetupDataProcess } from "./stubs/test-jobs";
-import { signinTest } from "./sign-in.test";
-import { ingameTest } from "./in-game.test";
+import { boostedOddsTest } from "./boosted-odds.test";
 import { getHistoryTest } from "./get-history.test";
+import { ingameTest } from "./in-game.test";
 import { placeBetTest } from "./place-bet.test";
 import { settleTest } from "./settle.test";
-import { boostedOddsTest } from "./boosted-odds.test";
+import { signinTest } from "./sign-in.test";
+import { startServiceProcess, startSetupDataProcess } from "./stubs/test-jobs";
 
 let processStartService;
 const JEST_ASSERT_WAITING_RESPONSE_TIMEOUT = 120000;
@@ -26,6 +26,7 @@ afterAll(() => {
     processStartService.stdin.pause();
     processStartService.kill();
 });
+
 signinTest();
 boostedOddsTest();
 ingameTest();
