@@ -1,7 +1,7 @@
 import Chance from "chance";
 import { Core } from "sc-game-base";
 
-import SedieGameCron from "../../../src/crons/sedie-game-cron";
+import SeDie3GameCron from "../../../src/crons/sedie3-game-cron";
 
 describe("isStartingTime tests", () => {
     const gameData = new Core.GameData();
@@ -31,7 +31,7 @@ describe("isStartingTime tests", () => {
         it("should return true", () => {
             // arrange
             gameData.remainingTime = gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration;
-            const cron = new SedieGameCron(gameDefinition, gameData);
+            const cron = new SeDie3GameCron(gameDefinition, gameData);
 
             // act
             var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
@@ -48,7 +48,7 @@ describe("isStartingTime tests", () => {
                 min: gameDefinition.durations.lockingBet,
                 max: gameDefinition.durations.placingBets,
             });
-            const cron = new SedieGameCron(gameDefinition, gameData);
+            const cron = new SeDie3GameCron(gameDefinition, gameData);
 
             // act
             var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);

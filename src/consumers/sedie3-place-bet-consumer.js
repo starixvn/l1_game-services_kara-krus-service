@@ -1,7 +1,7 @@
 import { helpers } from "sc-common";
 import PlaceBetConsumer from "sc-game-base/src/core/event-consumers/place-bet-consumer";
 
-export default class SeDiePlaceBetConsumer extends PlaceBetConsumer {
+export default class SeDie3PlaceBetConsumer extends PlaceBetConsumer {
     composeBettingTimeValidationCriteria(roundId) {
         const configs = this.gameData.gameConfigs;
         const shakeThePlateTime = this.definition.durations.placingBets + this.definition.durations.shakeThePlateDuration;

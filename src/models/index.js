@@ -1,17 +1,17 @@
-import { SedieBetLogs, SedieBets, SedieTmpBets } from "./sedie-bets";
-import SedieResults from "./sedie-results";
-import SeDieRounds from "./sedie-rounds";
-import SeDieSmartBotBetActions from "./sedie-smartbot-bet-actions";
-import SeDieSmartBotBetLogs from "./sedie-smartbot-bet-logs";
-import SeDieSmartBotPatterns from "./sedie-smartbot-patterns";
+import { SeDie3BetLogs, SeDie3Bets, SeDie3TmpBets } from "./sedie3-bets";
+import SeDie3Results from "./sedie3-results";
+import SeDie3Rounds from "./sedie3-rounds";
+import SeDie3SmartBotBetActions from "./sedie3-smartbot-bet-actions";
+import SeDie3SmartBotBetLogs from "./sedie3-smartbot-bet-logs";
+import SeDie3SmartBotPatterns from "./sedie3-smartbot-patterns";
 
 export {
-    SedieBetLogs,
-    SedieBets,
-    SedieResults,
-    SeDieRounds,
-    SeDieSmartBotBetActions,
-    SeDieSmartBotBetLogs,
-    SeDieSmartBotPatterns,
-    SedieTmpBets,
+    SeDie3BetLogs,
+    SeDie3Bets,
+    SeDie3Results,
+    SeDie3Rounds,
+    SeDie3SmartBotBetActions,
+    SeDie3SmartBotBetLogs,
+    SeDie3SmartBotPatterns,
+    SeDie3TmpBets,
 };

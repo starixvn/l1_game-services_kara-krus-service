@@ -3,7 +3,7 @@ import { Constants, Table } from "sc-game-base";
 
 import constants from "../constants";
 
-export default class SedieBot extends Table.Crons.TableGameBot {
+export default class SeDie3Bot extends Table.Crons.TableGameBot {
     /**
      * @param {Table.TableGameDefinition} definition
      * @param {Table.TableGameData} gameData

@@ -24,7 +24,7 @@ const bet = {
     paid: { type: Boolean, default: false },
 };
 
-const bets = mongoose.model(
+const SeDie3Bets = mongoose.model(
     "sedie3_bets",
     new mongoose.Schema({
         ...bet,
@@ -34,7 +34,7 @@ const bets = mongoose.model(
     })
 );
 
-const tmpBets = mongoose.model("sedie3_tmpbets", new mongoose.Schema(bet));
+const SeDie3TmpBets = mongoose.model("sedie3_tmpbets", new mongoose.Schema(bet));
 
 const betLog = {
     uid: { type: String, required: true },
@@ -59,6 +59,6 @@ const betLog = {
     receivedTime: { type: Date },
 };
 
-const betsLogs = mongoose.model("sedie3_betlogs", new mongoose.Schema(betLog));
+const SeDie3BetLogs = mongoose.model("sedie3_betlogs", new mongoose.Schema(betLog));
 
-export { betsLogs as SedieBetLogs, bets as SedieBets, tmpBets as SedieTmpBets };
+export { SeDie3BetLogs, SeDie3Bets, SeDie3TmpBets };

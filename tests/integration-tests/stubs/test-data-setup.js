@@ -11,10 +11,10 @@ import {
     normalUser,
 } from "sc-game-service-integration-utils";
 
-import appConfigs from "../../../src/app-configs.IGT";
-import { SedieBets, SeDieRounds } from "../../../src/models";
-import { currencyData, game, gameConfig, rounds, userBetData, promotions } from "./test-data";
 import { Core } from "sc-game-base";
+import appConfigs from "../../../src/app-configs.IGT";
+import { SeDie3Bets, SeDie3Rounds } from "../../../src/models";
+import { currencyData, game, gameConfig, promotions, rounds, userBetData } from "./test-data";
 
 const connectDatabase = async () => {
     console.log("connect database");
@@ -54,13 +54,13 @@ const getUserId = async (playerId) => {
 };
 
 const createRounds = async () => {
-    return SeDieRounds.insertMany(rounds);
+    return SeDie3Rounds.insertMany(rounds);
 };
 
 const createUserBetData = async () => {
     const userId = await getUserId(normalUser.playerId);
     const betData = userBetData(userId);
-    return SedieBets.insertMany(betData);
+    return SeDie3Bets.insertMany(betData);
 };
 
 const createPromotionData = async () => {
