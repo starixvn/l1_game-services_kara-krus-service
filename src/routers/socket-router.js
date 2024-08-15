@@ -12,6 +12,7 @@ export default class SocketRouter extends BaseSocketRouter {
         historyQuery,
         logService,
         playGamePermissionValidator,
+        gameResultServiceConsumer,
     }) {
         super({
             definition,
