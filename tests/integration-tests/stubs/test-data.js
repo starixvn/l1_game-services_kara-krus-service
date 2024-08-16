@@ -61,6 +61,7 @@ const userBetData = (uid) => {
             white3: 0,
             roundId: 1190119,
             paid: true,
+            totalAmount: 0,
         },
         {
             freeBet: false,
@@ -81,6 +82,7 @@ const userBetData = (uid) => {
             white3: 0,
             roundId: 1190119,
             paid: true,
+            totalAmount: 0,
         },
     ];
 };

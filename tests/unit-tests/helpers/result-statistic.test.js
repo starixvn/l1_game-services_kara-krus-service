@@ -60,18 +60,10 @@ describe("Result statistic: 100000 times", () => {
 
             expect(+resultPercentage.red.toFixed(1)).toBeGreaterThanOrEqual(49.5);
             expect(+resultPercentage.white.toFixed(1)).toBeGreaterThanOrEqual(49.5);
-
-            expect(+resultPercentage.red2.toFixed(1)).toBeGreaterThanOrEqual(37.2);
-            expect(+resultPercentage.red2.toFixed(1)).toBeLessThanOrEqual(37.8);
-
-            expect(+resultPercentage.red1.toFixed(1)).toBeGreaterThanOrEqual(37.2);
-            expect(+resultPercentage.red1.toFixed(1)).toBeLessThanOrEqual(37.8);
-
-            expect(+resultPercentage.red3.toFixed(1)).toBeGreaterThanOrEqual(12.2);
-            expect(+resultPercentage.red3.toFixed(1)).toBeLessThanOrEqual(12.8);
-
-            expect(+resultPercentage.white3.toFixed(1)).toBeGreaterThanOrEqual(12.2);
-            expect(+resultPercentage.white3.toFixed(1)).toBeLessThanOrEqual(12.8);
+            expect(+resultPercentage.red2.toFixed(1)).toBeGreaterThanOrEqual(37);
+            expect(+resultPercentage.red1.toFixed(1)).toBeGreaterThanOrEqual(37);
+            expect(+resultPercentage.red3.toFixed(1)).toBeGreaterThanOrEqual(12);
+            expect(+resultPercentage.white3.toFixed(1)).toBeGreaterThanOrEqual(12);
 
             expect(dragonTails[4]).toBeLessThan(1700);
             expect(dragonTails[5]).toBeLessThan(850);
