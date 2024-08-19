@@ -1,7 +1,6 @@
 import Chance from "chance";
-import { stub, stubMongoose } from "jest-micro-auto-stub";
+import { stubMongoose } from "jest-micro-auto-stub";
 import mongoose from "mongoose";
-import { logger } from "sc-common";
 import { Table } from "sc-game-base";
 import { BaseEventPublisher } from "sc-game-base/src/core/event-publishers";
 import { TableGameBot } from "sc-game-base/src/table/crons";
@@ -32,15 +31,6 @@ const userInfosRepository = stubMongoose(mongoose.Model);
 const tempBetsRepository = stubMongoose(mongoose.Model);
 const publisher = new BaseEventPublisher(definition.name, gameData);
 
-const tableSmartBot = {
-    registerRemoveAllBotEvent: jest.fn(),
-    registerPlaceBetEvent: jest.fn(),
-    registerAdjustBetEvent: jest.fn(),
-    onError: jest.fn(),
-    removeAll: jest.fn(),
-};
-const logService = stub(logger);
-
 const chance = new Chance();
 
 describe("SedieBot tests", () => {
@@ -50,18 +40,6 @@ describe("SedieBot tests", () => {
 
             // act
             const bot = new SeDie3Bot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-
-            // assert
-            expect(bot.allBets).toEqual(constants.resetTotalBets);
-        });
-    });
-
-    describe("when after initialize with smartbot", () => {
-        it("all bet amount of choices should be zero", () => {
-            // arrange
-
-            // act
-            const bot = new SeDie3Bot(definition, gameData, publisher, userInfosRepository, tempBetsRepository, tableSmartBot, logService);
 
             // assert
             expect(bot.allBets).toEqual(constants.resetTotalBets);
@@ -382,55 +360,6 @@ describe("SedieBot tests", () => {
 
             // assert
             expect(publisher.publishToAllUsersExceptSystem).toHaveBeenCalled();
-        });
-    });
-
-    describe("smartBotAfterPlacingBet test", () => {
-        it("should call super to update bets ", () => {
-            // arrange
-            const bot = new SeDie3Bot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            const botPlayer = { id: "23" };
-            gameData.players[botPlayer.id] = botPlayer;
-            jest.spyOn(TableGameBot.prototype, "updateTotalBetsAndChips");
-            jest.spyOn(TableGameBot.prototype, "updateBalanceAndPublishBetPayload");
-
-            // act
-            bot.smartBotAfterPlacingBet(botPlayer, chance.pickone(bot.subOpts), 20, 1000);
-
-            // assert
-            expect(TableGameBot.prototype.updateTotalBetsAndChips).toHaveBeenCalled();
-        });
-
-        it("should  publish payload", () => {
-            // arrange
-            const bot = new SeDie3Bot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            const botPlayer = { id: "23" };
-            gameData.players[botPlayer.id] = botPlayer;
-            jest.spyOn(TableGameBot.prototype, "updateTotalBetsAndChips");
-            jest.spyOn(TableGameBot.prototype, "updateBalanceAndPublishBetPayload");
-
-            // act
-            bot.smartBotAfterPlacingBet(botPlayer, chance.pickone(bot.subOpts), 20, 1000);
-
-            // assert
-            expect(TableGameBot.prototype.updateBalanceAndPublishBetPayload).toHaveBeenCalled();
-        });
-    });
-
-    describe("insertOrUpdateBetForSmartBot test", () => {
-        it("should call super.insertOrUpdateBet", async () => {
-            // arrange
-            const bot = new SeDie3Bot(definition, gameData, publisher, userInfosRepository, tempBetsRepository);
-            const botPlayer = { id: "23" };
-            gameData.players[botPlayer.id] = botPlayer;
-            jest.spyOn(TableGameBot.prototype, "insertOrUpdateBet");
-            jest.spyOn(tempBetsRepository, "findOne");
-
-            // act
-            await bot.insertOrUpdateBetForSmartBot(botPlayer, chance.pickone(bot.subOpts), 20);
-
-            // assert
-            expect(TableGameBot.prototype.insertOrUpdateBet).toHaveBeenCalled();
         });
     });
 });

@@ -25,8 +25,7 @@
         "random": "^3.0.6",
         "random-js": "^2.1.0",
         "sc-game-base": "4.1.0",
-        "sc-instrument": "1.1.1",
-        "sc-smart-bot": "1.0.0"
+        "sc-instrument": "1.1.1"
     },
     "resolutions": {
         "sc-base-apis": "1.18.2",
