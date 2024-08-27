@@ -47,22 +47,20 @@ export const ingameTest = () => {
             expect(gameConfigs.minBet).toEqual(1);
             expect(gameConfigs.maxBet).toEqual(3000);
             expect(gameConfigs.maxBetPerChoices).toStrictEqual({
-                even: 3000,
-                odd: 3000,
-                red2: 3000,
-                red3: 3000,
-                red4: 1000,
-                white3: 3000,
-                white4: 1000,
+                kara: 3000,
+                krus: 3000,
+                head3: 3000,
+                tail3: 3000,
+                head1: 1000,
+                head2: 1000,
             });
             expect(gameConfigs.originalOdds).toStrictEqual({
-                even: 1.97,
-                odd: 1.97,
-                red2: 2.5,
-                red3: 3.76,
-                red4: 14.5,
-                white3: 3.76,
-                white4: 14.5,
+                kara: 1.96,
+                krus: 1.96,
+                head3: 7.84,
+                tail3: 7.84,
+                head2: 2.61,
+                head1: 2.61,
             });
         });
 

@@ -17,13 +17,12 @@ export const boostedOddsTest = () => {
         it("should return boosted odds", async () => {
             // Arrange
             const expectedOdds = {
-                even: 1.98,
-                odd: 1.98,
-                red3: 3.76,
-                white3: 3.76,
-                red4: 14.5,
-                white4: 14.5,
-                red2: 2.5,
+                kara: 1.98,
+                krus: 1.98,
+                head3: 7.84,
+                tail3: 7.84,
+                head2: 2.61,
+                head1: 2.61,
             };
             driver.sendInGameEvent();
 
@@ -39,13 +38,12 @@ export const boostedOddsTest = () => {
         it("should return original odds", async () => {
             // Arrange
             const expectedOdds = {
-                even: 1.97,
-                odd: 1.97,
-                red3: 3.76,
-                white3: 3.76,
-                red4: 14.5,
-                white4: 14.5,
-                red2: 2.5,
+                kara: 1.96,
+                krus: 1.96,
+                head3: 7.84,
+                tail3: 7.84,
+                head2: 2.61,
+                head1: 2.61,
             };
 
             driver.sendInGameEvent();

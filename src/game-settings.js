@@ -1,15 +1,15 @@
 export default {
-    id: 2,
-    name: "SeDie",
-    configName: "xocxoc",
+    id: 96,
+    name: "KaraKrus",
+    configName: "karakrus",
     durations: {
         wholeRound: 39,
         placingBets: 30,
-        lockingBet: 5,
+        lockingBet: 3,
         shakeThePlateDuration: 2,
     },
-    choices: ["even", "odd", "red3", "red4", "white3", "white4", "red2"],
-    choicesMapper: { even: 1, odd: 2, red3: 3, red4: 4, white3: 5, white4: 6, red2: 7 },
+    choices: ["kara", "krus", "head3", "head2", "head1", "tail3"],
+    choicesMapper: { kara: 1, krus: 2, head3: 3, head2: 4, head1: 5, tail3: 6 },
     defaultBetTracks: {},
-    hedgeBetGroups: [["even", "odd"]],
+    hedgeBetGroups: [["kara", "krus"]],
 };

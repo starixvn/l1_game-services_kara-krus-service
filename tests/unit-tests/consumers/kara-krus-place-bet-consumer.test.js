@@ -2,7 +2,7 @@ import Chance from "chance";
 import { helpers } from "sc-common";
 import { Core } from "sc-game-base";
 
-import SeDiePlaceBetConsumer from "../../../src/consumers/sedie-place-bet-consumer";
+import KaraKrusPlaceBetConsumer from "../../../src/consumers/kara-krus-place-bet-consumer";
 
 describe("composeBettingTimeValidationCriteria tests", () => {
     const playerName = "nhanvat01";
@@ -43,7 +43,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
         durations: {
             wholeRound: 39,
             placingBets: 30,
-            lockingBet: 5,
+            lockingBet: 3,
             shakeThePlateDuration: 2,
         },
     });
@@ -52,7 +52,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
         it("should return placeBetNextRound notice", () => {
             // arrange
             gameData.gameConfigs.enabled = false;
-            const placeBetConsumer = new SeDiePlaceBetConsumer(gameDefinition, gameData);
+            const placeBetConsumer = new KaraKrusPlaceBetConsumer(gameDefinition, gameData);
 
             // act
             var criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
@@ -74,7 +74,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
                 min: gameDefinition.durations.placingBets,
                 max: gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration,
             });
-            const placeBetConsumer = new SeDiePlaceBetConsumer(gameDefinition, gameData);
+            const placeBetConsumer = new KaraKrusPlaceBetConsumer(gameDefinition, gameData);
 
             // act
             var criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
@@ -96,7 +96,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
                 min: 0,
                 max: gameDefinition.durations.lockingBet - 1,
             });
-            const placeBetConsumer = new SeDiePlaceBetConsumer(gameDefinition, gameData);
+            const placeBetConsumer = new KaraKrusPlaceBetConsumer(gameDefinition, gameData);
 
             // act
             var criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
@@ -118,7 +118,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
                 min: gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration + 1,
                 max: gameDefinition.durations.wholeRound,
             });
-            const placeBetConsumer = new SeDiePlaceBetConsumer(gameDefinition, gameData);
+            const placeBetConsumer = new KaraKrusPlaceBetConsumer(gameDefinition, gameData);
 
             // act
             var criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
@@ -141,7 +141,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
                 min: gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration + 1,
                 max: gameDefinition.durations.wholeRound,
             });
-            const placeBetConsumer = new SeDiePlaceBetConsumer(gameDefinition, gameData);
+            const placeBetConsumer = new KaraKrusPlaceBetConsumer(gameDefinition, gameData);
 
             // act
             var criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
@@ -164,7 +164,7 @@ describe("composeBettingTimeValidationCriteria tests", () => {
                 min: gameDefinition.durations.lockingBet + 1,
                 max: gameDefinition.durations.placingBets,
             });
-            const placeBetConsumer = new SeDiePlaceBetConsumer(gameDefinition, gameData);
+            const placeBetConsumer = new KaraKrusPlaceBetConsumer(gameDefinition, gameData);
 
             // act
             var criterions = placeBetConsumer.composeBettingTimeValidationCriteria(1);
