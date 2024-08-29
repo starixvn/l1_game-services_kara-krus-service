@@ -128,7 +128,7 @@ describe("generateRawResultForHash", () => {
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🟡🟡🟡}");
+            expect(result).toBe("{tail, tail, tail}");
         });
     });
     describe("when 1 head", () => {
@@ -139,7 +139,7 @@ describe("generateRawResultForHash", () => {
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🪙🟡🟡}");
+            expect(result).toBe("{head, tail, tail}");
         });
     });
     describe("when 2 heads", () => {
@@ -151,7 +151,7 @@ describe("generateRawResultForHash", () => {
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🪙🪙🟡}");
+            expect(result).toBe("{head, head, tail}");
         });
     });
     describe("when 3 heads", () => {
@@ -163,7 +163,7 @@ describe("generateRawResultForHash", () => {
             const result = generateRawResultForHash(roundResult);
 
             // Assert
-            expect(result).toBe("{🪙🪙🪙}");
+            expect(result).toBe("{head, head, head}");
         });
     });
 });
