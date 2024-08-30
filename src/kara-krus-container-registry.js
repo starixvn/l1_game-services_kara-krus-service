@@ -4,13 +4,8 @@ import PlaceBetConsumer from "./consumers/kara-krus-place-bet-consumer";
 import KaraKrusSettleGameRoundConsumer from "./consumers/kara-krus-settle-game-round-consumer";
 import GameResultServiceConsumer from "./consumers/game-result-service-consumer";
 import { KaraKrusBot, KaraKrusGameCron } from "./crons";
-import {
-    bets,
-    rounds,
-    tmpBets,
-    results,
-    betLogs
-} from "./models";
+import { bets, rounds, tmpBets, results, betLogs } from "./models";
+import SocketRouter from "./routers/socket-router";
 
 const { asClass, asValue } = awilix;
 
@@ -43,6 +38,14 @@ export default class KaraKrusContainerRegistry extends Table.TableContainerRegis
         this.container.register({
             bot: asClass(KaraKrusBot).singleton(),
             gameCron: asClass(KaraKrusGameCron).singleton().proxy(),
+        });
+    }
+
+    registerRouters() {
+        super.registerRouters();
+
+        this.container.register({
+            socketRouter: asClass(SocketRouter).proxy(),
         });
     }
 }
