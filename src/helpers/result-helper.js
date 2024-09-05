@@ -83,10 +83,10 @@ export const generateRawResultForHash = (roundResult) => {
         .filter((i) => i).length;
 
     const resultMappings = [
-        "tail, tail, tail", // 0 heads
-        "head, tail, tail", // 1 head
-        "head, head, tail", // 2 heads
-        "head, head, head", // 3 heads
+        "Ⓧ, Ⓧ, Ⓧ", // 0 heads
+        "◯, Ⓧ, Ⓧ", // 1 head
+        "◯, ◯, Ⓧ", // 2 heads
+        "◯, ◯, ◯", // 3 heads
     ];
 
     return `{${resultMappings[headCount]}}`;
