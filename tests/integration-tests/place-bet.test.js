@@ -44,16 +44,16 @@ export const placeBetTest = () => {
 
                 // Act
                 setTimeout(() => {
-                    driver.sendBetEvent("even", 100);
+                    driver.sendBetEvent("kara", 100);
                 }, getTimeOutToBet(remainingTime, gameSettings.durations) * 1000);
 
                 const result = await driver.handleGameEvent((data) => data.endBet);
 
                 // Assert
-                expect(result.betChoice).toBe("even");
+                expect(result.betChoice).toBe("kara");
                 expect(result.endBet).toBe(100);
-                expect(result.ownBets).toEqual({ even: 100 });
-                expect(result.ownChip).toEqual({ betChoice: "even", amount: 100 });
+                expect(result.ownBets).toEqual({ kara: 100 });
+                expect(result.ownChip).toEqual({ betChoice: "kara", amount: 100 });
             });
         });
 
@@ -65,7 +65,7 @@ export const placeBetTest = () => {
 
                 // Act
                 setTimeout(() => {
-                    driver.sendBetEvent("even", 100);
+                    driver.sendBetEvent("white", 100);
                 }, getTimeOutToBetInvalid(remainingTime, gameSettings.durations) * 1000);
 
                 const result = await driver.handleGameEvent((data) => data.endBet);

@@ -1,7 +1,7 @@
 import Chance from "chance";
 import { Core } from "sc-game-base";
 
-import SedieGameCron from "../../../src/crons/sedie-game-cron";
+import KaraKrusGameCron from "../../../src/crons/kara-krus-game-cron";
 
 describe("isStartingTime tests", () => {
     const gameData = new Core.GameData();
@@ -20,7 +20,7 @@ describe("isStartingTime tests", () => {
         durations: {
             wholeRound: 39,
             placingBets: 30,
-            lockingBet: 5,
+            lockingBet: 3,
             shakeThePlateDuration: 2,
         },
     });
@@ -31,13 +31,13 @@ describe("isStartingTime tests", () => {
         it("should return true", () => {
             // arrange
             gameData.remainingTime = gameDefinition.durations.placingBets + gameDefinition.durations.shakeThePlateDuration;
-            const cron = new SedieGameCron(gameDefinition, gameData);
+            const cron = new KaraKrusGameCron(gameDefinition, gameData);
 
             // act
             var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
 
             // assert
-            expect(result).toBeTrue();
+            expect(result).toBe(true);
         });
     });
 
@@ -48,13 +48,13 @@ describe("isStartingTime tests", () => {
                 min: gameDefinition.durations.lockingBet,
                 max: gameDefinition.durations.placingBets,
             });
-            const cron = new SedieGameCron(gameDefinition, gameData);
+            const cron = new KaraKrusGameCron(gameDefinition, gameData);
 
             // act
             var result = cron.isStartingTime(gameData.remainingTime, gameDefinition.durations);
 
             // assert
-            expect(result).toBeFalse();
+            expect(result).toBe(false);
         });
     });
 });

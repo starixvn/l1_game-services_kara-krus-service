@@ -1,4 +1,4 @@
-import SedieBot from "./sedie-bot";
-import SedieGameCron from "./sedie-game-cron";
+import KaraKrusBot from "./kara-krus-bot";
+import KaraKrusGameCron from "./kara-krus-game-cron";
 
-export { SedieBot, SedieGameCron };
+export { KaraKrusBot, KaraKrusGameCron };

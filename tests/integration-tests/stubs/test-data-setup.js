@@ -12,7 +12,7 @@ import {
 } from "sc-game-service-integration-utils";
 
 import appConfigs from "../../../src/app-configs.IGT";
-import { SedieBets, SeDieRounds } from "../../../src/models";
+import { bets, rounds as KaraKrusRounds } from "../../../src/models";
 import { currencyData, game, gameConfig, rounds, userBetData, promotions } from "./test-data";
 import { Core } from "sc-game-base";
 
@@ -54,13 +54,13 @@ const getUserId = async (playerId) => {
 };
 
 const createRounds = async () => {
-    return SeDieRounds.insertMany(rounds);
+    return KaraKrusRounds.insertMany(rounds);
 };
 
 const createUserBetData = async () => {
     const userId = await getUserId(normalUser.playerId);
     const betData = userBetData(userId);
-    return SedieBets.insertMany(betData);
+    return bets.insertMany(betData);
 };
 
 const createPromotionData = async () => {

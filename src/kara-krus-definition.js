@@ -1,6 +1,6 @@
 import { GameDefinition } from "sc-game-base/src/core";
 
-export default class SeDieDefinition extends GameDefinition {
+export default class KaraKrusDefinition extends GameDefinition {
     constructor(
         {
             id = 0,

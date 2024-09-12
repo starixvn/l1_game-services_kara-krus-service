@@ -9,7 +9,7 @@ export default {
             secret: "gameserver@20luminet&",
         },
         useAuthenticate: true,
-        placeBetTimeout: 4000,
+        placeBetTimeout: 2000,
         requestTimeout: 10000, // 10s
         enabledApiLogs: true,
     },
@@ -43,7 +43,7 @@ export default {
     },
     sentry: {
         sentryUrl: "http://2b5b82bf699543ddb296364568bc30be@10.2.189.50:9009/52",
-        logIdentifier: "sedie",
+        logIdentifier: "kara-krus",
         env: "PROD",
     },
     adminSecretKey: "asWDEer4yGdgsdqR4uqmKQZgh",
@@ -65,5 +65,10 @@ export default {
         system: "VG",
         enabled: true,
         endpoint: "http://10.2.189.50:4318/v1/traces",
+    },
+    gameResultSettings: {
+        baseUrl: "http://l2_game_result_prod:5000",
+        id: "Game Service",
+        key: "6a578c70-5ff3-4f26-a403-072a672f18df",
     },
 };

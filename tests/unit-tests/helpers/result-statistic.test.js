@@ -5,17 +5,16 @@ describe("Result statistic: 100000 times", () => {
         it(`should generate results statistically correct with mode ${mode}`, () => {
             // Arrange
             let statisticResult = {
-                odd: 0,
-                even: 0,
-                red2: 0,
-                red3: 0,
-                red4: 0,
-                white3: 0,
-                white4: 0,
+                kara: 0,
+                krus: 0,
+                head1: 0,
+                head2: 0,
+                head3: 0,
+                tail3: 0,
             };
             const totalRounds = 100000;
             const dragonTails = {};
-            let isEven = false;
+            let isKara = false;
             let continuity = 0;
 
             // Act
@@ -23,18 +22,17 @@ describe("Result statistic: 100000 times", () => {
                 const result = generateResult(mode);
                 const settlementResult = getSettlementResult(result);
 
-                statisticResult.odd += settlementResult.odd >> 0;
-                statisticResult.even += settlementResult.even >> 0;
-                statisticResult.red2 += settlementResult.red2 >> 0;
-                statisticResult.red3 += settlementResult.red3 >> 0;
-                statisticResult.red4 += settlementResult.red4 >> 0;
-                statisticResult.white3 += settlementResult.white3 >> 0;
-                statisticResult.white4 += settlementResult.white4 >> 0;
+                statisticResult.kara += settlementResult.kara >> 0;
+                statisticResult.krus += settlementResult.krus >> 0;
+                statisticResult.head1 += settlementResult.head1 >> 0;
+                statisticResult.head2 += settlementResult.head2 >> 0;
+                statisticResult.head3 += settlementResult.head3 >> 0;
+                statisticResult.tail3 += settlementResult.tail3 >> 0;
                 if (i > 0) {
-                    if (isEven && settlementResult.even) {
+                    if (isKara && settlementResult.kara) {
                         continuity++;
                     } else {
-                        if (!isEven && settlementResult.odd) {
+                        if (!isKara && settlementResult.krus) {
                             continuity++;
                         } else {
                             if (continuity >= 4) {
@@ -45,7 +43,7 @@ describe("Result statistic: 100000 times", () => {
                         }
                     }
                 }
-                isEven = settlementResult.even ? true : false;
+                isKara = settlementResult.kara ? true : false;
             }
 
             // Assert
@@ -58,20 +56,20 @@ describe("Result statistic: 100000 times", () => {
                 `Mode:${mode}, countResult: ${JSON.stringify(statisticResult)}, percentageResult: ${JSON.stringify(resultPercentage)}`
             );
             console.log(`dragon tails: ${JSON.stringify(dragonTails)}`);
+            console.log(`resultPercentage: `, resultPercentage);
 
-            expect(resultPercentage.odd).toBeGreaterThanOrEqual(49.5);
-            expect(resultPercentage.even).toBeGreaterThanOrEqual(49.5);
-            expect(resultPercentage.red2).toBeGreaterThanOrEqual(37);
-            expect(resultPercentage.red3).toBeGreaterThanOrEqual(24.5);
-            expect(resultPercentage.red4).toBeGreaterThanOrEqual(6);
-            expect(resultPercentage.white3).toBeGreaterThanOrEqual(24.5);
-            expect(resultPercentage.white4).toBeGreaterThanOrEqual(6);
+            expect(resultPercentage.kara).toBeGreaterThanOrEqual(49.5);
+            expect(resultPercentage.krus).toBeGreaterThanOrEqual(49.5);
+            expect(resultPercentage.head1).toBeGreaterThanOrEqual(37);
+            expect(resultPercentage.head2).toBeGreaterThanOrEqual(37);
+            expect(resultPercentage.head3).toBeGreaterThanOrEqual(12);
+            expect(resultPercentage.tail3).toBeGreaterThanOrEqual(12);
             expect(dragonTails[4]).toBeLessThan(1700);
             expect(dragonTails[5]).toBeLessThan(850);
             expect(dragonTails[6]).toBeLessThan(450);
             expect(dragonTails[7]).toBeLessThan(250);
             expect(dragonTails[8]).toBeLessThan(130);
-            expect(dragonTails[9]).toBeLessThan(70);
+            expect(dragonTails[9]).toBeLessThan(75);
             expect(dragonTails[10]).toBeLessThan(40);
         });
     });

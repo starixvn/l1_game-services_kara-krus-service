@@ -10,7 +10,7 @@ export default {
         },
         useAuthenticate: true,
         requestTimeout: 10000,
-        placeBetTimeout: 4000,
+        placeBetTimeout: 2000,
         enabledApiLogs: true,
     },
     authenticateSettings: {
@@ -33,7 +33,7 @@ export default {
     },
     enabledLogs: true,
     database: {
-        url: "mongodb://lmn_backend:LmnBackend@10.10.50.12:39201,10.10.50.13:39201,10.10.50.14:39201/?replicaSet=L2pLocal&appName=Sedie",
+        url: "mongodb://lmn_backend:LmnBackend@10.10.50.12:39201,10.10.50.13:39201,10.10.50.14:39201/?replicaSet=L2pLocal&appName=KaraKrus",
         options: {
             dbName: "minigame",
             useNewUrlParser: true,
@@ -43,7 +43,7 @@ export default {
     },
     sentry: {
         sentryUrl: "https://acb36eb835d948d68c1aad9873754d51@sentry.lumigame.com/27",
-        logIdentifier: "sedie",
+        logIdentifier: "kara-krus",
         env: "LOCAL_1",
     },
     adminSecretKey: "asWDEerfOIdgsdqRTFabvmgh",
@@ -65,5 +65,10 @@ export default {
         system: "VG",
         enabled: false,
         endpoint: "http://10.10.50.69:4318/v1/traces",
+    },
+    gameResultSettings: {
+        baseUrl: "http://l2_game_result_local_1:5000",
+        id: "Game Service",
+        key: "b396d3e4-c81d-4c5c-8100-94a8b330f12a",
     },
 };

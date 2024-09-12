@@ -8,14 +8,14 @@ import { Core, Table } from "sc-game-base";
 
 import constants from "./constants";
 import { generateResult, getSettlementResult, generateRawResultForHash } from "./helpers/result-helper";
-import SeDieContainerRegistry from "./sedie-container-registry";
-import SeDieDefinition from "./sedie-definition";
+import KaraKrusContainerRegistry from "./kara-krus-container-registry";
+import KaraKrusDefinition from "./kara-krus-definition";
 
 const run = async () => {
-    const definition = new SeDieDefinition(gameSettings, generateResult, getSettlementResult, generateRawResultForHash);
+    const definition = new KaraKrusDefinition(gameSettings, generateResult, getSettlementResult, generateRawResultForHash);
     const gameData = new Table.TableGameData(gameSettings.durations.wholeRound, constants.resetTotalBets);
-    const container = new SeDieContainerRegistry().register(appConfigs, definition, gameData);
-    const app = new Core.BaseGameApp("SeDie", appConfigs);
+    const container = new KaraKrusContainerRegistry().register(appConfigs, definition, gameData);
+    const app = new Core.BaseGameApp("KaraKrus", appConfigs);
     await app.run();
     await app.startGame(container);
 };
