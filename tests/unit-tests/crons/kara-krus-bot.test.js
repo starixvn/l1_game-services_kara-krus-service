@@ -17,7 +17,7 @@ gameData.gameConfigs = {
         krus: 2000,
         head3: 1000,
         tail3: 1000,
-        head3: 100,
+        head2: 100,
         head1: 100,
     },
     minbet: 1,
