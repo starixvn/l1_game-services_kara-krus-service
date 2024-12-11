@@ -2,8 +2,8 @@ export default {
     hostingPort: 5000,
     apiSettings: {
         enabledApi: true,
-        apiUrl: "http://l1_game_api_local_3:5000",
-        authUrl: "http://l1_auth_api_local_3:5000",
+        apiUrl: "http://l1-game-api-local3-service:5000",
+        authUrl: "http://l1-auth-api-local3-service:5000",
         client: {
             id: "game-server",
             secret: "gameserver@20luminet&",
@@ -14,7 +14,7 @@ export default {
         enabledApiLogs: true,
     },
     authenticateSettings: {
-        url: "http://l1_auth_api_local_3:5000",
+        url: "http://l1-auth-api-local3-service:5000",
         id: "game-services",
         secret: "gameservices@20luminet&",
         requestTimeout: 10000,
@@ -22,7 +22,7 @@ export default {
         audiences: ["api", "admin-api"],
     },
     userServiceSettings: {
-        url: "http://l1_user_service_local_3:5000",
+        url: "http://l1-user-service-local3-service:5000",
     },
     socketOptions: {
         pingInterval: 60 * 1000,
@@ -67,7 +67,7 @@ export default {
         endpoint: "http://10.10.50.69:4318/v1/traces",
     },
     gameResultSettings: {
-        baseUrl: "http://l1_game_result_local_3:5000",
+        baseUrl: "http://l1-game-result-local3-service:5000",
         id: "Game Service",
         key: "58148de3-b895-4f6b-82de-a35eed1b4b28",
     },
