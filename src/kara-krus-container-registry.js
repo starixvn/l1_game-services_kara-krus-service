@@ -3,7 +3,7 @@ import { Table } from "sc-game-base";
 import PlaceBetConsumer from "./consumers/kara-krus-place-bet-consumer";
 import KaraKrusSettleGameRoundConsumer from "./consumers/kara-krus-settle-game-round-consumer";
 import GameResultServiceConsumer from "./consumers/game-result-service-consumer";
-import { KaraKrusBot, KaraKrusGameCron } from "./crons";
+import { KaraKrusBot, KaraKrusGameCron, KaraKrusProcessBetQueue } from "./crons";
 import { bets, rounds, tmpBets, results, betLogs } from "./models";
 import SocketRouter from "./routers/socket-router";
 
@@ -38,6 +38,7 @@ export default class KaraKrusContainerRegistry extends Table.TableContainerRegis
         this.container.register({
             bot: asClass(KaraKrusBot).singleton(),
             gameCron: asClass(KaraKrusGameCron).singleton().proxy(),
+            processBetQueue: asClass(KaraKrusProcessBetQueue).singleton().proxy(),
         });
     }
 

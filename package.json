@@ -31,7 +31,9 @@
     "resolutions": {
         "sc-base-apis": "1.18.2",
         "sc-base-database": "1.11.1",
-        "prom-client": "^11.2.1"
+        "prom-client": "^11.2.1",
+        "socket.io-parser": "4.0.5",
+        "mongoose": "5.13.20"
     },
     "devDependencies": {
         "@babel/core": "^7.25.2",
